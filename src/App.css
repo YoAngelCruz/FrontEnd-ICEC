@@ -1,5 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Product+Sans');
+
 .App {
   text-align: center;
+  background-image: url('assets/img/bg2.png');
+  background-size:cover;
+  background-attachment:fixed;
+  font-family:'Product Sans', sans-serif;
+  min-height:100vh;
 }
 
 .App-logo {
