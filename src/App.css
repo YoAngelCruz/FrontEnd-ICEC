@@ -8,38 +8,137 @@
   font-family:'Product Sans', sans-serif;
   min-height:100vh;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* --- Subtitulo  --- */
+.contSubtitle{
+  display: block;
+  font-size: 21px;
+  font-weight: bold;
+  color: #fff;
+  margin: 3% 0% 2% 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* --- mensajes o información --- */
+.AditionalInfo{
+  display: inline-block;
+  margin: 3% 0px;
+  padding: 8px 19px;
+  border: solid 2px white;
+  border-radius: 50px;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 0.02em;
+  background-color: rgba(0, 0, 0, 0.120); 
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* --- Boton generico --- */
+.button{
+  display: flex;
+  text-decoration: none;
+  background-color: rgba(255, 255, 255, 0.4);
+  padding: 12px;
+  overflow: auto;
+  color:black;
+}
+.button:hover{
+  background-color: white;
+}
+
+/* --- Boton normal --- */
+.normalButton {
+  flex-direction: column;
+  justify-content: auto;
+  align-items: auto;
+  font-size: 16px;
+  border-radius: 15px;
+  min-height: 2vh;
+  max-height: fit-content;
+}
+.normalButton .buttonTitle{
+  text-decoration: none;
+  color:black;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 0.9;
+  margin-top: auto;
+  padding-top: 10px;
+}
+
+/* --- Boton grande --- */
+.bigButton {
+  flex-direction: column;
+  justify-content: auto;
+  align-items: auto;
+  font-size: 18px;
+  border-radius: 15px;
+  min-height: 10vw;
+}
+.bigButton .buttonTitle{
+  text-decoration: none;
+  color:black;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 0.9;
+  margin-top: auto;
+}
+
+/* --- Boton largo --- */
+.longButton {
+  flex-direction: row;
+  align-items: center;
+  font-size: 15px;
+  border-radius: 13px;
+}
+.longButton .textContLongButton{
   display: flex;
   flex-direction: column;
+  padding-left: 3%;
+  width: 100%;
+  margin-top:1%;
+}
+.longButton .buttonTitle{
+  font-size: 16px;
+  display: flex;
+  font-weight: bold;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  margin-bottom: 2px;
+  color: black;
 }
 
-.App-link {
-  color: #61dafb;
+/* --- Contenedor grid --- */
+.gridCont{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows:min-content;
+  grid-gap: 10px;
+  padding: 7% 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+@media (min-width: 600px){
+  .gridCont{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows:min-content;
+    grid-gap: 15px;
+    padding: 2% 0;
   }
-  to {
-    transform: rotate(360deg);
+
+  .normalButton {
+    flex-direction: column;
+    justify-content: auto;
+    align-items: auto;
+    font-size: 16px;
+    border-radius: 15px;
+    min-height: 10vw;
+    max-height:fit-content;
   }
+  .normalButton .buttonTitle{
+    font-size: 22px;
+  }
+}
+@media (min-width: 950px){
+  .gridCont{
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows:min-content;
+}
 }

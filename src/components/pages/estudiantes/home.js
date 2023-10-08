@@ -31,16 +31,16 @@ function Home({isMobile}) {
             {isMobile && <p className='WelcomeMsg'>Bienvenido</p>}
             <span className='AditionalInfo'>{formattedDate}</span>
             <div className='ModularCont'>
-                <NavLink className={isMobile ? "bigButton usuarioButton" : "normalButton usuarioButton"}>
+                <NavLink className={isMobile ? "button bigButton usuarioButton" : "button normalButton usuarioButton"}>
                     <HiUser size={isMobile ? 50 : 55} style={isMobile ? {color: "#073cc3"}: {}}/>
                     <span className="buttonTitle">Usuario</span>
                     
                 </NavLink>
-                <NavLink className={isMobile ? "longButton calendarioButton": "normalButton calendarioButton"}>
+                <NavLink className={isMobile ? "button longButton calendarioButton": "button normalButton calendarioButton"}>
                     <HiCalendarDays size={isMobile ? 30 : 55} style={isMobile ? {color: "#0cb71a"}: {}}/>
                     <span className="buttonTitle">Calendario</span>
                 </NavLink>
-                <NavLink className={isMobile ? "longButton calificacionesButton": "normalButton calificacionesButton"}>
+                <NavLink className={isMobile ? "button longButton calificacionesButton": "button normalButton calificacionesButton"}>
                     <HiDocumentCheck size={isMobile ? 30 : 55} style={isMobile ? {color: "#f0c103"}: {}}/>
                     <span className="buttonTitle">Calificaciones</span>
                 </NavLink>
@@ -49,7 +49,7 @@ function Home({isMobile}) {
             <span className='contSubtitle'>Mi módulo actual</span>
 
             <div className='simpleCont'>
-                <NavLink className="longButton currentModule">
+                <NavLink className="button longButton currentModule">
                     <HiBookOpen size={isMobile ? 45 : 55} />
                     <div className='textContLongButton'>
                     <span className="buttonTitle" >Procesador de textos</span>
@@ -61,8 +61,8 @@ function Home({isMobile}) {
             <div className='gridCont'>
                 
                 {cursosPasados.map((cursosObj) => (
-                    <NavLink className='normalButton'key={cursosObj.id}>
-                        <HiAcademicCap size={isMobile ? 40 : 55} />
+                    <NavLink className='button normalButton'key={cursosObj.id}>
+                        <HiAcademicCap size={isMobile ? 35 : 55} />
                         <span className="buttonTitle">{cursosObj.nombre}</span>
                     </NavLink>
                 ))}
