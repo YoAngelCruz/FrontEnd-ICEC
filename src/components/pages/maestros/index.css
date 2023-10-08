@@ -4,28 +4,28 @@
     margin: 0;
     padding: 0;
 }
-.EstudiantesContainer{
+.MaestrosContainer{
     min-height: 100%;
     background-attachment: fixed;
     font-family:'Product Sans', sans-serif;
     display: grid;
     grid-template-areas: /* Dispoicion pasr celular*/
-        "EstudiantesContent";
+        "MaestrosContent";
         
 }
 
 
-.EstudiantesContent{
-    grid-area: EstudiantesContent;
+.MaestrosContent{
+    grid-area: MaestrosContent;
 }
-.EstudiantesNav{
+.MaestrosNav{
     display: none;
 }
 
 @media (min-width: 600px){
-    .EstudiantesContainer{
+    .MaestrosContainer{
         grid-template:
-        "EstudiantesNav  EstudiantesContent"/
+        "MaestrosNav  MaestrosContent"/
         25%    auto;
     }
     .StickyNavContent {
@@ -36,8 +36,8 @@
         height: 100vh;
         
     }
-    .EstudiantesNav{
-        grid-area: EstudiantesNav;
+    .MaestrosNav{
+        grid-area: MaestrosNav;
         background-color: rgba(0, 0, 0, 0.400);
         position: sticky;
         bottom: 0;
@@ -47,24 +47,24 @@
 
 }
 @media (min-width: 800px){
-    .EstudiantesContainer{
+    .MaestrosContainer{
         grid-template:
-        "EstudiantesNav  EstudiantesContent"/
+        "MaestrosNav  MaestrosContent"/
         27%    auto;
     }
 }
 
 @media (min-width: 1000px){
-    .EstudiantesContainer{
+    .MaestrosContainer{
         grid-template:
-        "EstudiantesNav  EstudiantesContent"/
+        "MaestrosNav  MaestrosContent"/
         22%    auto;
     }
 }
 @media (min-width: 1300px){
-    .EstudiantesContainer{
+    .MaestrosContainer{
         grid-template:
-        "EstudiantesNav  EstudiantesContent"/
+        "MaestrosNav  MaestrosContent"/
         20%    auto;
     }
 }

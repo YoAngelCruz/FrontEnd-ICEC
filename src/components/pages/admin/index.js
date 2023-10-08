@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import {Routes, Route} from 'react-router-dom';
 import NavBarMobile from '../../common/navBarMobile';
 import NavBarDesktop from '../../common/navBarDesktop';
-import Home from './home'
+import Home from './home/home';
 import './index.css';
-function Estudiantes() {
+function Admin() {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
     useEffect(() => {
         // Función para actualizar el estado de isMobile
@@ -20,13 +20,13 @@ function Estudiantes() {
     }, []);
 
   return (
-      <div className="EstudiantesContainer" >
-        <div className='EstudiantesContent'>
+      <div className="AdminContainer" >
+        <div className='AdminContent'>
                 <Routes>
                     <Route path="home" element={<Home isMobile={isMobile}/>} />
                 </Routes>
         </div>
-        <div className='EstudiantesNav'>
+        <div className='AdminNav'>
         {!isMobile && <NavBarDesktop/>}
         </div>
         {isMobile && <NavBarMobile />}
@@ -34,4 +34,4 @@ function Estudiantes() {
   );
 }
 
-export default Estudiantes;
+export default Admin;

@@ -4,28 +4,28 @@
     margin: 0;
     padding: 0;
 }
-.EstudiantesContainer{
+.AdminContainer{
     min-height: 100%;
     background-attachment: fixed;
     font-family:'Product Sans', sans-serif;
     display: grid;
     grid-template-areas: /* Dispoicion pasr celular*/
-        "EstudiantesContent";
+        "AdminContent";
         
 }
 
 
-.EstudiantesContent{
-    grid-area: EstudiantesContent;
+.AdminContent{
+    grid-area: AdminContent;
 }
-.EstudiantesNav{
+.AdminNav{
     display: none;
 }
 
 @media (min-width: 600px){
-    .EstudiantesContainer{
+    .AdminContainer{
         grid-template:
-        "EstudiantesNav  EstudiantesContent"/
+        "AdminNav  AdminContent"/
         25%    auto;
     }
     .StickyNavContent {
@@ -36,8 +36,8 @@
         height: 100vh;
         
     }
-    .EstudiantesNav{
-        grid-area: EstudiantesNav;
+    .AdminNav{
+        grid-area: AdminNav;
         background-color: rgba(0, 0, 0, 0.400);
         position: sticky;
         bottom: 0;
@@ -47,24 +47,24 @@
 
 }
 @media (min-width: 800px){
-    .EstudiantesContainer{
+    .AdminContainer{
         grid-template:
-        "EstudiantesNav  EstudiantesContent"/
+        "AdminNav  AdminContent"/
         27%    auto;
     }
 }
 
 @media (min-width: 1000px){
-    .EstudiantesContainer{
+    .AdminContainer{
         grid-template:
-        "EstudiantesNav  EstudiantesContent"/
+        "AdminNav  AdminContent"/
         22%    auto;
     }
 }
 @media (min-width: 1300px){
-    .EstudiantesContainer{
+    .AdminContainer{
         grid-template:
-        "EstudiantesNav  EstudiantesContent"/
+        "AdminNav  AdminContent"/
         20%    auto;
     }
 }
