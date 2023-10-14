@@ -30,18 +30,64 @@
   letter-spacing: 0.02em;
   background-color: rgba(0, 0, 0, 0.120); 
 }
+.latInfoCont{
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* oculta el scrollbar en firefox */
+  -ms-overflow-style: none; /* oculta el scrollbar en IE y Edge */
+  margin: 15px 0;
+}
+
+.latInfoCont::-webkit-scrollbar{
+  display: none;
+}
+
+.latInfo {
+  border-radius: 25px;
+  background-color: rgba(255, 255, 255, 0.4);
+  font-size: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 13px;
+  flex: 1 0 auto; 
+  box-sizing: border-box;
+  margin: 0 8px 0 0 ;
+}
+
+.pageTitle{
+  display:flex;
+  width: 100%;
+  color: white;
+  border-bottom: 2px solid white;
+  padding: 7px;
+  margin-bottom: 40px;
+  font-size: 20px;
+  justify-content: space-between;
+}
 
 /* --- Boton generico --- */
 .button{
   display: flex;
   text-decoration: none;
+  border-radius: 15px;
   background-color: rgba(255, 255, 255, 0.4);
   padding: 12px;
-  overflow: auto;
+  overflow: hidden;
   color:black;
 }
 .button:hover{
   background-color: white;
+}
+.buttonHeader{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
 }
 
 /* --- Boton normal --- */
@@ -58,10 +104,18 @@
   text-decoration: none;
   color:black;
   font-weight: bold;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 0.9;
   margin-top: auto;
   padding-top: 10px;
+}
+
+.normalButton .textContLongButton{
+  display: flex;
+  flex-direction: column;
+  padding-left: 3%;
+  width: 100%;
+  margin-top:auto;
 }
 
 /* --- Boton grande --- */
@@ -122,6 +176,9 @@
     grid-gap: 15px;
     padding: 2% 0;
   }
+  .buttonHeader{
+    font-size: 18px;
+  }
 
   .normalButton {
     flex-direction: column;
@@ -133,12 +190,54 @@
     max-height:fit-content;
   }
   .normalButton .buttonTitle{
-    font-size: 22px;
+    font-size: 17px;
+  }
+  .pageTitle{
+    width: 90%;
+    border-bottom: 3px solid white;
+    margin-bottom: 50px;
+    font-size: 25px;
+  }
+  .latInfoCont{
+    display: flex;
+    flex-direction: row;
+    margin: 5px 0;
+    width: fit-content;
+  }
+  .latInfo {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 6px 13px;
+    margin: 0 10px 0 0 ;
+    width: fit-content;    
   }
 }
+@media (min-width: 600px){
+  .buttonHeader{
+    font-size: 15px;
+  }
+}
+@media (min-width: 700px){
+  .buttonHeader{
+    font-size: 18px;
+  }
+}
+
 @media (min-width: 950px){
   .gridCont{
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows:min-content;
-}
+  }
+  .buttonHeader{
+    font-size: 20px;
+  }
+  .normalButton .buttonTitle{
+    font-size: 20px;
+  }
+  .pageTitle{
+    width: 80%;
+    font-size: 30px;
+  }
 }

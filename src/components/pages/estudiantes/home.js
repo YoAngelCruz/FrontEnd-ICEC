@@ -36,11 +36,11 @@ function Home({isMobile}) {
                     <span className="buttonTitle">Usuario</span>
                     
                 </NavLink>
-                <NavLink className={isMobile ? "button longButton calendarioButton": "button normalButton calendarioButton"}>
+                <NavLink className={isMobile ? "button longButton calendarioButton": "button normalButton calendarioButton"}to='/estudiantes/calendario'>
                     <HiCalendarDays size={isMobile ? 30 : 55} style={isMobile ? {color: "#0cb71a"}: {}}/>
                     <span className="buttonTitle">Calendario</span>
                 </NavLink>
-                <NavLink className={isMobile ? "button longButton calificacionesButton": "button normalButton calificacionesButton"}>
+                <NavLink className={isMobile ? "button longButton calificacionesButton": "button normalButton calificacionesButton"} to='/estudiantes/calificaciones'>
                     <HiDocumentCheck size={isMobile ? 30 : 55} style={isMobile ? {color: "#f0c103"}: {}}/>
                     <span className="buttonTitle">Calificaciones</span>
                 </NavLink>

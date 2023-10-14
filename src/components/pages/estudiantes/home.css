@@ -21,17 +21,15 @@
 .calendarioButton{
     grid-area: calendarioButton;
 }
-
 .calendarioButton:hover{
-    color:#0cb71a;
+    color:#169e21;
 }
-
 
 .calificacionesButton{
     grid-area: calificacionesButton;
 }
 .calificacionesButton:hover{
-    color:#f0c103;
+    color:#e7bb0e;
 }
 
 .ModularCont{
@@ -83,5 +81,14 @@
     .simpleCont{
         grid-template-columns: repeat(2, 1fr);
         grid-template-areas: "currentModule";
+    }
+    .usuarioButton .buttonTitle{
+        font-size: 22px;
+    }
+    .calendarioButton .buttonTitle{
+        font-size: 22px;
+    }
+    .calificacionesButton .buttonTitle{
+        font-size: 22px;
     }
 }

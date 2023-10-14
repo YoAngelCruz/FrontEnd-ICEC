@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {Routes, Route} from 'react-router-dom';
-import NavBarMobile from '../../common/navBarMobile';
-import NavBarDesktop from '../../common/navBarDesktop';
+import NavBarMobile from './navBar/navBarMobile' 
+import NavBarDesktop from './navBar/navBarDesktop';
 import Home from './home/home';
 import './index.css';
 function Admin() {
