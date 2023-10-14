@@ -3,7 +3,7 @@ import { Chart } from "react-google-charts";
 import HeaderInicio from '../../common/headerDesktop';
 import HeaderMobile from '../../common/headerMobile';
 import './avance.css';
-import {HiAcademicCap, HiCalendar, HiClock, HiTrophy, HiDocumentCheck} from 'react-icons/hi2';
+import {HiAcademicCap, HiCalendar, HiClock, HiDocumentCheck} from 'react-icons/hi2';
 function Avance({isMobile}) {
     const usuario={"id": "1","nombre": "Anahí Ximena Sanchez Vasquez"}
     const modulosCursados=[{"id": "1","nombre": "Nombre del modulo pasado", "calificacion": "10"},{"id": "2","nombre": "Más nombres de módulos", "calificacion": "10"},{"id": "3","nombre": "Otro nombre que no me acuerdo", "calificacion": "9"},{"id": "4","nombre": "Pero seguramente si existen jaaj", "calificacion": "10"}];

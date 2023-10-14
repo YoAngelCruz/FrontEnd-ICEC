@@ -27,7 +27,6 @@
     height: max-content;
 
 }
-
 .avanceModulosCursadosCont{
     grid-area:avanceModulosCursadosCont;
     display: flex;
