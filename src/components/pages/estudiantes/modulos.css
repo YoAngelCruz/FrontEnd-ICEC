@@ -1,0 +1,74 @@
+.modulosCont{
+    text-align: start;
+    padding: 5%;
+  } 
+.modulosCont .AditionalInfo{
+    margin: 0px 0px;
+}
+
+.moduloInfoCont{
+  padding: 5% 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas: /* Dispoicion pasr celular*/
+        "califCont semanaCont" 
+        "califCont examenCont";
+    gap:15px;
+}
+
+.moduloInfoCont .califCont{
+  grid-area:califCont;
+}
+
+.moduloInfoCont .semanaCont{
+  grid-area:semanaCont;
+}
+
+.moduloInfoCont .examenCont{
+  grid-area:examenCont;
+}
+.califCont .califInfo{
+  font-size: 16vw;
+  font-weight: bold;
+  margin-top: auto;
+  padding-top: 20px;
+}
+.semanaCont .semanasInfo{
+  font-size: 6vw;
+  font-weight: bold;
+  margin-top: auto;
+  padding-top: 10px;
+}
+@media (min-width: 600px){
+  .modulosCont .latInfoCont{
+    margin: -20px 0px 0px 0px;
+  }
+  .moduloInfoCont{
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-areas: /* Dispoicion pasr celular*/
+        "califCont califCont califCont semanaCont semanaCont semanaCont" 
+        "califCont califCont califCont examenCont examenCont examenCont";
+  }
+  .califCont .califInfo{
+    font-size: 11vw;
+  }
+  .semanaCont .semanasInfo{
+    font-size: 2.5vw;
+    padding-top: 5px;
+  }
+}
+@media (min-width: 950px){
+  .moduloInfoCont{
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-areas: /* Dispoicion pasr celular*/
+        "califCont califCont semanaCont semanaCont" 
+        "califCont califCont examenCont examenCont";
+  }
+  .califCont .califInfo{
+    font-size: 10vw;
+  }
+  .semanaCont .semanasInfo{
+    font-size: 2vw;
+    padding-top: 5px;
+  }
+}

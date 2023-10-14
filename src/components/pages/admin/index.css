@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css?family=Product+Sans');
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+.AdminContainer{
+    min-height: 100%;
+    background-attachment: fixed;
+    font-family:'Product Sans', sans-serif;
+    display: grid;
+    grid-template-areas: /* Dispoicion pasr celular*/
+        "AdminContent";
+        
+}
+
+
+.AdminContent{
+    grid-area: AdminContent;
+}
+.AdminNav{
+    display: none;
+}
+
+@media (min-width: 600px){
+    .AdminContainer{
+        grid-template:
+        "AdminNav  AdminContent"/
+        25%    auto;
+    }
+    .StickyNavContent {
+        display: block;
+        position: sticky;
+        top: 0;
+        bottom: auto;
+        height: 100vh;
+        
+    }
+    .AdminNav{
+        grid-area: AdminNav;
+        background-color: rgba(0, 0, 0, 0.400);
+        position: sticky;
+        bottom: 0;
+        display: inline;
+        
+    }
+
+}
+@media (min-width: 800px){
+    .AdminContainer{
+        grid-template:
+        "AdminNav  AdminContent"/
+        27%    auto;
+    }
+}
+
+@media (min-width: 1000px){
+    .AdminContainer{
+        grid-template:
+        "AdminNav  AdminContent"/
+        22%    auto;
+    }
+}
+@media (min-width: 1300px){
+    .AdminContainer{
+        grid-template:
+        "AdminNav  AdminContent"/
+        20%    auto;
+    }
+}

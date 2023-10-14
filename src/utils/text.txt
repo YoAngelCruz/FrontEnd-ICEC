@@ -1,0 +1,1 @@
+Aqui van funciones genéricas que se pueden reutilizar

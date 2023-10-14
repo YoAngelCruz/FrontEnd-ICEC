@@ -1,0 +1,70 @@
+.StickyNavContent {
+  position: sticky;
+  bottom: 0;
+  z-index: 100;
+}
+.StickyNavContent .userInfo{
+    display:flex;
+    flex-direction: column;
+    padding: 5% 4%;
+    justify-content: space-between;
+    align-items: left;
+    text-align: left;
+    color:aliceblue;
+    margin-bottom: 3%;
+}
+
+.userInfo #userName{
+    font-size: 22px;
+    margin: 8px 0px;
+    font-weight: bold;
+    letter-spacing: 0.04em;
+
+}
+
+.StickyNavContent ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: left;
+  flex-direction: column;
+}
+
+.StickyNavContent li {
+  flex: 1;
+  text-align: left;
+  align-items: center;
+  
+  margin: 3px 5px;
+  padding: 5px 6px;
+}
+.StickyNavContent li a.active {
+  background-color: rgb(255, 255, 255, 0.6);
+  padding: 4px 5px;
+  margin: -4px -6px;
+  border-radius: 10px;
+}
+
+.StickyNavContent a {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  color: white;
+  text-decoration: none;
+  font-size: 1.1 vw;
+}
+
+.StickyNavContent a span {
+  margin-left: 5%;
+}
+
+.StickyNavContent a.active {
+  color: black;
+}
+
+.StickyNavContent a.active span {
+  color: black;
+}
