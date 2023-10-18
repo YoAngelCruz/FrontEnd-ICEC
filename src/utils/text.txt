@@ -1,1 +1,1 @@
-Aqui van funciones genéricas que se pueden reutilizar 
+Aqui van funciones genéricas que se pueden reutilizar
