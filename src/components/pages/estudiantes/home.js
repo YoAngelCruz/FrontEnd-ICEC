@@ -75,4 +75,4 @@ function Home({isMobile}) {
 }
 
 export default Home;
-//rama  develop estudiantes
+//rama  home
