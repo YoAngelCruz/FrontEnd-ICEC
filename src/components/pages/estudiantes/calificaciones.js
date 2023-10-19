@@ -60,4 +60,4 @@ function Calificaciones({isMobile}) {
 }
 
 export default Calificaciones;
-//rama  develop estudiantes
+//rama  calificaciones
