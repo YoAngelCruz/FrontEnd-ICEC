@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {Routes, Route} from 'react-router-dom';
 import NavBarMobile from './navBar/navBarMobile' 
 import NavBarDesktop from './navBar/navBarDesktop';
+import Grupos from './grupos';
 import Home from './home/home';
 import './index.css';
 function Maestros() {
@@ -24,6 +25,7 @@ function Maestros() {
         <div className='MaestrosContent'>
                 <Routes>
                     <Route path="home" element={<Home isMobile={isMobile}/>} />
+                    <Route path="grupos" element={<Grupos isMobile={isMobile}/>} />
                 </Routes>
         </div>
         <div className='MaestrosNav'>

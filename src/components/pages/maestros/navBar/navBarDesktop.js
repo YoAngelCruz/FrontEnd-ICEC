@@ -25,21 +25,15 @@ function NavBarDesktop() {
           </NavLink>
         </li>
         <li>
-          <NavLink exact activeClassName="active" to="/estudiantes/modulos">
+          <NavLink exact activeClassName="active" to="/maestros/grupos">
             <HiBookOpen size={25}  />
-            <span>Módulos</span>
+            <span>Grupos</span>
           </NavLink>
         </li>
         <li>
           <NavLink activeClassName="active" to="/estudiantes/calendario">
             <HiCalendarDays size={25}  />
             <span>Calendario</span>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink activeClassName="active" to="/estudiantes/avance">
-            <HiChartBar size={25}  />
-            <span>Avance</span>
           </NavLink>
         </li>
       </ul>
