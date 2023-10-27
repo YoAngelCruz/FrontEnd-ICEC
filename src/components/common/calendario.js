@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import HeaderInicio from './headerDesktop'
+import HeaderDesktop from './headerDesktop'
 import HeaderMobile from './headerMobile';
 import './calendario.css';
 import calendar from '../../assets/img/calendario.jpg';
@@ -22,7 +22,7 @@ function Calendario({isMobile}) {
 
   return (
     <div>
-        {isMobile ? <HeaderMobile /> : <HeaderInicio titulo="Calendario" />}
+        {isMobile ? <HeaderMobile /> : <HeaderDesktop titulo="Calendario" />}
         <div className='calendarioCont'>
             {isMobile && <p className='WelcomeMsg'>Calendario</p>}
             <span className='pageTitle'>{formattedDate}</span>

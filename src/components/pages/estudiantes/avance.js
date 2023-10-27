@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Chart } from "react-google-charts";
-import HeaderInicio from '../../common/headerDesktop';
+import HeaderDesktop from '../../common/headerDesktop';
 import HeaderMobile from '../../common/headerMobile';
 import './avance.css';
 import {HiAcademicCap, HiCalendar, HiClock, HiDocumentCheck} from 'react-icons/hi2';
@@ -46,7 +46,7 @@ function Avance({isMobile}) {
       };
   return (
     <div>
-        {isMobile ? <HeaderMobile /> : <HeaderInicio titulo="Avance" />}
+        {isMobile ? <HeaderMobile /> : <HeaderDesktop titulo="Avance" />}
         <div className='avanceCont'>
             {isMobile && <p className='WelcomeMsg'>Avance</p>}
             <div className='pageTitle'>

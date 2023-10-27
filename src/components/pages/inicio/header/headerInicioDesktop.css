@@ -1,0 +1,20 @@
+.header {
+    background-color: #ffffff;
+    position:sticky;
+    top: 0;
+    right: 0;
+    z-index: 99;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .logo{
+    height: 80%;
+    margin-left: 10px;
+  }
+
+  .title{
+    font-weight: bold;
+    margin-right: 3%;
+  }

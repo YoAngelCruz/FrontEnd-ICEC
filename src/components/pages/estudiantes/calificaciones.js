@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import HeaderInicio from '../../common/headerDesktop';
+import HeaderDesktop from '../../common/headerDesktop';
 import HeaderMobile from '../../common/headerMobile';
 import './calificaciones.css';
 
@@ -23,7 +23,7 @@ function Calificaciones({isMobile}) {
 
   return (
     <div>
-        {isMobile ? <HeaderMobile /> : <HeaderInicio titulo="Calificaciones" />}
+        {isMobile ? <HeaderMobile /> : <HeaderDesktop titulo="Calificaciones" />}
         <div className='calificacionesCont'>
             {isMobile && <p className='WelcomeMsg'>Calificaciones</p>}
             <span className='contSubtitle'>Mi módulo actual</span>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { HiUser, HiCalendarDays, HiDocumentCheck,HiBookOpen, HiAcademicCap } from "react-icons/hi2";
 import { NavLink } from 'react-router-dom';
-import HeaderInicio from '../../common/headerDesktop';
+import HeaderDesktop from '../../common/headerDesktop';
 import HeaderMobile from '../../common/headerMobile';
 import './home.css';
 
@@ -26,7 +26,7 @@ function Home({isMobile}) {
 
   return (
     <div>
-        {isMobile ? <HeaderMobile /> : <HeaderInicio titulo="Mi portal" />}
+        {isMobile ? <HeaderMobile /> : <HeaderDesktop titulo="Mi portal" />}
         <div className='homeCont'>
             {isMobile && <p className='WelcomeMsg'>Bienvenido</p>}
             <span className='AditionalInfo'>{formattedDate}</span>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import HeaderInicio from '../../common/headerDesktop';
+import HeaderDesktop from '../../common/headerDesktop';
 import HeaderMobile from '../../common/headerMobile';
 import './modulos.css';
 import {HiAcademicCap, HiCalendar, HiClock, HiTrophy, HiDocumentCheck} from 'react-icons/hi2';
@@ -25,7 +25,7 @@ function Modulos({isMobile}) {
   
   return (
     <div>
-        {isMobile ? <HeaderMobile /> : <HeaderInicio titulo="Módulos" />}
+        {isMobile ? <HeaderMobile /> : <HeaderDesktop titulo="Módulos" />}
         <div className='modulosCont'>
           {isMobile && <p className='WelcomeMsg'>Módulos</p>}
           <div className='pageTitle'>

@@ -4,7 +4,7 @@ import logo from '../../assets/img/logo1.png';
 //import Cookies from 'universal-cookie';
 
 //const cookie = new Cookies();
-function HeaderInicio({titulo}) {
+function HeaderDesktop({titulo}) {
   const [headerTransparent, setHeaderTransparent] = useState(true);
   //const [panelVisible, setPanelVisible] = useState(false);
 
@@ -47,4 +47,4 @@ function HeaderInicio({titulo}) {
   );
 }
 
-export default HeaderInicio;
+export default HeaderDesktop;
