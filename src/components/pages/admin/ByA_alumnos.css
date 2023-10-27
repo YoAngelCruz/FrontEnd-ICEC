@@ -1,0 +1,108 @@
+.calificacionesCont{
+    text-align: start;
+    padding: 5%;
+  }  
+
+.WelcomeMsg{
+    font-size: 13vw;
+    font-weight: bold;
+    color: white;
+    padding: 7% 0;
+    letter-spacing: 0.04em;
+}
+
+.simpleCont{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas: "currentModule currentModule currentModule";
+    padding: 7% 0;
+}
+
+.calificacionesCont .currentModule{
+    grid-area: currentModule;
+    padding: 15px 12px;
+}
+.calificacionesCont .currentModule .califInfo{
+    font-size: 12vw;
+    font-weight: bold;
+    margin-right: 5px;
+}
+.calificacionesCont .currentModule .buttonTitle{
+    font-size: 17px;
+}
+.periodoInfo{
+    border-radius: 50px;
+    width: fit-content;
+    padding: 2px 7px;
+    color: white;
+    letter-spacing: 0.03em;
+    font-size: 13px;
+    margin: 3px 0 0 -4px;
+}
+
+.calificacionesCont .pastModule .buttonTitle{
+    font-size: 14px;
+}
+.calificacionesCont .pastModule .califInfo{
+    font-size: 10vw;
+    font-weight: bold; 
+    margin-bottom: -5px;
+}
+
+@media (min-width: 600px){
+    .simpleCont{
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-areas: "currentModule currentModule";
+        padding: 2% 0;
+    }
+    .calificacionesCont .currentModule{
+        border-radius: 18px;
+    }
+    .calificacionesCont .pastModule{
+        border-radius: 18px;
+    }
+    .calificacionesCont .currentModule .buttonTitle{
+        font-size: 22px;
+    }
+    .calificacionesCont .currentModule .califInfo{
+        font-size: 7vw;
+    }
+    .periodoInfo{
+        font-size: 13px;
+        margin-top: 5px;
+    }
+
+    .calificacionesCont .pastModule .califInfo{
+        font-size: 5vw;
+        font-weight: bold;  
+        margin-bottom: 0px;
+    }
+    .calificacionesCont .pastModule .buttonTitle{
+        font-size: 17px;
+    }      
+}
+@media (min-width: 950px){
+    .simpleCont{
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-areas: "currentModule";
+    }
+    .calificacionesCont .pastModule .buttonTitle{
+        font-size: 19px;
+    }
+    .calificacionesCont .currentModule{
+        border-radius: 20px;
+    }
+    .calificacionesCont .pastModule{
+        border-radius: 20px;
+    }
+}
+
+.edit-button {
+    background-color: #0c65d9;
+    color: #fff; 
+}
+
+.delete-button {
+    background-color: #cf0d0d;
+    color: #fff; 
+}

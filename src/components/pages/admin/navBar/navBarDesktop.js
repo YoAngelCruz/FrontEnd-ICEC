@@ -19,9 +19,9 @@ function NavBarDesktop() {
             </NavLink>
         </li>
         <li>
-          <NavLink activeClassName="active" to="/estudiantes/calificaciones">
+          <NavLink activeClassName="active" to="/admin/ByA">
             <HiDocumentCheck size={25}  />
-            <span>Calificaciones</span>
+            <span>Alumnos</span>
           </NavLink>
         </li>
         <li>

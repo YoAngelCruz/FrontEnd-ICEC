@@ -15,9 +15,9 @@ function NavBarMobile() {
             </NavLink>
         </li>
         <li>
-          <NavLink activeClassName="active" to="/estudiantes/modulos">
+          <NavLink activeClassName="active" to="/admin/ByA">
             <HiBookOpen size={28} />
-            <span>Módulos</span>
+            <span>Alumnos</span>
           </NavLink>
         </li>
         <li>

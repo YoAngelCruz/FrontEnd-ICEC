@@ -3,6 +3,7 @@ import {Routes, Route} from 'react-router-dom';
 import NavBarMobile from './navBar/navBarMobile' 
 import NavBarDesktop from './navBar/navBarDesktop';
 import Home from './home/home';
+import ByA_alumnos from './ByA_alumnos';
 import './index.css';
 function Admin() {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
@@ -24,6 +25,8 @@ function Admin() {
         <div className='AdminContent'>
                 <Routes>
                     <Route path="home" element={<Home isMobile={isMobile}/>} />
+                    <Route path="ByA" element={<ByA_alumnos isMobile={isMobile}/>} />
+
                 </Routes>
         </div>
         <div className='AdminNav'>
