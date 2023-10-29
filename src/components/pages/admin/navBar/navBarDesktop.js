@@ -39,7 +39,7 @@ function NavBarDesktop() {
         <li>
           <NavLink activeClassName="active" to="/estudiantes/avance">
             <HiChartBar size={25}  />
-            <span>Avance</span>
+            <span>Grupos</span>
           </NavLink>
         </li>
       </ul>
