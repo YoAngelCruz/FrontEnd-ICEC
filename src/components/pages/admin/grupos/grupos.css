@@ -1,0 +1,22 @@
+.gruposCont{
+    text-align: start;
+    padding: 5%;
+  }
+  
+.gruposCont .actionButton{
+    font-size: 14px;
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.gruposCont .editButton{
+    padding: 5px 50px;
+    color:white;
+    background-color: blue;
+}
+.gruposCont .deleteButton{
+    padding: 5px 50px;
+    color:white;
+    background-color: red;
+}
