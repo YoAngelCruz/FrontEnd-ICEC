@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css?family=Product+Sans');
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.inicioCont{
+    margin: 0;
+    margin-top: -55px;
+    padding: 0;
+}
+@media (min-width: 600px){
+    .inicioCont{
+        margin: 0;
+        margin-top: -103px;
+        padding: 0;
+    }
+}

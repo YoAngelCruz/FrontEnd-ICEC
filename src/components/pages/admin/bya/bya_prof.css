@@ -1,0 +1,17 @@
+/* styles.css */
+
+.addButton {
+    background-color: white;
+    color: black;
+    border-radius: 10px;
+    opacity: 0.9;
+}
+
+.edit-button {
+    margin-right: 8px; /* Ajusta el margen derecho según sea necesario */
+}
+
+.delete-button {
+    background-color: red;
+    color: white;
+}
