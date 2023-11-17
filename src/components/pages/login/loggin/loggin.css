@@ -1,0 +1,68 @@
+.login-container {
+    display: flex;
+    max-width: 800px; /* Ancho total del contenedor */
+    margin: 0 auto;
+    border-radius: 5px;
+    overflow: hidden;
+    
+  }
+  
+  .left-panel {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.8); /* Fondo transparente en la mitad izquierda */
+    padding: 20px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .right-panel {
+    flex: 1;
+    padding: 20px;
+    background-color: rgba(169, 169, 169, 0.5);
+    background: url('C:\Users\Ivan\Desktop\FRONT\FrontEnd-ICEC\src\assets\img\logo1.png') center/cover no-repeat;
+    background-size: 20% auto;
+    background-position: center bottom;
+
+  }
+
+  .right-panel p {
+    color: white; /* Color del texto "Bienvenido" blanco */
+  font-size: 40px;
+
+
+
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group {
+    margin-bottom: 10px;
+  }
+  
+  label {
+    font-weight: bold;
+  }
+  
+  input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+  
+  button {
+    background-color: #0c4e94;
+    color: #fff;
+    border: none;
+    border-radius: 15px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }

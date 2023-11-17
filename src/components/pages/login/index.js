@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import {Routes, Route} from 'react-router-dom';
-import NavBarMobile from '../login/navBar/navBarMobile' 
-import NavBarDesktop from '../login/navBar/navBarDesktop';
-import Home from './home/home';
+import NavBarMobile from './navBar/navBarMobile' 
+import NavBarDesktop from './navBar/navBarDesktop';
 import './index.css';
-function Maestros() {
+import Loggin from './loggin/loggin';
+
+function Login() {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
     useEffect(() => {
-        // Función para actualizar el estado de isMobile
+        
         function handleResize() {
         setIsMobile(window.innerWidth < 600);
         }
-        // Agregar un evento de escucha para el cambio de tamaño de la ventana
+        
         window.addEventListener('resize', handleResize);
-        // Retirar el evento de escucha cuando el componente se desmonte
+        
         return () => {
         window.removeEventListener('resize', handleResize);
         };
@@ -23,7 +24,8 @@ function Maestros() {
       <div className="MaestrosContainer" >
         <div className='MaestrosContent'>
                 <Routes>
-                    <Route path="home" element={<Home isMobile={isMobile}/>} />
+                    
+                    <Route path="login" element={<Loggin isMobile={isMobile}/>} />
                 </Routes>
         </div>
         <div className='MaestrosNav'>
@@ -34,4 +36,4 @@ function Maestros() {
   );
 }
 
-export default Maestros;
+export default Login;
