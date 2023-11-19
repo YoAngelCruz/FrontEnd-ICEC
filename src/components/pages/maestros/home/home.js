@@ -40,7 +40,7 @@ function Home({ isMobile }) {
                 <div className='ModularCont'>
                     <NavLink className={isMobile ? "button bigButton usuarioButton" : "button normalButton usuarioButton"}>
                         <HiUser size={isMobile ? 50 : 55} style={isMobile ? { color: "#073cc3" } : {}} />
-                        <span className="buttonTitle">Profesor</span>
+                        <span className="buttonTitle">Perfil</span>
                     </NavLink>
                     <NavLink className={isMobile ? "button longButton calendarioButton" : "button normalButton calendarioButton"}>
                         <HiCalendarDays size={isMobile ? 30 : 55} style={isMobile ? { color: "#0cb71a" } : {}} />
@@ -50,10 +50,7 @@ function Home({ isMobile }) {
                         <HiDocumentCheck size={isMobile ? 30 : 55} style={isMobile ? { color: "#f0c103" } : {}} />
                         <span className="buttonTitle">Calificacion</span>
                     </NavLink>
-                    <NavLink className={isMobile ? "button longButton academicButton" : "button normalButton academicButton"}>
-                        <HiAcademicCap size={isMobile ? 30 : 55} style={isMobile ? { color: "#e84a5f" } : {}} />
-                        <span className="buttonTitle">Académico</span>
-                    </NavLink>
+                  
                 </div>
 
                 <span className='contSubtitle'>Mis Grupos</span>
