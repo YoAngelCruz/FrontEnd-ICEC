@@ -27,23 +27,25 @@ function Home({isMobile}) {
   return (
     <div>
         {isMobile ? <HeaderMobile /> : <HeaderInicio titulo="Mi portal" />}
+
         <div className='homeCont'>
             {isMobile && <p className='WelcomeMsg'>Bienvenido</p>}
             <span className='AditionalInfo'>{formattedDate}</span>
             <div className='ModularCont'>
-                <NavLink className={isMobile ? "button bigButton usuarioButton" : "button normalButton usuarioButton"}>
+
+                <NavLink className={isMobile ? "button bigButton eUsuarioButton" : "button normalButton eUsuarioButton"}>
                     <HiUser size={isMobile ? 50 : 55} style={isMobile ? {color: "#073cc3"}: {}}/>
                     <span className="buttonTitle">Usuario</span>
-                    
                 </NavLink>
-                <NavLink className={isMobile ? "button longButton calendarioButton": "button normalButton calendarioButton"}to='/estudiantes/calendario'>
+                <NavLink className={isMobile ? "button longButton eCalendarioButton": "button normalButton eCalendarioButton"}to='/estudiantes/calendario'>
                     <HiCalendarDays size={isMobile ? 30 : 55} style={isMobile ? {color: "#0cb71a"}: {}}/>
                     <span className="buttonTitle">Calendario</span>
                 </NavLink>
-                <NavLink className={isMobile ? "button longButton calificacionesButton": "button normalButton calificacionesButton"} to='/estudiantes/calificaciones'>
+                <NavLink className={isMobile ? "button longButton eCalificacionesButton": "button normalButton eCalificacionesButton"} to='/estudiantes/calificaciones'>
                     <HiDocumentCheck size={isMobile ? 30 : 55} style={isMobile ? {color: "#f0c103"}: {}}/>
                     <span className="buttonTitle">Calificaciones</span>
                 </NavLink>
+
             </div>
 
             <span className='contSubtitle'>Mi módulo actual</span>

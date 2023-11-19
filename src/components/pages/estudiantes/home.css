@@ -3,32 +3,24 @@
     padding: 5%;
   }  
 
-.WelcomeMsg{
-    font-size: 13vw;
-    font-weight: bold;
-    color: white;
-    padding: 7% 0;
-    letter-spacing: 0.04em;
+.eUsuarioButton{
+    grid-area: eUsuarioButton;
 }
-
-.usuarioButton{
-    grid-area: usuarioButton;
-}
-.usuarioButton:hover{
+.eUsuarioButton:hover{
     color:#073cc3;
 }
 
-.calendarioButton{
-    grid-area: calendarioButton;
+.eCalendarioButton{
+    grid-area: eCalendarioButton;
 }
-.calendarioButton:hover{
+.eCalendarioButton:hover{
     color:#169e21;
 }
 
-.calificacionesButton{
-    grid-area: calificacionesButton;
+.eCalificacionesButton{
+    grid-area: eCalificacionesButton;
 }
-.calificacionesButton:hover{
+.eCalificacionesButton:hover{
     color:#e7bb0e;
 }
 
@@ -37,8 +29,8 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-areas: /* Dispoicion pasr celular*/
-        "calendarioButton usuarioButton"
-        "calificacionesButton usuarioButton";
+        "eCalendarioButton eUsuarioButton"
+        "eCalificacionesButton eUsuarioButton";
     gap:15px;
 }
 
@@ -59,7 +51,7 @@
 @media (min-width: 600px){
     .ModularCont{
         grid-template-areas:
-        "usuarioButton calendarioButton calificacionesButton";
+        "eUsuarioButton eCalendarioButton eCalificacionesButton";
         grid-template-columns: repeat(3, 1fr);
         padding: 2% 0;
     }
@@ -75,20 +67,20 @@
 @media (min-width: 950px){
     .ModularCont{
         grid-template-areas:
-        "usuarioButton calendarioButton calificacionesButton";
+        "eUsuarioButton eCalendarioButton eCalificacionesButton";
         grid-template-columns: repeat(4, 1fr);
     }
     .simpleCont{
         grid-template-columns: repeat(2, 1fr);
         grid-template-areas: "currentModule";
     }
-    .usuarioButton .buttonTitle{
+    .eUsuarioButton .buttonTitle{
         font-size: 22px;
     }
-    .calendarioButton .buttonTitle{
+    .eCalendarioButton .buttonTitle{
         font-size: 22px;
     }
-    .calificacionesButton .buttonTitle{
+    .eCalificacionesButton .buttonTitle{
         font-size: 22px;
     }
 }

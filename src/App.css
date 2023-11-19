@@ -8,6 +8,16 @@
   font-family:'Product Sans', sans-serif;
   min-height:100vh;
 }
+
+/* --- mensaje de bienvenida mobile --- */
+.WelcomeMsg{
+  font-size: 13vw;
+  font-weight: bold;
+  color: white;
+  padding: 7% 0;
+  letter-spacing: 0.04em;
+}
+
 /* --- Subtitulo  --- */
 .contSubtitle{
   display: block;
