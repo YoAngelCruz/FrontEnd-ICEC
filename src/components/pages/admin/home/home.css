@@ -1,0 +1,94 @@
+.homeCont{
+    text-align: start;
+    padding: 5%;
+  }  
+
+.WelcomeMsg{
+    font-size: 13vw;
+    font-weight: bold;
+    color: white;
+    padding: 7% 0;
+    letter-spacing: 0.04em;
+}
+
+.usuarioButton{
+    grid-area: usuarioButton;
+}
+.usuarioButton:hover{
+    color:#073cc3;
+}
+
+.calendarioButton{
+    grid-area: calendarioButton;
+}
+.calendarioButton:hover{
+    color:#169e21;
+}
+
+.calificacionesButton{
+    grid-area: calificacionesButton;
+}
+.calificacionesButton:hover{
+    color:#e7bb0e;
+}
+
+.ModularCont{
+    padding: 10% 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas: /* Dispoicion pasr celular*/
+        "calendarioButton usuarioButton"
+        "calificacionesButton usuarioButton";
+    gap:15px;
+}
+
+.simpleCont{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas: "currentModule currentModule currentModule";
+    padding: 7% 0;
+}
+.currentModule{
+    grid-area: currentModule;
+    padding: 15px 12px;
+}
+.currentModule .buttonTitle{
+    font-size: 18px;
+}
+
+@media (min-width: 600px){
+    .ModularCont{
+        grid-template-areas:
+        "usuarioButton calendarioButton calificacionesButton";
+        grid-template-columns: repeat(3, 1fr);
+        padding: 2% 0;
+    }
+    .simpleCont{
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-areas: "currentModule currentModule";
+        padding: 2% 0;
+    }
+    .currentModule .buttonTitle{
+        font-size: 22px;
+    }
+}
+@media (min-width: 950px){
+    .ModularCont{
+        grid-template-areas:
+        "usuarioButton calendarioButton calificacionesButton";
+        grid-template-columns: repeat(4, 1fr);
+    }
+    .simpleCont{
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-areas: "currentModule";
+    }
+    .usuarioButton .buttonTitle{
+        font-size: 22px;
+    }
+    .calendarioButton .buttonTitle{
+        font-size: 22px;
+    }
+    .calificacionesButton .buttonTitle{
+        font-size: 22px;
+    }
+}

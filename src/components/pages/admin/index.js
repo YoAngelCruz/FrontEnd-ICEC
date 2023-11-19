@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route,Navigate } from 'react-router-dom';
 import NavBarMobile from './navBar/navBarMobile';
 import NavBarDesktop from './navBar/navBarDesktop';
 import ByAprofesores from './bya/bya_prof';
@@ -25,7 +25,8 @@ function Admin() {
         <div className="AdminContainer">
             <div className='AdminContent'>
                 <Routes>
-                    <Route path="/home" element={<Home isMobile={isMobile} />} />
+                    <Route path="/" element={<Navigate to="home" />} />
+                    <Route path="home" element={<Home isMobile={isMobile}/>} />   
                     <Route path="/ByA" element={<ByAprofesores isMobile={isMobile} />} />
                 </Routes>
             </div>
