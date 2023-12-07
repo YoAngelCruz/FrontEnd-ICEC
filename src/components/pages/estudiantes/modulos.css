@@ -1,73 +1,73 @@
-.modulosCont{
+.eModulosCont{
     text-align: start;
     padding: 5%;
   } 
-.modulosCont .AditionalInfo{
+.eModulosCont .AditionalInfo{
     margin: 0px 0px;
 }
 
-.moduloInfoCont{
+.eModuloInfoCont{
   padding: 5% 0;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-areas: /* Dispoicion pasr celular*/
-        "califCont semanaCont" 
-        "califCont examenCont";
+        "eCalifCont eSemanaCont" 
+        "eCalifCont eExamenCont";
     gap:15px;
 }
 
-.moduloInfoCont .califCont{
-  grid-area:califCont;
+.eModuloInfoCont .eCalifCont{
+  grid-area:eCalifCont;
 }
 
-.moduloInfoCont .semanaCont{
-  grid-area:semanaCont;
+.eModuloInfoCont .eSemanaCont{
+  grid-area:eSemanaCont;
 }
 
-.moduloInfoCont .examenCont{
-  grid-area:examenCont;
+.eModuloInfoCont .eExamenCont{
+  grid-area:eExamenCont;
 }
-.califCont .califInfo{
+.eCalifCont .eCalifInfo{
   font-size: 16vw;
   font-weight: bold;
   margin-top: auto;
   padding-top: 20px;
 }
-.semanaCont .semanasInfo{
+.eSemanaCont .eSemanasInfo{
   font-size: 6vw;
   font-weight: bold;
   margin-top: auto;
   padding-top: 10px;
 }
 @media (min-width: 600px){
-  .modulosCont .latInfoCont{
+  .eModulosCont .latInfoCont{
     margin: -20px 0px 0px 0px;
   }
-  .moduloInfoCont{
+  .eModuloInfoCont{
     grid-template-columns: repeat(7, 1fr);
     grid-template-areas: /* Dispoicion pasr celular*/
-        "califCont califCont califCont semanaCont semanaCont semanaCont" 
-        "califCont califCont califCont examenCont examenCont examenCont";
+        "eCalifCont eCalifCont eCalifCont eSemanaCont eSemanaCont eSemanaCont" 
+        "eCalifCont eCalifCont eCalifCont eExamenCont eExamenCont eExamenCont";
   }
-  .califCont .califInfo{
+  .eCalifCont .eCalifInfo{
     font-size: 11vw;
   }
-  .semanaCont .semanasInfo{
+  .eSemanaCont .eSemanasInfo{
     font-size: 2.5vw;
     padding-top: 5px;
   }
 }
 @media (min-width: 950px){
-  .moduloInfoCont{
+  .eModuloInfoCont{
     grid-template-columns: repeat(5, 1fr);
     grid-template-areas: /* Dispoicion pasr celular*/
-        "califCont califCont semanaCont semanaCont" 
-        "califCont califCont examenCont examenCont";
+        "eCalifCont eCalifCont eSemanaCont eSemanaCont" 
+        "eCalifCont eCalifCont eExamenCont eExamenCont";
   }
-  .califCont .califInfo{
+  .eCalifCont .eCalifInfo{
     font-size: 10vw;
   }
-  .semanaCont .semanasInfo{
+  .eSemanaCont .eSemanasInfo{
     font-size: 2vw;
     padding-top: 5px;
   }

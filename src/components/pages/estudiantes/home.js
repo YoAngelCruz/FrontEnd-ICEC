@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import HeaderInicio from '../../common/headerDesktop';
 import HeaderMobile from '../../common/headerMobile';
 import './home.css';
+import apic from '../../../services/api'
 
 function Home({isMobile}) {
     const [currentDate, setCurrentDate] = useState(new Date());
@@ -22,16 +23,25 @@ function Home({isMobile}) {
       }, []);
     const options = { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' };
     const formattedDate = currentDate.toLocaleDateString('es-ES', options);
-
+    
+    const fetchLuces = async () => {
+        try {
+          const cursosPasadosData = await apic.get('/luces/');
+          setCursosPasados(cursosPasadosData.luces);
+          console.log("Respuesta de la API:", cursosPasadosData);
+        } catch (error) {
+          console.error('Error al obtener las luces:', error);
+        }
+      };
 
   return (
     <div>
         {isMobile ? <HeaderMobile /> : <HeaderInicio titulo="Mi portal" />}
 
-        <div className='homeCont'>
+        <div className='eHomeCont'>
             {isMobile && <p className='WelcomeMsg'>Bienvenido</p>}
             <span className='AditionalInfo'>{formattedDate}</span>
-            <div className='ModularCont'>
+            <div className='modularCont'>
 
                 <NavLink className={isMobile ? "button bigButton eUsuarioButton" : "button normalButton eUsuarioButton"}>
                     <HiUser size={isMobile ? 50 : 55} style={isMobile ? {color: "#073cc3"}: {}}/>
@@ -51,7 +61,7 @@ function Home({isMobile}) {
             <span className='contSubtitle'>Mi módulo actual</span>
 
             <div className='simpleCont'>
-                <NavLink className="button longButton currentModule">
+                <NavLink className="button longButton currentModule" to='/estudiantes/modulos'>
                     <HiBookOpen size={isMobile ? 45 : 55} />
                     <div className='textContLongButton'>
                     <span className="buttonTitle" >Procesador de textos</span>
@@ -63,7 +73,7 @@ function Home({isMobile}) {
             <div className='gridCont'>
                 
                 {cursosPasados.map((cursosObj) => (
-                    <NavLink className='button normalButton'key={cursosObj.id}>
+                    <NavLink className='button normalButton'key={cursosObj.id} to='/estudiantes/calificaciones'>
                         <HiAcademicCap size={isMobile ? 35 : 55} />
                         <span className="buttonTitle">{cursosObj.nombre}</span>
                     </NavLink>

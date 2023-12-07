@@ -1,0 +1,14 @@
+.aGruposCont{
+    text-align: start;
+    padding: 5%;
+  }
+.aGruposCont .editButton{
+    padding: 5px 3.2vw;
+    color:white;
+    background-color: blue;
+}
+.aGruposCont .deleteButton{
+    padding: 5px 3.2vw;
+    color:white;
+    background-color: red;
+}

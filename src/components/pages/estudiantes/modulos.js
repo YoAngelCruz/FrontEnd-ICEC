@@ -26,7 +26,7 @@ function Modulos({isMobile}) {
   return (
     <div>
         {isMobile ? <HeaderMobile /> : <HeaderInicio titulo="Módulos" />}
-        <div className='modulosCont'>
+        <div className='eModulosCont'>
           {isMobile && <p className='WelcomeMsg'>Módulos</p>}
           <div className='pageTitle'>
             <span>{curAc.nombre}</span> <span className='AditionalInfo'>{curAc.periodo}</span>
@@ -46,22 +46,22 @@ function Modulos({isMobile}) {
               <span>{curAc.horario}</span>
             </div>
           </div>
-          <div className='moduloInfoCont'>
-            <div className='button bigButton califCont'>
+          <div className='eModuloInfoCont'>
+            <div className='button bigButton eCalifCont'>
                 <div className='buttonHeader'>
                   <HiTrophy size="22px" style={{marginRight:"5px"}}/> <span>Calificacion</span>
                 </div>
-                <span className='califInfo'>{curAc.calificacion}</span>
+                <span className='eCalifInfo'>{curAc.calificacion}</span>
                 <span style={{marginTop:"auto"}}>{curAc.periodo}</span>
             </div>
-            <div className="button normalButton semanaCont">
+            <div className="button normalButton eSemanaCont">
               <div className='buttonHeader'>
                   <HiCalendar size="22px" style={{marginRight:"5px"}}/> <span>Semanas restantes</span>
               </div> 
-              <span className='semanasInfo'>{semanas} {semanas === 1 ? ' semana' : ' semanas'}</span>
+              <span className='eSemanasInfo'>{semanas} {semanas === 1 ? ' semana' : ' semanas'}</span>
 
             </div>
-            <NavLink className="button normalButton examenCont" to='/estudiantes/calendario'>
+            <NavLink className="button normalButton eExamenCont" to='/estudiantes/calendario'>
               <div className='buttonHeader'>
                   <HiDocumentCheck size="22px" style={{marginRight:"5px"}}/> <span>Examen</span>
               </div> 

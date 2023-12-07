@@ -1,0 +1,34 @@
+.mGruposCont{
+    text-align: start;
+    padding: 5%;
+}  
+
+.mGruposCont .groupGrupos{
+    margin: 10px 0px;
+    border-radius: 15px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.mGruposCont .gruposAccordion{
+    width: 100%;
+    margin-bottom: 45px;
+}
+
+@media (min-width: 600px){
+    .mGruposCont .groupGrupos{
+        width: 100%;
+    }
+    .mGruposCont .gruposAccordion{
+        width: 95%;
+    }
+}
+@media (min-width: 950px){
+    .mGruposCont .groupGrupos{
+        width: 80%;
+    }
+
+    .mGruposCont .gruposAccordion{
+        width: 90%;
+    }
+}

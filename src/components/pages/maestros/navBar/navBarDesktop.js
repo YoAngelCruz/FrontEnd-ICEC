@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink} from 'react-router-dom';
 import './navBarDesktop.css';
-import { HiBookOpen, HiHome, HiChartBar, HiCalendarDays, HiDocumentCheck, HiUserCircle } from "react-icons/hi2";
+import { HiBookOpen, HiHome, HiCalendarDays, HiDocumentCheck, HiUserCircle } from "react-icons/hi2";
 function NavBarDesktop() {
 
   return (
@@ -13,33 +13,27 @@ function NavBarDesktop() {
       </div>
       <ul>
         <li>
-          <NavLink activeClassName="active" to="/estudiantes/home">
+          <NavLink activeClassName="active" to="/maestros/home">
             <HiHome size={25}  />
             <span>Inicio</span>
             </NavLink>
         </li>
         <li>
-          <NavLink activeClassName="active" to="/estudiantes/calificaciones">
+          <NavLink activeClassName="active" to="/maestros/calificaciones">
             <HiDocumentCheck size={25}  />
             <span>Calificaciones</span>
           </NavLink>
         </li>
         <li>
-          <NavLink exact activeClassName="active" to="/estudiantes/modulos">
+          <NavLink exact activeClassName="active" to="/maestros/grupos">
             <HiBookOpen size={25}  />
-            <span>Módulos</span>
+            <span>Grupos</span>
           </NavLink>
         </li>
         <li>
-          <NavLink activeClassName="active" to="/estudiantes/calendario">
+          <NavLink activeClassName="active" to="/maestros/calendario">
             <HiCalendarDays size={25}  />
             <span>Calendario</span>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink activeClassName="active" to="/estudiantes/avance">
-            <HiChartBar size={25}  />
-            <span>Avance</span>
           </NavLink>
         </li>
       </ul>

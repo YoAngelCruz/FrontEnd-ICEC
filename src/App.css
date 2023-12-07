@@ -68,6 +68,16 @@
   margin: 0 8px 0 0 ;
 }
 
+.inputTextDialog{
+  background-color: #c7c7c7;
+  border: solid 1.5px #444;
+  border-radius: 10px;
+  font-size: 15px;
+  padding: 3px 8px;
+  font-family:'Product Sans', sans-serif;
+  margin: 5px 0px;
+}
+
 .pageTitle{
   display:flex;
   width: 100%;
@@ -77,6 +87,16 @@
   margin-bottom: 40px;
   font-size: 20px;
   justify-content: space-between;
+}
+
+.actionButton{
+  font-size: 14px;
+  border: none;
+  border-radius: 10px;
+  padding: 5px;
+  margin: 3px 0px;
+  cursor: pointer;
+  background-color: #ddd;
 }
 
 /* --- Boton generico --- */
@@ -169,6 +189,40 @@
   color: black;
 }
 
+/* --- Contenedor genérico --- */
+.genericCont {
+  display: flex;
+  text-decoration: none;
+  border-radius: 15px;
+  background-color: rgba(255, 255, 255, 0.4);
+  padding: 12px;
+  color:black;
+  flex-direction: column;
+}
+
+/* --- Contenedor simple --- */
+.simpleCont{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-areas: "currentModule currentModule currentModule";
+  padding: 7% 0;
+}
+.currentModule{
+  grid-area: currentModule;
+  padding: 15px 12px;
+}
+
+/* ---  Contenedor modular --- */
+.modularCont{
+  padding: 10% 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-areas: /* Dispoicion pasr celular*/
+      "smallButton1 bigButton"
+      "smallButton2 bigButton";
+  gap:15px;
+}
+
 /* --- Contenedor grid --- */
 .gridCont{
   display: grid;
@@ -223,12 +277,22 @@
     margin: 0 10px 0 0 ;
     width: fit-content;    
   }
-}
-@media (min-width: 600px){
+  .modularCont{
+    grid-template-areas:
+    "bigButton smallButton1 smallButton2";
+    grid-template-columns: repeat(3, 1fr);
+    padding: 2% 0;
+  }
+  .simpleCont{
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas: "currentModule currentModule";
+    padding: 2% 0;
+  }
   .buttonHeader{
     font-size: 15px;
   }
 }
+
 @media (min-width: 700px){
   .buttonHeader{
     font-size: 18px;
@@ -250,4 +314,13 @@
     width: 80%;
     font-size: 30px;
   }
+  .simpleCont{
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas: "currentModule";
+  }
+  .modularCont{
+    grid-template-areas:
+    "bigButton smallButton1 smallButton2";
+    grid-template-columns: repeat(4, 1fr);
+}
 }

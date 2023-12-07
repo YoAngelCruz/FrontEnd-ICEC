@@ -24,7 +24,7 @@ function Calificaciones({isMobile}) {
   return (
     <div>
         {isMobile ? <HeaderMobile /> : <HeaderInicio titulo="Calificaciones" />}
-        <div className='calificacionesCont'>
+        <div className='eCalificacionesCont'>
             {isMobile && <p className='WelcomeMsg'>Calificaciones</p>}
             <span className='contSubtitle'>Mi módulo actual</span>
             
@@ -43,7 +43,7 @@ function Calificaciones({isMobile}) {
             <div className='gridCont'>
                 
                 {cursosPasados.map((cursosObj) => (
-                    <div className='button normalButton pastModule'key={cursosObj.id}>
+                    <div className='button normalButton ePastModule'key={cursosObj.id}>
                         <span className='califInfo'>{cursosObj.calificacion}</span>
                         <div className='textContLongButton'>
                             <span className="buttonTitle" >{cursosObj.nombre}</span>
