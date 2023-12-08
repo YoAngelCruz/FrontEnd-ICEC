@@ -23,6 +23,8 @@ function Estudiantes({isMobile}) {
   const [openDelete, setOpenDelete] = useState(false);
   const [openAdd, setOpenAdd] = useState(false);
   const [estudiantes, setEstudiantes] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredEstudiantes, setFilteredEstudiantes] = useState([]);
 
   //GET
   useEffect(() => {
@@ -52,6 +54,7 @@ function Estudiantes({isMobile}) {
   const [estudianteDelete, setEstudianteDelete] = useState({ id: '', nombre: '' });
   const [nombreAdd, setNombreAdd] = useState({nombre: '' });
 
+  
   const theme = createTheme({
     components: {
       MuiDialog: {
@@ -70,6 +73,15 @@ function Estudiantes({isMobile}) {
       },
     },
   });
+
+   // Función para filtrar estudiantes por nombre
+   const filterEstudiantes = () => {
+    const filtered = estudiantes.filter(estudiante =>
+      estudiante.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredEstudiantes(filtered);
+  };
+
   
   //Abrir y cerrar dialog editar nombre estudiantes
   const handleClickOpenEditNombre = (id, nombre) => {
@@ -205,8 +217,15 @@ function Estudiantes({isMobile}) {
           
           <div className='searchCont' style={{display:"flex", width: '100%', padding: '7px', marginBottom: '40px', justifyContent: 'space-between'}}>
             <Paper component="form" sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '40vw', borderRadius:'50px' }}>
-                <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Buscar alumno" inputProps={{ 'aria-label': 'search google maps' }}/>
-                <IconButton type="button" sx={{ p: '10px', color:'white', backgroundColor:'#073cc3','&:hover': {backgroundColor: '#05236f',}, }} aria-label="search">
+            <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Buscar alumno" inputProps={{ 'aria-label': 'search google maps' }}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+                 <IconButton type="button" sx={{p: '10px',color: 'white',backgroundColor: '#073cc3','&:hover': { backgroundColor: '#05236f', },
+            }}
+            aria-label="search"
+            onClick={filterEstudiantes}
+          >
                     <HiMagnifyingGlass />
                 </IconButton>
             </Paper>
@@ -225,7 +244,7 @@ function Estudiantes({isMobile}) {
                   <td align='center' style={{padding:'10px'}}>domicilio</td> <td align='center' style={{padding:'10px'}}>Telefono</td> <td align='center' style={{padding:'10px'}}>Email</td> <td align='center' style={{padding:'10px'}}>Turno</td> 
                   <td align='center' style={{padding:'10px'}}>Tutor</td> <td align='center' style={{padding:'10px'}}>Contraseña</td> <td align='center' style={{padding:'10px'}}>Eliminar</td>
                 </tr>
-                {estudiantes && estudiantes.map((EstudiantesObj, index) => ( 
+                {(filteredEstudiantes.length > 0 ? filteredEstudiantes : estudiantes).map((EstudiantesObj, index) => (
                     <tr key={EstudiantesObj.id_alumno}>
                       <td style={{backgroundColor:'white', padding: '5px 10px', width:'auto-fit', whiteSpace: 'nowrap', borderTopLeftRadius: index === 0 ? '15px':'0px', borderBottomLeftRadius: index === estudiantes.length-1 ? '15px':'0px'}}>
                         {EstudiantesObj.clave}
