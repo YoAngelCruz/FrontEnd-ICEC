@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
 import HeaderInicio from './headerDesktop'
 import HeaderMobile from './headerMobile';
 import './calendario.css';
@@ -29,10 +28,6 @@ function Calendario({isMobile}) {
             <div className='imgCont'>
                 <img src={calendar} alt="calendario" className='imgCalendar'/>
             </div>
-            <NavLink className="button longButton">
-                Subir documento
-            </NavLink>
-           
         </div>
     </div>
   );

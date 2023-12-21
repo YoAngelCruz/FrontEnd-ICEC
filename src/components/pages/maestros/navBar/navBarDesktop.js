@@ -1,8 +1,18 @@
 import React from 'react';
 import { NavLink} from 'react-router-dom';
 import './navBarDesktop.css';
-import { HiBookOpen, HiHome, HiCalendarDays, HiDocumentCheck, HiUserCircle } from "react-icons/hi2";
+import { HiBookOpen, HiHome, HiCalendarDays, HiDocumentCheck, HiUserCircle, HiMiniArrowLeftOnRectangle } from "react-icons/hi2";
+import { useAuth } from '../../../../utils/AuthContext';
 function NavBarDesktop() {
+  const { isAuthenticated, userData, tipoUsuario, token } = useAuth();
+  const { authLogout } = useAuth();
+
+
+  const handleLogout = async() => {
+    authLogout();
+    console.log(isAuthenticated);
+    
+  };
 
   return (
     <div className="StickyNavContent">
@@ -37,6 +47,12 @@ function NavBarDesktop() {
           </NavLink>
         </li>
       </ul>
+      <div className='logoutCont'>
+        <button className='logoutButton' onClick={handleLogout}>
+          <HiMiniArrowLeftOnRectangle size={25}  />
+          <span>Cerrar sesión</span>
+        </button>
+      </div>
     </div>
   );
 }

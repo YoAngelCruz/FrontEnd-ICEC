@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import './headerInicioDesktop.css';
 import logo from '../../../../assets/img/logo1.png'
 //import Cookies from 'universal-cookie';
@@ -57,15 +58,17 @@ function HeaderInicioDesktop() {
     alignItems:'center', 
     borderRadius:'10px',
     padding: '10px',
-    
+    textDecoration: 'none', 
+    color:'black',
   };
+
 
   return (
     <nav className="header" style={isMobile ? headerStyleMobile : headerStyleDesktop}>
       <img src={logo} alt="logo" className="logo" />
-
-      <div style={botonStyle}>
-        <HiOutlineLogin/> Iniciar sesión</div>
+        <NavLink style={botonStyle} to='/login'>
+          <HiOutlineLogin/> Iniciar sesión
+        </NavLink>
     </nav>
   );
 }

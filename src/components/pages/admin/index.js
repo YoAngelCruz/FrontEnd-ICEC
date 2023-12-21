@@ -4,6 +4,7 @@ import NavBarMobile from './navBar/navBarMobile'
 import NavBarDesktop from './navBar/navBarDesktop';
 import Home from './home/home';
 import Calendario from '../../common/calendario';
+import Usuario from '../../common/usuario';
 import Grupos from './grupos/grupos';
 import Estudiantes from './estudiantes/estudiantes';
 import Maestros from './maestros/maestros';
@@ -33,6 +34,7 @@ function Admin() {
                     <Route path="grupos" element={<Grupos isMobile={isMobile}/>} />
                     <Route path="estudiantes" element={<Estudiantes isMobile={isMobile}/>} />
                     <Route path="maestros" element={<Maestros isMobile={isMobile}/>} />
+                    <Route path="usuario" element={<Usuario isMobile={isMobile}/>} />
                 </Routes>
         </div>
         <div className='AdminNav'>

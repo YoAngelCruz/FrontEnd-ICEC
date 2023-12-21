@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import HeaderInicio from '../../../common/headerDesktop';
 import HeaderMobile from '../../../common/headerMobile';
+import apic from '../../../../services/api';
 import './grupos.css';
 import {HiMagnifyingGlass, HiPencilSquare, HiTrash, HiPencil} from 'react-icons/hi2';
 import {HiPlus, HiArrowRight, HiArrowLeft} from 'react-icons/hi';
@@ -35,11 +36,30 @@ function union(a, b) {
 }
 
 function Grupos({isMobile}) {
+  const [gruposGet, setGruposGet] = useState(false);
   const [openEditList, setOpenEditList] = useState(false);
   const [openEditGrupo, setOpenEditGrupo] = useState(false);
   const [openEditMaestro, setOpenEditMaestro] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [openAdd, setOpenAdd] = useState(false);
+
+   //GET
+   useEffect(() => {
+    fetchGrupos();
+  }, []);
+
+  const fetchGrupos = async () => {
+    try {
+      const gruposData = await apic.get('/grupos/');
+      setGruposGet(gruposData);
+      console.log("Respuesta de la API:", gruposData);
+      console.log("json grupos: ", gruposGet);
+    } catch (error) {
+      console.error('Error al obtener los grupos:', error);
+    }
+  };
+
+
 
   const grupos=[{"id":'1','nombre':'G001', 'maestro':'Christian Amaro Reyes', 'alumnos':[{'id':'1', 'nombre':'Arriola Peztña Heriberto'},{'id':'2', 'nombre':'Anahí Ximena Sanchez Vasquez'}, {'id':'3', 'nombre':'Avila Muñoz Jaime Ivan'}, {'id':'4', 'nombre':'Heribert'}]},
                 {"id":'2','nombre':'G002', 'maestro':'Jose Manuel Reyes', 'alumnos':[{'id':'1', 'nombre':'Anahí Ximena Sanchez Vasquez'},{'id':'2', 'nombre':'Arriola Peztña Heriberto'}, {'id':'3', 'nombre':'Avila Muñoz Jaime Ivan'}]},

@@ -1,91 +1,106 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './login.css';
 import AuthService from '../../../services/AuthServices';
-import Cookies from 'universal-cookie';
-import { isExpired, decodeToken } from "react-jwt";
+import { useAuth } from '../../../utils/AuthContext';
+import logo from '../../../assets/img/logo1.png'
 
+const loginAPI = new AuthService('https://icec-auth-yoangelcruz.cloud.okteto.net/api');
 
-const cookie = new Cookies();
+function Login(isMobile) {
+  const navigate = useNavigate();
+  const { authLogin, tipoUsuario } = useAuth();
 
-const login = new AuthService('https://example.com/api/auth');
-//const jwt = require('jsonwebtoken');
-
-function Login() {
-  const ttoken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IkNocmlzdGlhbkFSQGdtYWlsLmNvbSIsInRpcG9Vc3VhcmlvIjoicHJvZmVzb3IiLCJpYXQiOjE3MDA4ODc4OTAsImV4cCI6MTcwMDkwNTg5MH0.2AHWZHt2BGb70ZT4kHmpMETFyJCQW4-TR2oMwN7Kc58';
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
-  };
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-  const changeHref = (tipoUsuario) =>{
-    window.location.href =
-      tipoUsuario === 'alumno' ? './estudiantes/home' :
-      tipoUsuario === 'profesor' ? './maestros/home' :
-      tipoUsuario === 'administrador' ? './admin/home' :
-      window.location.href;
-  };
-
+  const [formData, setFormData] = useState({
+    email: '',
+    contraseña: '',
+  });
+  
   useEffect(() => {
-    const myDecodedToken = isExpired(ttoken);
-    console.log("tipo de usuario ", cookie.get('userType',{path:"/"}))
-    if (!myDecodedToken) {
-      alert("ya estas logeado");
-      changeHref('profesor');
-    }
-  }, []);
+    const verification = () => {
+      switch (tipoUsuario) {
+        case 'alumno':
+          navigate('/estudiantes/home');
+          break;
+        case 'profesor':
+          navigate('/maestros/home');
+          break;
+        case 'administrador':
+          navigate('/admin/home');
+          break;
+        default:
+          // Manejo para otros casos si es necesario
+          break;
+      }
+    };
 
-  const handleLogin = async() => {
-    const data={'email': username,'contraseña': password};
-    console.log(data);
-    try{
-      const response = await login.login(data);
-      const { userData, tipoUsuario, token } = response;
-      // Almacenar en cookies
-      cookie.set('userId', userData.id,{path:"/"});
-      cookie.set('userType', tipoUsuario,{path:"/"});
-      cookie.set('token', token,{path:"/"});
-      console.log(cookie.get('userId',{path:"/"}));
-      changeHref(cookie.get('userType',{path:"/"}));
-  }catch (error) {
-      alert(error);
-    }
+    // Verifica el tipo de usuario cuando el componente se monta
+    verification();
+  }, [tipoUsuario, navigate]); 
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
+
+  //API ---
+  const handleLogin = async() => {
+    console.log(formData); 
+    try{
+      const response = await loginAPI.login(formData);
+      const { userData, tipoUsuario, token } = response;
+      // Llama a la función de inicio de sesión del contexto de autenticación
+      console.log('-----------------',tipoUsuario);
+      const expiresIn =2 * 3600;
+      authLogin(userData, tipoUsuario, token, expiresIn);
+
+      switch (tipoUsuario) {
+        case 'alumno':
+          alert("bienvenido estudiante");
+          navigate('/estudiantes/home');
+          break;
+        case 'profesor':
+          alert("bienvenido maestro");
+          navigate('/maestros/home');
+          break;
+        case 'administrador':
+          alert("bienvenido administrador");
+          navigate('/admin/home');
+          break;
+        default:
+          // Manejo para otros casos si es necesario
+          break;
+      }
+    }catch (error) {
+        alert(error);
+      }
+  };
+
 
   return (
-    <div className="login-container">
-      <div className="left-panel">
-        <h2>Iniciar Sesión</h2>
-        <form>
-          <div className="form-group">
-            <label htmlFor="username">Usuario:</label>
-            <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={handleUsernameChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Contraseña:</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={handlePasswordChange}
-            />
-          </div>
-          <button type="button" onClick={handleLogin}>
-            Iniciar Sesión
-          </button>
-        </form>
-      </div>
-      <div className="right-panel">
-        <p>¡Bienvenido!</p>
+    <div className="loginCont">
+      <div className='loginModularCont'>
+        <div className="leftPanel">
+          <img src={logo} alt="logo" width={'100%'} />
+        </div>
+        <div className="rightPanel">
+          <p className='loginTitle'>Iniciar Sesión</p>
+          <form>
+            <div className="form-group">
+              <label>Email:</label><br/>
+              <input type="text" name="email" onChange={handleChange} value={formData.email} style={{width: '100%'}}/>
+            </div>
+            <div className="form-group">
+              <label>Password:</label><br/>
+              <input type="password" name="contraseña" onChange={handleChange} value={formData.contraseña} style={{width: '100%'}}/>
+            </div>
+            <button type="button" onClick={handleLogin} style={{width: '100%'}}>
+              Iniciar sesión
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

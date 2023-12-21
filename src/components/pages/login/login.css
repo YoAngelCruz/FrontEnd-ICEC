@@ -1,68 +1,108 @@
-.login-container {
-    display: flex;
-    max-width: 800px; /* Ancho total del contenedor */
-    margin: 0 auto;
-    border-radius: 5px;
-    overflow: hidden;
-    
-  }
-  
-  .login-container .left-panel {
-    flex: 1;
-    background: rgba(255, 255, 255, 0.8); /* Fondo transparente en la mitad izquierda */
-    padding: 20px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .login-container .right-panel {
-    flex: 1;
-    padding: 20px;
-    background-color: rgba(169, 169, 169, 0.5);
-    background: url('../../../assets/img/logo1.png') center/cover no-repeat;
-    background-size: 20% auto;
-    background-position: center bottom;
+.loginCont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  border-radius: 5px;
+  overflow: hidden;
+  height: 100vh;
+}
 
+.leftPanel {
+  grid-area: leftPanel;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: -15vh;
+  padding: 0 30%;
+}
+
+.rightPanel {
+  grid-area: rightPanel;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 45px 35px;
+  border-radius: 20px;
+  min-width: 60vw;
+}
+
+.rightPanel form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.rightPanel form .form-group {
+  text-align: left;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.loginModularCont {
+  padding: 10% 0;
+  margin: 5vw;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-areas:    
+    "leftPanel"
+    "rightPanel";
+  gap: 0px;
+}
+
+.loginCont form {
+  display: flex;
+  flex-direction: column;
+}
+
+.loginCont .form-group {
+  margin-bottom: 10px;
+}
+
+.loginTitle {
+  color: black;
+  font-size: 25px;
+  font-weight: 600;
+  margin-bottom: 25px;
+}
+
+.loginCont input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.loginCont button {
+  background-color: #073cc3;
+  color: #fff;
+  border: none;
+  border-radius: 15px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 30px;
+}
+
+.loginCont button:hover {
+  background-color: #0b62c0;
+}
+@media (min-width: 600px){
+  .loginModularCont{
+    grid-template-areas:
+    "leftPanel rightPanel";
+    grid-template-columns: repeat(2, 1fr);
+    padding: 1px;
   }
 
-  .login-container .right-panel p {
-    color: white; /* Color del texto "Bienvenido" blanco */
-  font-size: 40px;
+  .leftPanel {
+    margin-top: 0px;
+    padding: 0 15%;
+  }
 
-
-
+  .rightPanel {
+    padding: 65px 35px;
+    min-width: 10vw;
   }
-  .login-container form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .login-container .form-group {
-    margin-bottom: 10px;
-  }
-  
-  .login-container label {
-    font-weight: bold;
-  }
-  
-  .login-container input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    margin-top: 5px;
-  }
-  
-  .login-container button {
-    background-color: #0c4e94;
-    color: #fff;
-    border: none;
-    border-radius: 15px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 10px;
-  }
-  
-  .login-container button:hover {
-    background-color: #0056b3;
-  }
+}

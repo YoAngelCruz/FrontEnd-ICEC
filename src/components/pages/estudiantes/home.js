@@ -23,16 +23,7 @@ function Home({isMobile}) {
       }, []);
     const options = { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' };
     const formattedDate = currentDate.toLocaleDateString('es-ES', options);
-    
-    const fetchLuces = async () => {
-        try {
-          const cursosPasadosData = await apic.get('/luces/');
-          setCursosPasados(cursosPasadosData.luces);
-          console.log("Respuesta de la API:", cursosPasadosData);
-        } catch (error) {
-          console.error('Error al obtener las luces:', error);
-        }
-      };
+
 
   return (
     <div>

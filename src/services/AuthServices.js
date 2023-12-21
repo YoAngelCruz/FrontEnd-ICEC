@@ -8,7 +8,7 @@ class AuthService {
 
   async login(json) {
     const url = `${this.baseUrl}/login`;
-    const response = await axios.post(url, { json });
+    const response = await axios.post(url, json );
     return response.data;
   }
 
