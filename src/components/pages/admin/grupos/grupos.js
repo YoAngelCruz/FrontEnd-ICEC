@@ -38,6 +38,7 @@ function union(a, b) {
 function Grupos({isMobile}) {
   const [grupos, setGrupos] = useState([]);
   const [maestros, setMaestros] = useState([]);
+  const [estudiantes, setEstudiantes] = useState([]);
   const [alumGrupos, setAlumGrupos] = useState([]);
   const [openEditDescrip, setOpenEditDescrip] = useState(false);
   const [openEditMaestro, setOpenEditMaestro] = useState(false);
@@ -55,6 +56,7 @@ function Grupos({isMobile}) {
   useEffect(() => {
     fetchGrupos();
     fetchProfesores();
+    fetchAlumnos();
   }, []);
 
   const fetchGrupos = async () => {
@@ -94,15 +96,20 @@ function Grupos({isMobile}) {
       console.error('Error al obtener alumnos por grupo:', error);
     }
   };
-
-
-
-  //aqui del api se van a hacer una query con todos los alumnos menos los del ai que estén en el json de los grupo
-  const alumnosNew=[{"id":"5",'nombre':'Angel Mioses Cruz'}, {'id': '6','nombre': "Yolotzin Groth"}, {'id':'7', 'nombre':'Bryan Valerio'},{"id":"8",'nombre':'Anl Mioses Cruz'},{"id":"9",'nombre':'Angel Mies Cruz'}]
+  const fetchAlumnos = async () => {
+    try {
+      const estudiantesData = await apic.get('/alumnos/');
+      setEstudiantes(estudiantesData);
+      console.log("Respuesta de la API:", estudiantesData);
+      console.log("json estuiantes: ", estudiantes);
+    } catch (error) {
+      console.error('Error al obtener los estudiantes:', error);
+    }
+  };
 
   const [checked, setChecked] = useState([]);
-  const [left, setLeft] = useState(alumnosNew.map(alumno => alumno.nombre));
-  const [right, setRight] = useState([4, 5, 6, 7]);
+  const [left, setLeft] = useState([]);
+  const [right, setRight] = useState([]);
 
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
@@ -261,16 +268,38 @@ function Grupos({isMobile}) {
   };
 
   //Abrir y cerrar dialog editar lista
-  const handleClickOpenEditList = (id) => {
+  const handleClickOpenEditList = async (id) => {
     console.log(alumGrupos[id]);
+    console.log('----left: ',left);
+    setLeft([]);
+    // Verificar si ya se han cargado los alumnos para este grupo
     if (alumGrupos[id]) {
-      setRight(alumGrupos[id].map((alumno) => alumno.nombre));
+      setLeft([]);
+      setLeft([]);
+      console.log('----left 2: ',left);
+      const alumnosDelGrupo = alumGrupos[id].map((alumno) => ({ id_alumno: alumno.id, nombre: alumno.nombre }));
+
+      // Obtener todos los alumnos y filtrar los que ya están en el grupo
+      const todosLosAlumnos = estudiantes.map((alumno) => ({ id_alumno: alumno.id, nombre: alumno.nombre }));
+      const alumnosEnRight = right;
+
+      // Filtrar los alumnos que ya están en el grupo
+      const alumnosEnLeft = todosLosAlumnos.filter(
+        (alumno) => !alumnosDelGrupo.some((alumnoDelGrupo) => alumnoDelGrupo.id_alumno === alumno.id_alumno) && !alumnosEnRight.some((alumnoRight) => alumnoRight.id_alumno === alumno.id_alumno)
+      );
+      console.log('lista izquierda ', alumnosEnLeft);
+
+      setLeft(alumnosEnLeft);
+      setRight(alumnosDelGrupo);
+      console.log('----left 3: ',left);
       setOpenEditList(true);
     } else {
-      fetchAlumnosByGrupo(id);
+      // Si no se han cargado los alumnos para este grupo, cargarlos
+      await fetchAlumnosByGrupo(id);
     }
   };
-
+  
+  
   const handleCloseEditList = () => {
     setOpenEditList(false);
   };
@@ -334,11 +363,11 @@ function Grupos({isMobile}) {
       {items.map((value) => {
         const labelId = `transfer-list-all-item-${value}-label`;
           return (
-            <ListItem key={value} role="listitem" button onClick={handleToggle(value)}>
+            <ListItem key={value.id_alumno} role="listitem" button onClick={handleToggle(value)}>
               <ListItemIcon>
                 <Checkbox checked={checked.indexOf(value) !== -1} tabIndex={-1} disableRipple inputProps={{"aria-labelledby": labelId}}/>
               </ListItemIcon>
-              <ListItemText id={labelId} primary={value} />
+              <ListItemText id={labelId} primary={value.nombre} />
             </ListItem>
           );
         })}
