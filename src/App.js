@@ -1,4 +1,5 @@
 import './App.css';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 import { AuthProvider, useAuth, isTokenExpired } from './utils/AuthContext';
 import Estudiantes from './components/pages/estudiantes';
@@ -9,6 +10,12 @@ import Login from './components/pages/login/';
 
 const PrivateRoute = ({ element, allowedTypes }) => {
   const { isAuthenticated, tipoUsuario } = useAuth();
+  /*
+  const { authLogout } = useAuth();
+  authLogout();
+  useEffect(() => {
+    authLogout();
+  }, []);*/
   
   if (!isAuthenticated) {
     return <Navigate to="/login" />;

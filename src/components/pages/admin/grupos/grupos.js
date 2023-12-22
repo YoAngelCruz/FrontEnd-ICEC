@@ -36,36 +36,67 @@ function union(a, b) {
 }
 
 function Grupos({isMobile}) {
-  const [gruposGet, setGruposGet] = useState(false);
-  const [openEditList, setOpenEditList] = useState(false);
-  const [openEditGrupo, setOpenEditGrupo] = useState(false);
+  const [grupos, setGrupos] = useState([]);
+  const [maestros, setMaestros] = useState([]);
+  const [alumGrupos, setAlumGrupos] = useState([]);
+  const [openEditDescrip, setOpenEditDescrip] = useState(false);
   const [openEditMaestro, setOpenEditMaestro] = useState(false);
+  const [openEditList, setOpenEditList] = useState(false);
+  const [openEditFechaInicio, setOpenEditFechaInicio] = useState(false);
+  const [openEditFechaFin, setOpenEditFechaFin] = useState(false);
+  const [editMaestro, setEditMaestro] = useState(false);
+
   const [openDelete, setOpenDelete] = useState(false);
   const [openAdd, setOpenAdd] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredGrupos, setFilteredGrupos] = useState([]);
 
    //GET
-   useEffect(() => {
+  useEffect(() => {
     fetchGrupos();
+    fetchProfesores();
   }, []);
 
   const fetchGrupos = async () => {
     try {
       const gruposData = await apic.get('/grupos/');
-      setGruposGet(gruposData);
+      setGrupos(gruposData);
+      gruposData.forEach((grupo) => {
+        fetchAlumnosByGrupo(grupo.id_grupo);
+      });
       console.log("Respuesta de la API:", gruposData);
-      console.log("json grupos: ", gruposGet);
+      console.log("json grupos: ", grupos);
     } catch (error) {
       console.error('Error al obtener los grupos:', error);
     }
   };
 
+  const fetchProfesores = async () => {
+    try {
+      const profesoresData = await apic.get('/profesores/');
+      setMaestros(profesoresData);
+      console.log("Respuesta de la API:", profesoresData);
+      console.log("json maestros: ", maestros);
+    } catch (error) {
+      console.error('Error al obtener maestros:', error);
+    }
+  };
+
+  const fetchAlumnosByGrupo = async (id) => {
+    try {
+      const alumGrupoData = await apic.get(`/grupos/${id}/alumnos`);
+      setAlumGrupos((prevAlumGrupos) => ({
+        ...prevAlumGrupos,
+        [id]: alumGrupoData,
+      }));
+      console.log(`Respuesta de la API para el grupo ${id}:`, alumGrupoData);
+    } catch (error) {
+      console.error('Error al obtener alumnos por grupo:', error);
+    }
+  };
 
 
-  const grupos=[{"id":'1','nombre':'G001', 'maestro':'Christian Amaro Reyes', 'alumnos':[{'id':'1', 'nombre':'Arriola Peztña Heriberto'},{'id':'2', 'nombre':'Anahí Ximena Sanchez Vasquez'}, {'id':'3', 'nombre':'Avila Muñoz Jaime Ivan'}, {'id':'4', 'nombre':'Heribert'}]},
-                {"id":'2','nombre':'G002', 'maestro':'Jose Manuel Reyes', 'alumnos':[{'id':'1', 'nombre':'Anahí Ximena Sanchez Vasquez'},{'id':'2', 'nombre':'Arriola Peztña Heriberto'}, {'id':'3', 'nombre':'Avila Muñoz Jaime Ivan'}]},
-                {"id":'3','nombre':'G003', 'maestro':'Ana Bolena ', 'alumnos':[{'id':'1', 'nombre':'Arriola Peztña Heriberto'},{'id':'2', 'nombre':'Anahí Ximena Sanchez Vasquez'}, {'id':'3', 'nombre':'Avila Muñoz Jaime Ivan'}]}]
-  
-  const maestros = [{'id': '1', 'nombre': 'Christian Amaro Reyes'}, {'id': '2', 'nombre': 'Jose Manuel Reyes'}, {'id': '3', 'nombre': 'Ana Bolena'}]
+
   //aqui del api se van a hacer una query con todos los alumnos menos los del ai que estén en el json de los grupo
   const alumnosNew=[{"id":"5",'nombre':'Angel Mioses Cruz'}, {'id': '6','nombre': "Yolotzin Groth"}, {'id':'7', 'nombre':'Bryan Valerio'},{"id":"8",'nombre':'Anl Mioses Cruz'},{"id":"9",'nombre':'Angel Mies Cruz'}]
 
@@ -76,10 +107,11 @@ function Grupos({isMobile}) {
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
 
-  const [editGrupo, setEditGrupo] = useState({ id: '', nombre: '' });
-  const [editMaestro, setEditMaestro] = useState({ id: '', maestro: '' });
+
   const [grupoDelete, setGrupoDelete] = useState({ id: '', nombre: '' });
-  const [grupoAdd, setGrupoAdd] = useState({nombre: '' });
+  const [grupoAdd, setGrupoAdd] = useState({descripcion: '', id_profesor:'', id_modulo:'', fecha_inicio:'', fecha_fin:'' });
+  const [idEditGrupo, setIdEditGrupo] = useState();
+  const [editGrupo, setEditGrupo] = useState({descripcion: '', id_profesor:'', id_modulo:'', fecha_inicio:'', fecha_fin:'' });
 
   const theme = createTheme({
     components: {
@@ -100,28 +132,86 @@ function Grupos({isMobile}) {
     },
   });
   
-  //Abrir y cerrar dialog editar nombre grupo
-  const handleClickOpenEditGrupo = (id, nombre) => {
-    setEditGrupo({ id, nombre });
-    setOpenEditGrupo(true);
+  // Función para filtrar estudiantes por nombre
+  const filterGrupos = () => {
+    const filtered = grupos.filter(grupos =>
+      grupos.descripcion.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredGrupos(filtered);
   };
 
-  const handleCloseEditGrupo = () => {
-    setOpenEditGrupo(false);
-  };
-  const handleChangeEditGrupo = (event) => {
-    setEditGrupo({ ...editGrupo, nombre: event.target.value });
+  //Abrir y cerrar dialog editar descripcion grupo
+  const handleClickOpenEditDescrip = (grupo) => {
+    const {id_grupo, descripcion, id_profesor, id_modulo, fecha_inicio, fecha_fin} = grupo;
+    setIdEditGrupo(id_grupo);
+    setEditGrupo({descripcion, id_profesor, id_modulo, fecha_inicio, fecha_fin});
+    setOpenEditDescrip(true);
   };
 
-  const saveEditGrupo = () => {
+  const handleCloseEditDescrip = () => {
+    setOpenEditDescrip(false);
+  };
+  const handleChangeEditDescrip = (event) => {
+    setEditGrupo({ ...editGrupo, descripcion: event.target.value });
+  };
+
+  const saveEditDescrip = () => {
+    console.log(idEditGrupo);
     console.log(editGrupo);
-    handleCloseEditGrupo();
+    handleCloseEditDescrip();
 
   };
+
+    //Abrir y cerrar dialog editar fecha inicio grupo
+    const handleClickOpenEditFechaInicio = (grupo) => {
+      const {id_grupo, descripcion, id_profesor, id_modulo, fecha_inicio, fecha_fin} = grupo;
+      setIdEditGrupo(id_grupo);
+      setEditGrupo({descripcion, id_profesor, id_modulo, fecha_inicio, fecha_fin});
+      setOpenEditFechaInicio(true);
+    };
+  
+    const handleCloseEditFechaInicio = () => {
+      setOpenEditFechaInicio(false);
+    };
+    const handleChangeEditFechaInicio = (event) => {
+      setEditGrupo({ ...editGrupo, fecha_inicio: event.target.value });
+    };
+  
+    const saveEditFechaInicio = () => {
+      console.log(idEditGrupo);
+      console.log(editGrupo);
+      handleCloseEditFechaInicio();
+  
+    };
+
+    //Abrir y cerrar dialog editar fecha fin grupo
+    const handleClickOpenEditFechaFin = (grupo) => {
+      const {id_grupo, descripcion, id_profesor, id_modulo, fecha_inicio, fecha_fin} = grupo;
+      setIdEditGrupo(id_grupo);
+      setEditGrupo({descripcion, id_profesor, id_modulo, fecha_inicio, fecha_fin});
+      setOpenEditFechaFin(true);
+    };
+  
+    const handleCloseEditFechaFin = () => {
+      setOpenEditFechaFin(false);
+    };
+    const handleChangeEditFechaFin = (event) => {
+      setEditGrupo({ ...editGrupo, fecha_fin: event.target.value });
+    };
+  
+    const saveEditFechaFin = () => {
+      console.log(idEditGrupo);
+      console.log(editGrupo);
+      handleCloseEditFechaFin();
+  
+    };
 
   //Abrir y cerrar dialog editar nombre maestro
-  const handleClickOpenEditMaestro = (id, maestro) => {
-    setEditMaestro({ id, maestro });
+  const handleClickOpenEditMaestro = (grupo) => {
+    const {id_grupo, descripcion, id_profesor, id_modulo, fecha_inicio, fecha_fin} = grupo;
+    setIdEditGrupo(id_grupo);
+    setEditGrupo({descripcion, id_profesor, id_modulo, fecha_inicio, fecha_fin});
+    setEditMaestro({ id_grupo, id_profesor });
     setOpenEditMaestro(true);
   };
 
@@ -129,11 +219,11 @@ function Grupos({isMobile}) {
     setOpenEditMaestro(false);
   };
   const handleChangeEditMaestro = (event) => {
-    setEditMaestro({ ...editMaestro, maestro: event.target.value }); 
+    setEditGrupo({ ...editGrupo, id_profesor: Number(event.target.value)  }); 
   };
 
   const saveEditMaestro = () =>{
-    console.log(editMaestro);
+    console.log(editGrupo);
     handleCloseEditMaestro();
   };
 
@@ -171,9 +261,14 @@ function Grupos({isMobile}) {
   };
 
   //Abrir y cerrar dialog editar lista
-  const handleClickOpenEditList = (alumnos) => {
-    setRight(alumnos.map(alumno => alumno.nombre));
-    setOpenEditList(true);
+  const handleClickOpenEditList = (id) => {
+    console.log(alumGrupos[id]);
+    if (alumGrupos[id]) {
+      setRight(alumGrupos[id].map((alumno) => alumno.nombre));
+      setOpenEditList(true);
+    } else {
+      fetchAlumnosByGrupo(id);
+    }
   };
 
   const handleCloseEditList = () => {
@@ -260,8 +355,8 @@ function Grupos({isMobile}) {
           
           <div className='searchCont' style={{display:"flex", width: '100%', padding: '7px', marginBottom: '40px', justifyContent: 'space-between'}}>
             <Paper component="form" sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '40vw', borderRadius:'50px' }}>
-                <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Buscar alumno" inputProps={{ 'aria-label': 'search google maps' }}/>
-                <IconButton type="button" sx={{ p: '10px', color:'white', backgroundColor:'#073cc3','&:hover': {backgroundColor: '#05236f',}, }} aria-label="search">
+                <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Buscar alumno" inputProps={{ 'aria-label': 'search google maps' }} value={searchTerm} onChange={(e) => {setSearchTerm(e.target.value); filterGrupos(e.target.value);}}/>
+                <IconButton type="button" sx={{ p: '10px', color:'white', backgroundColor:'#073cc3','&:hover': {backgroundColor: '#05236f',}, }} aria-label="search" onClick={filterGrupos}>
                     <HiMagnifyingGlass />
                 </IconButton>
             </Paper>
@@ -273,25 +368,48 @@ function Grupos({isMobile}) {
           </div>
           
           <span>&emsp; * Se recomienda usar vista para ordenador<br/><br/></span>
-          <div className=' genericCont '>
-            <table style={{width:'100%', padding:'0px 10px', fontWeight:'bold'}}>
-                <tr><td width="30%">Nombre</td><td width="40%" style={{padding: '0px 0px 5px 10px'}}>Maestro</td><td width="17%" align='center'>Agregar alumnos</td><td width="13%" align='center'>Eliminar</td></tr>
-            </table> 
-            <table style={{width:'100%', backgroundColor:'white', borderRadius:'15px', padding:'10px'}}>
-                {grupos.map((gruposObj) => ( 
-                    <tr key={gruposObj.id}>
-                    <td width="30%" style={{padding: '3px 0px'}}>{gruposObj.nombre}&emsp;
-                    <button className='actionButton' title='Editar nombre del grupo' onClick={() => handleClickOpenEditGrupo(gruposObj.id, gruposObj.nombre)}><HiPencilSquare/></button></td>
-                    <td width="40%" style={{padding: '3px 10px',borderLeft: '1px solid #888'}}>{gruposObj.maestro}&emsp;&emsp;
-                    <button className='actionButton' title='Editar nombre del maestro' onClick={() => handleClickOpenEditMaestro(gruposObj.id, gruposObj.maestro)}><HiPencilSquare/></button></td>
-                    <td width="17%" align='center' style={{borderLeft: '1px solid #888', padding: '0px 0px'}}>
-                      <button className='actionButton editButton' onClick={() => handleClickOpenEditList(gruposObj.alumnos)}><HiPencil/></button></td>
-                    <td width="13%" align='center' style={{borderLeft: '1px solid #888', padding: '0px 0px'}}>
-                      <button className='actionButton deleteButton' onClick={() => handleClickOpenDelete(gruposObj.id, gruposObj.nombre)}><HiTrash/></button></td>
-                    </tr>
-                ))}
-            </table>
-          </div>
+            <div className='tableContainer'>
+              <table cellSpacing='0px' style={{minWidth:'100%'}}>
+                  <tr style={{fontWeight:'bold'}}>
+                    <td align='center' style={{padding:'10px'}}>Descripcion</td>
+                    <td align='center' style={{padding:'10px'}}>Profesor</td> <td align='center' style={{padding:'10px'}}>Modulo</td> 
+                    <td align='center' style={{padding:'10px'}}>Fecha inicio</td> <td align='center' style={{padding:'10px'}}>Fecha Final</td> 
+                    <td align='center' style={{padding:'10px'}}>Alumnos</td> <td align='center' style={{padding:'10px'}}>Eliminar</td>
+                  </tr>
+                  
+                  {(filteredGrupos.length > 0 ? filteredGrupos : grupos).map((GruposObj, index) => ( 
+                      <tr key={GruposObj.id_grupo}>
+                        <td style={{backgroundColor:'white', padding: '5px 10px', width:'auto-fit', whiteSpace: 'nowrap', borderTopLeftRadius: index === 0 ? '15px':'0px', borderBottomLeftRadius: index === maestros.length-1 ? '15px':'0px'}}>
+                          {GruposObj.descripcion}&emsp;
+                          <button className='actionButton' title='Editar nombre' onClick={() => handleClickOpenEditDescrip(GruposObj)}><HiPencilSquare/></button>
+                        </td>
+                        <td style={{backgroundColor:'white', borderLeft: '1px solid #888', padding: '5px 10px', width:'auto-fit', whiteSpace: 'nowrap'}}>
+                        {maestros.find(maestro => maestro.id === GruposObj.id_profesor)?.nombre}
+                          &emsp;
+                          <button className='actionButton' title='Editar telefono' onClick={() => handleClickOpenEditMaestro(GruposObj)}><HiPencilSquare/></button>
+                        </td>
+                        <td style={{backgroundColor:'white', borderLeft: '1px solid #888', padding: '5px 10px', width:'auto-fit', whiteSpace: 'nowrap'}}>
+                          {GruposObj.id_modulo}&emsp;
+                          <button className='actionButton' title='Editar email' ><HiPencilSquare/></button>
+                        </td>
+                        <td style={{backgroundColor:'white', borderLeft: '1px solid #888', padding: '5px 10px', width:'auto-fit', whiteSpace: 'nowrap'}}>
+                          {GruposObj.fecha_inicio}&emsp;
+                          <button className='actionButton' title='Editar telefono' onClick={() => handleClickOpenEditFechaInicio(GruposObj)}><HiPencilSquare/></button>
+                        </td>
+                        <td style={{backgroundColor:'white', borderLeft: '1px solid #888', padding: '5px 10px', width:'auto-fit', whiteSpace: 'nowrap'}}>
+                          {GruposObj.fecha_fin}&emsp;
+                          <button className='actionButton' title='Editar email' onClick={() => handleClickOpenEditFechaFin(GruposObj)}><HiPencilSquare/></button>
+                        </td>
+                        <td style={{backgroundColor:'white', borderLeft: '1px solid #888', padding: '2px 1px', width:'auto-fit'}} align='center'>
+                          <button className='actionButton editButton' onClick={() => handleClickOpenEditList(GruposObj.id_grupo)}><HiPencil/></button>
+                        </td>
+                        <td style={{backgroundColor:'white', borderLeft: '1px solid #888', padding: '2px 10px', width:'auto-fit', borderBottomRightRadius: index === maestros.length-1 ? '15px': '0', borderTopRightRadius: index === 0 ? '15px':'0px'}} align='center'>
+                          <button className='actionButton deleteButton' onClick={() => handleClickOpenDelete(GruposObj.id, GruposObj.nombre)}><HiTrash/></button>
+                        </td>
+                      </tr>
+                  ))}
+              </table>
+            </div>
           {/* ------------ Dialog Editar lista ------------ */}
           <ThemeProvider theme={theme}>
             <Dialog open={openEditList} onClose={handleCloseEditList}>
@@ -323,18 +441,18 @@ function Grupos({isMobile}) {
 
           {/* ------------ Dialog Editar nombre grupo ------------ */}
           <ThemeProvider theme={theme}>
-            <Dialog open={openEditGrupo} onClose={handleCloseEditGrupo}>
+            <Dialog open={openEditDescrip} onClose={handleCloseEditDescrip}>
               <DialogContent>
-                <p style={{color:'white', fontWeight:'bold', letterSpacing:'0.03em', marginBottom:'7px'}}>Editar nombre de grupo</p>
+                <p style={{color:'white', fontWeight:'bold', letterSpacing:'0.03em', marginBottom:'7px'}}>Editar descripcion de grupo</p>
                 <div style={{backgroundColor:'white', borderRadius:'8px', padding:'5px 9px'}}>
                     <div style={{margin:'5px'}}>
-                    <p style={{marginTop:'15px'}}>&nbsp;Nombre</p>
-                        <input className='inputTextDialog' type='text' value={editGrupo.nombre} onChange={handleChangeEditGrupo} name='editGrupo'/>
-                        <p style={{fontSize:'12px'}}>&nbsp; {editGrupo.nombre}</p>
+                    <p style={{marginTop:'15px'}}>&nbsp;Descripcion</p>
+                        <input className='inputTextDialog' type='text' value={editGrupo.descripcion} onChange={handleChangeEditDescrip} name='editGrupo'/>
+                        <p style={{fontSize:'12px'}}>&nbsp; {editGrupo.descripcion}</p>
                         <br/>
                     </div>
-                    <Button autoFocus onClick={handleCloseEditGrupo}>Cancelar</Button>
-                    <Button onClick={saveEditGrupo} autoFocus>Guardar</Button>
+                    <Button autoFocus onClick={handleCloseEditDescrip}>Cancelar</Button>
+                    <Button onClick={saveEditDescrip} autoFocus>Guardar</Button>
                 </div>                                    
               </DialogContent>
             </Dialog>
@@ -353,11 +471,49 @@ function Grupos({isMobile}) {
                             <option value={maestrosObj.id}>{maestrosObj.nombre}</option>
                           ))}
                         </select>
-                        <p style={{fontSize:'12px'}}>&nbsp; {editMaestro.maestro}</p>
+                        <p style={{fontSize:'12px'}}>&nbsp; {editGrupo.id_profesor}</p>
                         <br/>
                     </div>
                     <Button autoFocus onClick={handleCloseEditMaestro}>Cancelar</Button>
                     <Button onClick={saveEditMaestro} autoFocus>Guardar</Button>
+                </div>                                    
+              </DialogContent>
+            </Dialog>
+          </ThemeProvider>
+
+          {/* ------------ Dialog Editar fecha inicio ------------ */}
+          <ThemeProvider theme={theme}>
+            <Dialog open={openEditFechaInicio} onClose={handleCloseEditFechaInicio}>
+              <DialogContent>
+                <p style={{color:'white', fontWeight:'bold', letterSpacing:'0.03em', marginBottom:'7px'}}>Editar fecha de inicio de grupo</p>
+                <div style={{backgroundColor:'white', borderRadius:'8px', padding:'5px 9px'}}>
+                    <div style={{margin:'5px'}}>
+                    <p style={{marginTop:'15px'}}>&nbsp;Fecha</p>
+                        <input className='inputTextDialog' type='text' value={editGrupo.fecha_inicio} onChange={handleChangeEditFechaInicio} name='editFechaInicio'/>
+                        <p style={{fontSize:'12px'}}>&nbsp; {editGrupo.fecha_inicio}</p>
+                        <br/>
+                    </div>
+                    <Button autoFocus onClick={handleCloseEditFechaInicio}>Cancelar</Button>
+                    <Button onClick={saveEditFechaInicio} autoFocus>Guardar</Button>
+                </div>                                    
+              </DialogContent>
+            </Dialog>
+          </ThemeProvider>
+
+          {/* ------------ Dialog Editar fecha fin ------------ */}
+          <ThemeProvider theme={theme}>
+            <Dialog open={openEditFechaFin} onClose={handleCloseEditFechaFin}>
+              <DialogContent>
+                <p style={{color:'white', fontWeight:'bold', letterSpacing:'0.03em', marginBottom:'7px'}}>Editar fecha de fin de grupo</p>
+                <div style={{backgroundColor:'white', borderRadius:'8px', padding:'5px 9px'}}>
+                    <div style={{margin:'5px'}}>
+                    <p style={{marginTop:'15px'}}>&nbsp;Fecha</p>
+                        <input className='inputTextDialog' type='text' value={editGrupo.fecha_fin} onChange={handleChangeEditFechaFin} name='editFechaFin'/>
+                        <p style={{fontSize:'12px'}}>&nbsp; {editGrupo.fecha_fin}</p>
+                        <br/>
+                    </div>
+                    <Button autoFocus onClick={handleCloseEditFechaFin}>Cancelar</Button>
+                    <Button onClick={saveEditFechaFin} autoFocus>Guardar</Button>
                 </div>                                    
               </DialogContent>
             </Dialog>
