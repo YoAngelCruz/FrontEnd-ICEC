@@ -69,11 +69,11 @@
 }
 
 .inputTextDialog{
-  background-color: #c7c7c7;
+  background-color: #edecec;
   border: solid 1.5px #444;
   border-radius: 10px;
   font-size: 15px;
-  padding: 3px 8px;
+  padding: 10px 15px;
   font-family:'Product Sans', sans-serif;
   margin: 5px 0px;
 }

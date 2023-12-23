@@ -65,16 +65,14 @@ function Estudiantes({isMobile}) {
 
   const UpdateAlumnos = async (id, estudiantes) => {
     try {
-      console.log(`/alumnos/${id}`);
       const estudiantesUpdate = await apic.put(`/alumnos/${id}`, estudiantes);
       console.log('Estudiante actualizado correctamente:', estudiantesUpdate);
     } catch (error) {
-      console.error('Error al eliminar el estudiante:', error);
+      console.error('Error al actualizar  el estudiante:', error);
     }
   };
   const UpdatePassAlumnos = async (id, contraseña) => {
     try {
-      console.log(`/alumnos/${id}`);
       const estudiantesUpdate = await apic.put(`/alumnos/pass/${id}`, contraseña);
       console.log('Estudiante actualizado correctamente:', estudiantesUpdate);
     } catch (error) {

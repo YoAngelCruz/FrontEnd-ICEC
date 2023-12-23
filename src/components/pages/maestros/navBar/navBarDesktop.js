@@ -18,8 +18,8 @@ function NavBarDesktop() {
     <div className="StickyNavContent">
       <div className='userInfo'>
       <HiUserCircle size={100}  />
-      <span id="userName">Anahí Ximena Sanchez Vasquez</span>
-      <span>matricula o numero de control</span>
+      <span id="userName">{userData.nombre}</span>
+      <span>Maestro</span>
       </div>
       <ul>
         <li>

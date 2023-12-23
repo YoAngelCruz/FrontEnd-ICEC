@@ -5,7 +5,6 @@ import apic from '../../../../services/api';
 import './grupos.css';
 import {HiMagnifyingGlass, HiPencilSquare, HiTrash, HiPencil} from 'react-icons/hi2';
 import {HiPlus, HiArrowRight, HiArrowLeft} from 'react-icons/hi';
-
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
@@ -22,6 +21,9 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Checkbox from "@mui/material/Checkbox";
 import Divider from "@mui/material/Divider";
+import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 function not(a, b) {
   return a.filter((value) => b.indexOf(value) === -1);
@@ -40,15 +42,16 @@ function Grupos({isMobile}) {
   const [maestros, setMaestros] = useState([]);
   const [estudiantes, setEstudiantes] = useState([]);
   const [alumGrupos, setAlumGrupos] = useState([]);
+
   const [openEditDescrip, setOpenEditDescrip] = useState(false);
   const [openEditMaestro, setOpenEditMaestro] = useState(false);
+  const [openEditModulo, setOpenEditModulo] = useState(false);
   const [openEditList, setOpenEditList] = useState(false);
   const [openEditFechaInicio, setOpenEditFechaInicio] = useState(false);
   const [openEditFechaFin, setOpenEditFechaFin] = useState(false);
-  const [editMaestro, setEditMaestro] = useState(false);
-
   const [openDelete, setOpenDelete] = useState(false);
   const [openAdd, setOpenAdd] = useState(false);
+
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredGrupos, setFilteredGrupos] = useState([]);
 
@@ -107,6 +110,15 @@ function Grupos({isMobile}) {
     }
   };
 
+  const UpdateGrupo = async (id, grupo) => {
+    try {
+      const grupoUpdate = await apic.put(`/grupos/${id}`, grupo);
+      console.log('Grupo actualizado correctamente:', grupoUpdate);
+    } catch (error) {
+      console.error('Error al actualizar el grupo:', error);
+    }
+  };
+
   const [checked, setChecked] = useState([]);
   const [left, setLeft] = useState([]);
   const [right, setRight] = useState([]);
@@ -114,7 +126,11 @@ function Grupos({isMobile}) {
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
 
-
+  const modulos = [{"id_modulo": 1, "nombre": "Introducción"},{"id_modulo": 2, "nombre": "Microsoft Word"},{"id_modulo": 3, "nombre": "Microsoft Excel"},
+    {"id_modulo": 4, "nombre": "Microsoft PowerPoint"},{"id_modulo": 5, "nombre": "Microsoft Access"},{"id_modulo": 6, "nombre": "Corel Draw"},
+    {"id_modulo": 7, "nombre": "HTML"},{"id_modulo": 8, "nombre": "Photoshop CS6"},{"id_modulo": 9, "nombre": "Java"},
+    {"id_modulo": 10, "nombre": "Visual Basic .Net"},{"id_modulo": 11, "nombre": "Análisis y Diseño de Sistemas"}];
+    
   const [grupoDelete, setGrupoDelete] = useState({ id: '', nombre: '' });
   const [grupoAdd, setGrupoAdd] = useState({descripcion: '', id_profesor:'', id_modulo:'', fecha_inicio:'', fecha_fin:'' });
   const [idEditGrupo, setIdEditGrupo] = useState();
@@ -187,8 +203,8 @@ function Grupos({isMobile}) {
     const saveEditFechaInicio = () => {
       console.log(idEditGrupo);
       console.log(editGrupo);
+      UpdateGrupo(idEditGrupo,editGrupo);
       handleCloseEditFechaInicio();
-  
     };
 
     //Abrir y cerrar dialog editar fecha fin grupo
@@ -209,16 +225,36 @@ function Grupos({isMobile}) {
     const saveEditFechaFin = () => {
       console.log(idEditGrupo);
       console.log(editGrupo);
+      UpdateGrupo(idEditGrupo,editGrupo);
       handleCloseEditFechaFin();
-  
     };
 
-  //Abrir y cerrar dialog editar nombre maestro
+  //Abrir y cerrar dialog editar nombre modulo
+  const handleClickOpenEditModulo = (grupo) => {
+    const {id_grupo, descripcion, id_profesor, id_modulo, fecha_inicio, fecha_fin} = grupo;
+    setIdEditGrupo(id_grupo);
+    setEditGrupo({descripcion, id_profesor, id_modulo, fecha_inicio, fecha_fin});
+    setOpenEditModulo(true);
+  };
+
+  const handleCloseEditModulo = () => {
+    setOpenEditModulo(false);
+  };
+  const handleChangeEditModulo = (event) => {
+    setEditGrupo({ ...editGrupo, id_modulo: Number(event.target.value)  }); 
+  };
+
+  const saveEditModulo = () =>{
+    console.log(editGrupo);
+    UpdateGrupo(idEditGrupo,editGrupo);
+    handleCloseEditModulo();
+  };
+
+  //Abrir y cerrar dialog editar  maestro
   const handleClickOpenEditMaestro = (grupo) => {
     const {id_grupo, descripcion, id_profesor, id_modulo, fecha_inicio, fecha_fin} = grupo;
     setIdEditGrupo(id_grupo);
     setEditGrupo({descripcion, id_profesor, id_modulo, fecha_inicio, fecha_fin});
-    setEditMaestro({ id_grupo, id_profesor });
     setOpenEditMaestro(true);
   };
 
@@ -231,6 +267,7 @@ function Grupos({isMobile}) {
 
   const saveEditMaestro = () =>{
     console.log(editGrupo);
+    UpdateGrupo(idEditGrupo,editGrupo);
     handleCloseEditMaestro();
   };
 
@@ -270,13 +307,10 @@ function Grupos({isMobile}) {
   //Abrir y cerrar dialog editar lista
   const handleClickOpenEditList = async (id) => {
     console.log(alumGrupos[id]);
-    console.log('----left: ',left);
-    setLeft([]);
     // Verificar si ya se han cargado los alumnos para este grupo
     if (alumGrupos[id]) {
       setLeft([]);
       setLeft([]);
-      console.log('----left 2: ',left);
       const alumnosDelGrupo = alumGrupos[id].map((alumno) => ({ id_alumno: alumno.id, nombre: alumno.nombre }));
 
       // Obtener todos los alumnos y filtrar los que ya están en el grupo
@@ -287,11 +321,9 @@ function Grupos({isMobile}) {
       const alumnosEnLeft = todosLosAlumnos.filter(
         (alumno) => !alumnosDelGrupo.some((alumnoDelGrupo) => alumnoDelGrupo.id_alumno === alumno.id_alumno) && !alumnosEnRight.some((alumnoRight) => alumnoRight.id_alumno === alumno.id_alumno)
       );
-      console.log('lista izquierda ', alumnosEnLeft);
 
       setLeft(alumnosEnLeft);
       setRight(alumnosDelGrupo);
-      console.log('----left 3: ',left);
       setOpenEditList(true);
     } else {
       // Si no se han cargado los alumnos para este grupo, cargarlos
@@ -413,13 +445,12 @@ function Grupos({isMobile}) {
                           <button className='actionButton' title='Editar nombre' onClick={() => handleClickOpenEditDescrip(GruposObj)}><HiPencilSquare/></button>
                         </td>
                         <td style={{backgroundColor:'white', borderLeft: '1px solid #888', padding: '5px 10px', width:'auto-fit', whiteSpace: 'nowrap'}}>
-                        {maestros.find(maestro => maestro.id === GruposObj.id_profesor)?.nombre}
-                          &emsp;
+                          {maestros.find(maestro => maestro.id === GruposObj.id_profesor)?.nombre}&emsp;
                           <button className='actionButton' title='Editar telefono' onClick={() => handleClickOpenEditMaestro(GruposObj)}><HiPencilSquare/></button>
                         </td>
                         <td style={{backgroundColor:'white', borderLeft: '1px solid #888', padding: '5px 10px', width:'auto-fit', whiteSpace: 'nowrap'}}>
-                          {GruposObj.id_modulo}&emsp;
-                          <button className='actionButton' title='Editar email' ><HiPencilSquare/></button>
+                          {modulos.find(maestro => maestro.id_modulo === GruposObj.id_modulo)?.nombre}&emsp;
+                          <button className='actionButton' title='Editar email' onClick={() => handleClickOpenEditModulo(GruposObj)}><HiPencilSquare/></button>
                         </td>
                         <td style={{backgroundColor:'white', borderLeft: '1px solid #888', padding: '5px 10px', width:'auto-fit', whiteSpace: 'nowrap'}}>
                           {GruposObj.fecha_inicio}&emsp;
@@ -429,7 +460,7 @@ function Grupos({isMobile}) {
                           {GruposObj.fecha_fin}&emsp;
                           <button className='actionButton' title='Editar email' onClick={() => handleClickOpenEditFechaFin(GruposObj)}><HiPencilSquare/></button>
                         </td>
-                        <td style={{backgroundColor:'white', borderLeft: '1px solid #888', padding: '2px 1px', width:'auto-fit'}} align='center'>
+                        <td style={{backgroundColor:'white', borderLeft: '1px solid #888', padding: '2px 10px', width:'auto-fit'}} align='center'>
                           <button className='actionButton editButton' onClick={() => handleClickOpenEditList(GruposObj.id_grupo)}><HiPencil/></button>
                         </td>
                         <td style={{backgroundColor:'white', borderLeft: '1px solid #888', padding: '2px 10px', width:'auto-fit', borderBottomRightRadius: index === maestros.length-1 ? '15px': '0', borderTopRightRadius: index === 0 ? '15px':'0px'}} align='center'>
@@ -491,7 +522,7 @@ function Grupos({isMobile}) {
           <ThemeProvider theme={theme}>
             <Dialog open={openEditMaestro} onClose={handleCloseEditMaestro}>
               <DialogContent>
-                <p style={{color:'white', fontWeight:'bold', letterSpacing:'0.03em', marginBottom:'7px'}}>Editar nombre de maestro</p>
+                <p style={{color:'white', fontWeight:'bold', letterSpacing:'0.03em', marginBottom:'7px'}}>Cambiar maestro</p>
                 <div style={{backgroundColor:'white', borderRadius:'8px', padding:'5px 9px'}}>
                     <div style={{margin:'5px'}}>
                         <p style={{marginTop:'15px'}}>&nbsp;Nombre</p>
@@ -505,6 +536,29 @@ function Grupos({isMobile}) {
                     </div>
                     <Button autoFocus onClick={handleCloseEditMaestro}>Cancelar</Button>
                     <Button onClick={saveEditMaestro} autoFocus>Guardar</Button>
+                </div>                                    
+              </DialogContent>
+            </Dialog>
+          </ThemeProvider>
+
+          {/* ------------ Dialog Editar nombre modulo ------------ */}
+          <ThemeProvider theme={theme}>
+            <Dialog open={openEditModulo} onClose={handleCloseEditModulo}>
+              <DialogContent>
+                <p style={{color:'white', fontWeight:'bold', letterSpacing:'0.03em', marginBottom:'7px'}}>Cambiar Modulo</p>
+                <div style={{backgroundColor:'white', borderRadius:'8px', padding:'5px 9px'}}>
+                    <div style={{margin:'5px'}}>
+                        <p style={{marginTop:'15px'}}>&nbsp;Modulo</p>
+                        <select onChange={handleChangeEditModulo} className='inputTextDialog'>
+                          {modulos.map((modulosObj) => (
+                            <option value={modulosObj.id_modulo}>{modulosObj.nombre}</option>
+                          ))}
+                        </select>
+                        <p style={{fontSize:'12px'}}>&nbsp; {editGrupo.id_modulo}</p>
+                        <br/>
+                    </div>
+                    <Button autoFocus onClick={handleCloseEditModulo}>Cancelar</Button>
+                    <Button onClick={saveEditModulo} autoFocus>Guardar</Button>
                 </div>                                    
               </DialogContent>
             </Dialog>
@@ -555,9 +609,24 @@ function Grupos({isMobile}) {
                 <p style={{color:'white', fontWeight:'bold', letterSpacing:'0.03em', marginBottom:'7px'}}>Agregar grupo</p>
                 <div style={{backgroundColor:'white', borderRadius:'8px', padding:'5px 9px'}}>
                     <div style={{margin:'5px'}}>
-                        <p style={{marginTop:'15px'}}>&nbsp;Nombre</p>
-                        <input className='inputTextDialog' type='text' value={grupoAdd.nombre} onChange={handleChangeOpenAdd} name='grupoAdd'/>
-                        <p style={{fontSize:'12px'}}>&nbsp; {grupoAdd.nombre}</p>
+                        <p style={{marginTop:'15px'}}>&nbsp;Descripción</p>
+                        <input className='inputTextDialog' type='text' value={grupoAdd.nombre} onChange={handleChangeOpenAdd} name='descripcion'/>
+                        <p style={{marginTop:'15px'}}>&nbsp;Modulo</p>
+                        <select onChange={handleChangeOpenAdd} className='inputTextDialog' name='id_modulo'>
+                          {modulos.map((modulosObj) => (
+                            <option value={modulosObj.id_modulo}>{modulosObj.nombre}</option>
+                          ))}
+                        </select>
+                        <p style={{marginTop:'15px'}}>&nbsp;Maestro</p>
+                        <select onChange={handleChangeOpenAdd} className='inputTextDialog' name='id_profesor'>
+                          {maestros.map((maestrosObj) => (
+                            <option value={maestrosObj.id}>{maestrosObj.nombre}</option>
+                          ))}
+                        </select>
+                        <p style={{marginTop:'15px'}}>&nbsp;Fecha de inicio, fecha de fin</p>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DateRangePicker localeText={{ start: 'Fecha inicio', end: 'Fecha fin' }}/>
+                        </LocalizationProvider>
                         <br/>
                     </div>
                     <Button autoFocus onClick={handleCloseAdd}>Cancelar</Button>

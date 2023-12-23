@@ -3,7 +3,6 @@ import { NavLink} from 'react-router-dom';
 import './navBarDesktop.css';
 import { HiBookOpen, HiHome, HiCalendarDays, HiMiniSquare3Stack3D, HiUserCircle, HiAcademicCap, HiMiniArrowLeftOnRectangle } from "react-icons/hi2";
 import { useAuth } from '../../../../utils/AuthContext';
-
 function NavBarDesktop() {
   const { isAuthenticated, userData, tipoUsuario, token } = useAuth();
   const { authLogout } = useAuth();
@@ -19,8 +18,8 @@ function NavBarDesktop() {
     <div className="StickyNavContent">
       <div className='userInfo'>
       <HiUserCircle size={100}  />
-      <span id="userName">Anahí Ximena Sanchez Vasquez</span>
-      <span>matricula o numero de control</span>
+      <span id="userName">{userData.nombre}</span>
+      <span>Administrador</span>
       </div>
       <ul>
         <li>
