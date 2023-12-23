@@ -3,15 +3,17 @@ import { HiUser, HiCalendarDays, HiDocumentCheck,HiBookOpen } from "react-icons/
 import { NavLink } from 'react-router-dom';
 import HeaderInicio from '../../../common/headerDesktop';
 import HeaderMobile from '../../../common/headerMobile';
+import { useAuth } from '../../../../utils/AuthContext';
+import apic from '../../../../services/api';
+
 import './home.css';
 
 function Home({isMobile}) {
+    const { userData } = useAuth();
     const [currentDate, setCurrentDate] = useState(new Date());
-    const [cursosPasados, setCursosPasados] = useState([]);
-    const curP=[{"id": "1","nombre": "Nombre del modulo pasado"},{"id": "2","nombre": "Más nombres de módulos"},{"id": "3","nombre": "Otro nombre que no me acuerdo"},{"id": "4","nombre": "Pero seguramente si existen jaaj"},{"id": "5","nombre": "Aro nombre que no me acuerdo"},];
-    
+    const [grupos, setGrupos] = useState([]);
     useEffect(() => {
-        setCursosPasados(curP);
+        gruposByProfesor(userData.id);
         // Actualizar la fecha actual cada segundo (puedes ajustar el intervalo según tus necesidades)
         const intervalId = setInterval(() => {
           setCurrentDate(new Date());
@@ -22,7 +24,16 @@ function Home({isMobile}) {
       }, []);
     const options = { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' };
     const formattedDate = currentDate.toLocaleDateString('es-ES', options);
-
+    
+    const gruposByProfesor = async (id) => {
+        try {
+          const gruposData = await apic.get(`/profesores/${id}/grupos`);
+          setGrupos(gruposData);
+          console.log(`Respuesta de la API para el grupo ${id}:`, gruposData);
+        } catch (error) {
+          console.error('Error al obtener alumnos por grupo:', error);
+        }
+      };
 
   return (
     <div>
@@ -51,10 +62,10 @@ function Home({isMobile}) {
             <span className='contSubtitle'>Mi grupos</span>
             <div className='gridCont'>
                 
-                {cursosPasados.map((cursosObj) => (
-                    <NavLink className='button normalButton'key={cursosObj.id} to='/maestros/grupos'>
+                {grupos.map((cursosObj) => (
+                    <NavLink className='button normalButton'key={cursosObj.id_grupo} to='/maestros/grupos'>
                         <HiBookOpen size={isMobile ? 35 : 55} />
-                        <span className="buttonTitle">{cursosObj.nombre}</span>
+                        <span className="buttonTitle">{cursosObj.descripcion}</span>
                     </NavLink>
                 ))}
                 

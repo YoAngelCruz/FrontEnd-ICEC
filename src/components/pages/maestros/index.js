@@ -32,11 +32,7 @@ function Maestros() {
                     <Route path="calendario" element={<Calendario isMobile={isMobile}/>} />
                     <Route path="grupos" element={<Grupos isMobile={isMobile}/>} />
                     <Route path="calificaciones" element={<Calificaciones isMobile={isMobile}/>} />
-
-                    <Route path="calificaciones/a/:id" element={<Calificacion isMobile={isMobile}/>} />
-                    <Route path="calificaciones/p/:id" element={<Calificacion isMobile={isMobile}/>} />
-                    <Route path="calificaciones/a/" element={<Navigate to="/maestros/calificaciones" />} />
-                    <Route path="calificaciones/p/" element={<Navigate to="/maestros/calificaciones" />} />
+                    <Route path="calificaciones/:id" element={<Calificacion isMobile={isMobile}/>} />
                 </Routes>
         </div>
         <div className='MaestrosNav'>

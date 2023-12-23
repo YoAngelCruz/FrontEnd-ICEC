@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import HeaderInicio from '../../../common/headerDesktop';
 import HeaderMobile from '../../../common/headerMobile';
 import apic from '../../../../services/api';
+import dayjs from 'dayjs';
 import './grupos.css';
 import {HiMagnifyingGlass, HiPencilSquare, HiTrash, HiPencil} from 'react-icons/hi2';
 import {HiPlus, HiArrowRight, HiArrowLeft} from 'react-icons/hi';
@@ -21,7 +22,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Checkbox from "@mui/material/Checkbox";
 import Divider from "@mui/material/Divider";
-import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
@@ -119,9 +120,47 @@ function Grupos({isMobile}) {
     }
   };
 
+  const inscripciones = async (json) => {
+    try {
+      const inscripciones = await apic.post('/inscripciones/many', json);
+      console.log('Alumnos agregados correctamente:', inscripciones);
+    } catch (error) {
+      console.error('Error al actualizar el grupo:', error);
+    }
+  };
+
+  const deleteInscrip = async (id) => {
+    try {
+      const deleteInscrip = await apic.delete(`/inscripciones/${id}`);
+      console.log('Alumno eliminado de grupo correctamente:', deleteInscrip);
+    } catch (error) {
+      console.error('Error al actualizar el grupo:', error);
+    }
+  };
+
+  const createGrupo = async (grupo) => {
+    try {
+      const createGrupo = await apic.post('/grupos',grupo);
+      console.log('Grupo creado correctamente:', createGrupo);
+    } catch (error) {
+      console.error('Error al actualizar el grupo:', error);
+    }
+  };
+
+  const deleteGrupo = async (id) => {
+    try {
+      const deletegrupo = await apic.delete(`/grupos/${id}`);
+      console.log('Grupo eliminado correctamente:', deletegrupo);
+    } catch (error) {
+      console.error('Error al actualizar el grupo:', error);
+    }
+  };
+
   const [checked, setChecked] = useState([]);
   const [left, setLeft] = useState([]);
   const [right, setRight] = useState([]);
+  const [pastLeft, setPastLeft] = useState([]);
+  const [pastRight, setPastRight] = useState([]);
 
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
@@ -130,11 +169,13 @@ function Grupos({isMobile}) {
     {"id_modulo": 4, "nombre": "Microsoft PowerPoint"},{"id_modulo": 5, "nombre": "Microsoft Access"},{"id_modulo": 6, "nombre": "Corel Draw"},
     {"id_modulo": 7, "nombre": "HTML"},{"id_modulo": 8, "nombre": "Photoshop CS6"},{"id_modulo": 9, "nombre": "Java"},
     {"id_modulo": 10, "nombre": "Visual Basic .Net"},{"id_modulo": 11, "nombre": "Análisis y Diseño de Sistemas"}];
-    
+  
+
   const [grupoDelete, setGrupoDelete] = useState({ id: '', nombre: '' });
-  const [grupoAdd, setGrupoAdd] = useState({descripcion: '', id_profesor:'', id_modulo:'', fecha_inicio:'', fecha_fin:'' });
+  const [grupoAdd, setGrupoAdd] = useState({descripcion: '', id_profesor:'', id_modulo:'', fecha_inicio:'', fecha_fin:'', });
   const [idEditGrupo, setIdEditGrupo] = useState();
-  const [editGrupo, setEditGrupo] = useState({descripcion: '', id_profesor:'', id_modulo:'', fecha_inicio:'', fecha_fin:'' });
+  const [editGrupo, setEditGrupo] = useState({descripcion: '', id_profesor:'', id_modulo:'', fecha_inicio:'', fecha_fin:''});
+  
 
   const theme = createTheme({
     components: {
@@ -181,6 +222,7 @@ function Grupos({isMobile}) {
   const saveEditDescrip = () => {
     console.log(idEditGrupo);
     console.log(editGrupo);
+    UpdateGrupo(idEditGrupo,editGrupo);
     handleCloseEditDescrip();
 
   };
@@ -278,14 +320,27 @@ function Grupos({isMobile}) {
 
   const handleCloseAdd = () => {
   setOpenAdd(false);
+  setGrupoAdd({ ...grupoAdd, id_profesor:'', id_modulo:'', fecha_inicio:'', fecha_fin:'' });
   };
 
-  const handleChangeOpenAdd = (event) => {
-    setGrupoAdd({ ...grupoAdd, nombre: event.target.value });
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setGrupoAdd((prevMaestrosAdd) => ({
+      ...prevMaestrosAdd,
+      [name]: value,
+    }));
+  };
+
+  const handleDateChange = (date, name) => {
+    setGrupoAdd((prevMaestrosAdd) => ({
+      ...prevMaestrosAdd,
+      [name]: date.$d,
+    }));
   };
 
   const saveGrupoAdd = () =>{
     console.log(grupoAdd);
+    createGrupo(grupoAdd);
     handleCloseAdd();
   };
 
@@ -301,29 +356,33 @@ function Grupos({isMobile}) {
 
   const saveGrupoDelete = () =>{
     console.log(grupoDelete);
+    deleteGrupo(grupoDelete.id);
     handleCloseDelete();
   };
 
   //Abrir y cerrar dialog editar lista
   const handleClickOpenEditList = async (id) => {
+    setIdEditGrupo(id);
     console.log(alumGrupos[id]);
     // Verificar si ya se han cargado los alumnos para este grupo
     if (alumGrupos[id]) {
       setLeft([]);
       setLeft([]);
-      const alumnosDelGrupo = alumGrupos[id].map((alumno) => ({ id_alumno: alumno.id, nombre: alumno.nombre }));
-
+      const alumnosDelGrupo = alumGrupos[id].map((alumno) => alumno);
+      
       // Obtener todos los alumnos y filtrar los que ya están en el grupo
-      const todosLosAlumnos = estudiantes.map((alumno) => ({ id_alumno: alumno.id, nombre: alumno.nombre }));
+      const todosLosAlumnos = estudiantes.map((alumno) => alumno); //({ id_alumno: alumno.id, nombre: alumno.nombre })
       const alumnosEnRight = right;
 
       // Filtrar los alumnos que ya están en el grupo
       const alumnosEnLeft = todosLosAlumnos.filter(
-        (alumno) => !alumnosDelGrupo.some((alumnoDelGrupo) => alumnoDelGrupo.id_alumno === alumno.id_alumno) && !alumnosEnRight.some((alumnoRight) => alumnoRight.id_alumno === alumno.id_alumno)
+        (alumno) => !alumnosDelGrupo.some((alumnoDelGrupo) => alumnoDelGrupo.id === alumno.id) && !alumnosEnRight.some((alumnoRight) => alumnoRight.id === alumno.id)
       );
-
+      
       setLeft(alumnosEnLeft);
+      setPastLeft(alumnosEnLeft)
       setRight(alumnosDelGrupo);
+      setPastRight(alumnosDelGrupo);
       setOpenEditList(true);
     } else {
       // Si no se han cargado los alumnos para este grupo, cargarlos
@@ -337,7 +396,27 @@ function Grupos({isMobile}) {
   };
 
   const saveEditList = () =>{
-    console.log(right);
+    console.log('Lista derecha pasada',pastRight);
+    console.log('Lista derecha pasada',right);
+    const nuevosElementos = right.filter(item => !pastRight.some(pastItem => JSON.stringify(pastItem) === JSON.stringify(item)));
+    const alumnosadd = nuevosElementos.map(item => ({ id_alumno: item.id }));
+    const addAlumnos=
+      {
+        id_grupo: idEditGrupo,
+        listaAlumnos: alumnosadd,
+      };
+    console.log('addAlumnos',addAlumnos);
+    inscripciones(addAlumnos);
+    handleCloseEditList();
+  };
+  const borrarAlumno = () => {
+    console.log('hola');
+    console.log('Lista derecha pasada',pastLeft);
+    console.log('Lista derecha pasada',left);
+    const quitarElementos = left.filter(item => !pastLeft.some(pastItem => JSON.stringify(pastItem) === JSON.stringify(item)));
+    const alumnosdelete = quitarElementos[0] ? quitarElementos[0].id_inscripcion : null;
+    console.log('id inscripcion que se va a borrar ', alumnosdelete);
+    deleteInscrip(alumnosdelete);
     handleCloseEditList();
   };
 
@@ -464,7 +543,7 @@ function Grupos({isMobile}) {
                           <button className='actionButton editButton' onClick={() => handleClickOpenEditList(GruposObj.id_grupo)}><HiPencil/></button>
                         </td>
                         <td style={{backgroundColor:'white', borderLeft: '1px solid #888', padding: '2px 10px', width:'auto-fit', borderBottomRightRadius: index === maestros.length-1 ? '15px': '0', borderTopRightRadius: index === 0 ? '15px':'0px'}} align='center'>
-                          <button className='actionButton deleteButton' onClick={() => handleClickOpenDelete(GruposObj.id, GruposObj.nombre)}><HiTrash/></button>
+                          <button className='actionButton deleteButton' onClick={() => handleClickOpenDelete(GruposObj.id_grupo, GruposObj.descripcion)}><HiTrash/></button>
                         </td>
                       </tr>
                   ))}
@@ -493,7 +572,8 @@ function Grupos({isMobile}) {
                 </Grid>
 
                   <Button autoFocus onClick={handleCloseEditList}>Cancelar</Button>
-                  <Button onClick={saveEditList} autoFocus>Guardar</Button>
+                  <Button onClick={saveEditList} autoFocus>Agregar Alumnos</Button>
+                  <Button autoFocus onClick={borrarAlumno}>Eliminar Alumno</Button>
                 </div>
               </DialogContent>
             </Dialog>
@@ -610,22 +690,23 @@ function Grupos({isMobile}) {
                 <div style={{backgroundColor:'white', borderRadius:'8px', padding:'5px 9px'}}>
                     <div style={{margin:'5px'}}>
                         <p style={{marginTop:'15px'}}>&nbsp;Descripción</p>
-                        <input className='inputTextDialog' type='text' value={grupoAdd.nombre} onChange={handleChangeOpenAdd} name='descripcion'/>
+                        <input className='inputTextDialog' type='text' value={grupoAdd.descripcion} onChange={handleInputChange} name='descripcion'/>
                         <p style={{marginTop:'15px'}}>&nbsp;Modulo</p>
-                        <select onChange={handleChangeOpenAdd} className='inputTextDialog' name='id_modulo'>
+                        <select onChange={handleInputChange} className='inputTextDialog' name='id_modulo'>
                           {modulos.map((modulosObj) => (
                             <option value={modulosObj.id_modulo}>{modulosObj.nombre}</option>
                           ))}
                         </select>
                         <p style={{marginTop:'15px'}}>&nbsp;Maestro</p>
-                        <select onChange={handleChangeOpenAdd} className='inputTextDialog' name='id_profesor'>
+                        <select onChange={handleInputChange} className='inputTextDialog' name='id_profesor'>
                           {maestros.map((maestrosObj) => (
                             <option value={maestrosObj.id}>{maestrosObj.nombre}</option>
                           ))}
                         </select>
                         <p style={{marginTop:'15px'}}>&nbsp;Fecha de inicio, fecha de fin</p>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                          <DateRangePicker localeText={{ start: 'Fecha inicio', end: 'Fecha fin' }}/>
+                          <DatePicker label="Fecha inicio" name='fecha_inicio' value={grupoAdd.fecha_inicio} onChange={(date) => handleDateChange(date, 'fecha_inicio')} />
+                          <DatePicker label="Fecha fin" name='fecha_fin' value={grupoAdd.fecha_fin} onChange={(date) => handleDateChange(date, 'fecha_fin')} />
                         </LocalizationProvider>
                         <br/>
                     </div>
