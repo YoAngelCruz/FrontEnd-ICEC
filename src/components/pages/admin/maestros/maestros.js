@@ -58,6 +58,23 @@ function Maestros({isMobile}) {
     }
   };
 
+  const UpdateProfesores = async (id, profesores) => {
+    try {
+      const profesoresUpdate = await apic.put(`/profesores/${id}`, profesores);
+      console.log('Profesor actualizado correctamente:', profesoresUpdate);
+    } catch (error) {
+      console.error('Error al actualizar  el profesor:', error);
+    }
+  };
+  const UpdatePassProfesores = async (id, profesores) => {
+    try {
+      const profesoresUpdate = await apic.put(`/profesores/pass/${id}`, profesores);
+      console.log('Profesor actualizado correctamente:', profesoresUpdate);
+    } catch (error) {
+      console.error('Error al eliminar el profesor:', error);
+    }
+  };
+
   const [idEditPass, setIdEditPass] = useState();
   const [editPass, setEditPass] = useState({contraseña:''});
   const [maestroDelete, setMaestroDelete] = useState({ id: '', nombre: '' });
@@ -110,6 +127,7 @@ function Maestros({isMobile}) {
   const saveEditNombre = () => {
     console.log(idEditMaestro);
     console.log(editMaestro);
+    UpdateProfesores(idEditMaestro,editMaestro);
     handleCloseEditNombre();
 
   };
@@ -130,6 +148,7 @@ function Maestros({isMobile}) {
   const saveEditTel = () => {
     console.log(idEditMaestro);
     console.log(editMaestro);
+    UpdateProfesores(idEditMaestro,editMaestro);
     handleCloseEditTel();
   };
 
@@ -149,6 +168,7 @@ function Maestros({isMobile}) {
   const saveEditEmail = () => {
     console.log(idEditMaestro);
     console.log(editMaestro);
+    UpdateProfesores(idEditMaestro,editMaestro);
     handleCloseEditEmail();
   };
 
@@ -166,6 +186,7 @@ function Maestros({isMobile}) {
   const saveEditPass = () => {
     console.log(idEditPass);
     console.log(editPass);
+    UpdatePassProfesores(idEditPass,editPass);
     handleCloseEditPass();
   };
 

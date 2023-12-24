@@ -16,22 +16,19 @@ function Calificacion({isMobile}) {
   const url = window.location.href;
   const partes = url.split("/");
   const idGrupo = partes[partes.length - 1];
-  //aqui del api se van a hacer una query con todos los alumnos menos los del ai que estén en el json de los C
-  const calificaciones=[{'id':'1', 'nombre':'Arriola Peztña Heriberto', 'calificacion': '0'},{'id':'2', 'nombre':'Anahí Ximena Sanchez Vasquez', 'calificacion': '0'}, {'id':'3', 'nombre':'Avila Muñoz Jaime Ivan', 'calificacion': '0'}, {'id':'4', 'nombre':'Heribert', 'calificacion': '0'}, {"id":"5",'nombre':'Angel Mioses Cruz', 'calificacion': '0'}, {'id': '6','nombre': "Yolotzin Groth", 'calificacion': '0'}, {'id':'7', 'nombre':'Bryan Valerio', 'calificacion': '0'},{"id":"8",'nombre':'Anl Mioses Cruz', 'calificacion': '0'},{"id":"9",'nombre':'Angel Mies Cruz', 'calificacion': '0'}]
-  const [editCalif, setEditCalif] = useState({ id: '', calificacion: ''});
-  const [alumGrupos, setAlumGrupos] = useState({ id: '', calificacion: ''});
+  const [editCalif, setEditCalif] = useState({id: '', nombre: '', clave: '', edad: '', curp: '', domicilio: '', num_tel_a: '', email: '', 
+  turno: '', fecha_inicio: '', contraseña: '', tutor: '', id_inscripcion: '', calificacion: ''});
+  const [alumGrupos, setAlumGrupos] = useState([]);
 
   useEffect(() => {
     fetchAlumnosByGrupo(idGrupo);
+    console.log()
   }, []);
 
   const fetchAlumnosByGrupo = async (id) => {
     try {
       const alumGrupoData = await apic.get(`/grupos/${id}/alumnos`);
-      setAlumGrupos((prevAlumGrupos) => ({
-        ...prevAlumGrupos,
-        [id]: alumGrupoData,
-      }));
+      setAlumGrupos(alumGrupoData);
       console.log(`Respuesta de la API para el grupo ${id}:`, alumGrupoData);
     } catch (error) {
       console.error('Error al obtener alumnos por grupo:', error);
@@ -58,8 +55,9 @@ function Calificacion({isMobile}) {
   });
   
   //Abrir y cerrar dialog editar nombre estudiantes
-  const handleClickOpenEditCalif = (id, calificacion) => {
-    setEditCalif({ id, calificacion });
+  const handleClickOpenEditCalif = (alumno) => {
+    const {id, nombre, clave, edad, curp, domicilio, num_tel_a, email, turno, fecha_inicio, contraseña, tutor, id_inscripcion, calificacion } = alumno;
+    setEditCalif({...alumno, calificacion: calificacion});
     setOpenEditCalif(true);
   };
 
@@ -92,14 +90,14 @@ function Calificacion({isMobile}) {
                     <tr><td width="50%">Nombre</td><td width="25%" align='center'>Calificación</td><td width="25%" align='center'>Editar</td></tr>
                 </table> 
                 <table style={{width:'100%', backgroundColor:'white', borderRadius:'15px', padding:'10px'}}>
-                    {calificaciones.map((CalifObj) => ( 
-                        <tr key={CalifObj.id}>
-                        <td width="50%" style={{padding: '3px 0px'}}>{CalifObj.nombre}</td>
-                        <td width="25%" style={{borderLeft: '1px solid #888', padding: '0px 0px'}} align='center'>{CalifObj.calificacion}</td>
+                    {alumGrupos.map((alumnosObj) => ( 
+                        <tr key={alumnosObj.id}>
+                        <td width="50%" style={{padding: '3px 0px'}}>{alumnosObj.nombre}</td>
+                        <td width="25%" style={{borderLeft: '1px solid #888', padding: '0px 0px'}} align='center'>{alumnosObj.calificacion !== null ? alumnosObj.calificacion : 'SC'}</td>
                         <td width="25%" align='center' style={{borderLeft: '1px solid #888', padding: '0px 0px'}}>
                         <button
                             className={'actionButton editButton'}
-                            onClick={() => handleClickOpenEditCalif(CalifObj.id, CalifObj.calificacion)}
+                            onClick={() => handleClickOpenEditCalif(alumnosObj)}
                             >
                             <HiPencil/></button></td>
                         </tr>
@@ -111,7 +109,7 @@ function Calificacion({isMobile}) {
             <ThemeProvider theme={theme}>
                 <Dialog open={openEditCalif} onClose={handleCloseEditCalif}>
                 <DialogContent>
-                    <p style={{color:'white', fontWeight:'bold', letterSpacing:'0.03em', marginBottom:'7px'}}>Editar nombre de estudiante</p>
+                    <p style={{color:'white', fontWeight:'bold', letterSpacing:'0.03em', marginBottom:'7px'}}>Asignar Calificacion</p>
                     <div style={{backgroundColor:'white', borderRadius:'8px', padding:'5px 9px'}}>
                         <div style={{margin:'5px'}}>
                         <p style={{marginTop:'15px'}}>&nbsp;Calificación</p>

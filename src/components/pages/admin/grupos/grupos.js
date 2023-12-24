@@ -727,7 +727,7 @@ function Grupos({isMobile}) {
                       <p align="center">¿Seguro que quiere eliminar el grupo <b>{grupoDelete.nombre}</b>?</p>
                     </div>
                     <Button autoFocus onClick={handleCloseDelete}>Cancelar</Button>
-                    <Button onClick={saveGrupoDelete} autoFocus>Guardar</Button>
+                    <Button onClick={saveGrupoDelete} autoFocus>Eliminar</Button>
                 </div>                                    
               </DialogContent>
             </Dialog>

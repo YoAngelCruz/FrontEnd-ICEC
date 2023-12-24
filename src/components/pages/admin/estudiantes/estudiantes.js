@@ -150,6 +150,7 @@ function Estudiantes({isMobile}) {
   const saveEditEdad = () => {
     console.log(idEditEstudiante);
     console.log(editEstudiante);
+    UpdateAlumnos(idEditEstudiante,editEstudiante);
     handleCloseEditEdad();
   };
 
@@ -169,6 +170,7 @@ function Estudiantes({isMobile}) {
   const saveEditCurp = () => {
     console.log(idEditEstudiante);
     console.log(editEstudiante);
+    UpdateAlumnos(idEditEstudiante,editEstudiante);
     handleCloseEditCurp();
   };
 
@@ -188,6 +190,7 @@ function Estudiantes({isMobile}) {
   const saveEditDomicilio = () => {
     console.log(idEditEstudiante);
     console.log(editEstudiante);
+    UpdateAlumnos(idEditEstudiante,editEstudiante);
     handleCloseEditDomicilio();
   };
 
@@ -207,6 +210,7 @@ function Estudiantes({isMobile}) {
   const saveEditTel = () => {
     console.log(idEditEstudiante);
     console.log(editEstudiante);
+    UpdateAlumnos(idEditEstudiante,editEstudiante);
     handleCloseEditTel();
   };
 
@@ -226,6 +230,7 @@ function Estudiantes({isMobile}) {
   const saveEditEmail = () => {
     console.log(idEditEstudiante);
     console.log(editEstudiante);
+    UpdateAlumnos(idEditEstudiante,editEstudiante);
     handleCloseEditEmail();
   };
 
@@ -245,6 +250,7 @@ function Estudiantes({isMobile}) {
   const saveEditTurno = () => {
     console.log(idEditEstudiante);
     console.log(editEstudiante);
+    UpdateAlumnos(idEditEstudiante,editEstudiante);
     handleCloseEditTurno();
   };
 
@@ -264,6 +270,7 @@ function Estudiantes({isMobile}) {
   const saveEditTutor = () => {
     console.log(idEditEstudiante);
     console.log(editEstudiante);
+    UpdateAlumnos(idEditEstudiante,editEstudiante);
     handleCloseEditTutor();
   };
 
@@ -281,7 +288,7 @@ function Estudiantes({isMobile}) {
   const saveEditPass = () => {
     console.log(idEditPass);
     console.log(editPass);
-    UpdatePassAlumnos(idEditEstudiante,editPass);
+    UpdatePassAlumnos(idEditPass,editPass);
     handleCloseEditPass();
   };
 
