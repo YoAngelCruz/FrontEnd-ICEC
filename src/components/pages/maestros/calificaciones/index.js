@@ -22,6 +22,20 @@ function Calificaciones({isMobile}) {
             };
         gruposByProfesor(userData.id);
       }, [userData]);
+
+      const gruposActuales = grupos.filter((grupo) => {
+        const fechaFin = new Date(grupo.fecha_fin);
+        const hoy = new Date();
+      
+        return fechaFin >= hoy; // Filtrar los grupos cuya fecha_fin es mayor o igual a hoy
+      });
+      
+      const gruposPasados = grupos.filter((grupo) => {
+        const fechaFin = new Date(grupo.fecha_fin);
+        const hoy = new Date();
+      
+        return fechaFin < hoy; // Filtrar los grupos cuya fecha_fin es menor a hoy
+      });
     
     
   return (
@@ -31,10 +45,22 @@ function Calificaciones({isMobile}) {
         <div className='mCalificacionesCont'>
             {isMobile && <p className='WelcomeMsg'>Calificación</p>}
 
-            <span className='contSubtitle'>Todos mis grupos</span>
+            <span className='contSubtitle'>Mis grupos actuales</span>
             <div className='gridCont'>
                 
-                {grupos.map((cursosObj) => (
+                {gruposActuales.map((cursosObj) => (
+                    <NavLink className='button normalButton'key={cursosObj.id_grupo} to={`/maestros/calificaciones/${cursosObj.id_grupo}`}>
+                        <HiBookOpen size={isMobile ? 35 : 55} />
+                        <span className="buttonTitle">{cursosObj.descripcion}</span>
+                    </NavLink>
+                ))}
+                
+            </div>
+
+            <span className='contSubtitle'>Mis grupos pasados</span>
+            <div className='gridCont'>
+                
+                {gruposPasados.map((cursosObj) => (
                     <NavLink className='button normalButton'key={cursosObj.id_grupo} to={`/maestros/calificaciones/${cursosObj.id_grupo}`}>
                         <HiBookOpen size={isMobile ? 35 : 55} />
                         <span className="buttonTitle">{cursosObj.descripcion}</span>
