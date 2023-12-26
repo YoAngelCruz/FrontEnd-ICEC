@@ -1,0 +1,46 @@
+.mHomeCont{
+    text-align: start;
+    padding: 5%;
+  }  
+
+.mUsuarioButton{
+    grid-area: bigButton;
+}
+.mUsuarioButton:hover{
+    color:#073cc3;
+}
+
+.mCalendarioButton{
+    grid-area: smallButton1;
+}
+.mCalendarioButton:hover{
+    color:#169e21;
+}
+
+.mCalificacionesButton{
+    grid-area: smallButton2;
+}
+.mCalificacionesButton:hover{
+    color:#e7bb0e;
+}
+
+.currentModule .buttonTitle{
+    font-size: 18px;
+}
+
+@media (min-width: 600px){
+    .currentModule .buttonTitle{
+        font-size: 22px;
+    }
+}
+@media (min-width: 950px){
+    .mUsuarioButton .buttonTitle{
+        font-size: 22px;
+    }
+    .mCalendarioButton .buttonTitle{
+        font-size: 22px;
+    }
+    .mCalificacionesButton .buttonTitle{
+        font-size: 22px;
+    }
+}

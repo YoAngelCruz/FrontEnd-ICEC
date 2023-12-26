@@ -68,3 +68,38 @@
 .StickyNavContent a.active span {
   color: black;
 }
+
+.StickyNavContent .logoutCont{
+  display:flex;
+  justify-content: space-between;
+  align-items: left;
+  text-align: left;
+  color:aliceblue;
+  font-size: 1.1 vw;
+  margin-top: 99%;
+}
+
+.logoutButton{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  margin: 3px 5px;
+  padding: 5px 6px;
+  text-align: left;
+  border: none;
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 10px;
+  width: 100%;
+  justify-content: left;
+  color: white;
+  text-decoration: none;
+  font-size: 1.1 vw;
+}
+.logoutButton span{
+  font-size: 15px;
+  margin-left: 5%;
+}
+.logoutButton:hover{
+  background-color: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}

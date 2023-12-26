@@ -1,48 +1,64 @@
 import React from 'react';
 import { NavLink} from 'react-router-dom';
 import './navBarDesktop.css';
-import { HiBookOpen, HiHome, HiChartBar, HiCalendarDays, HiDocumentCheck, HiUserCircle } from "react-icons/hi2";
+import { HiBookOpen, HiHome, HiCalendarDays, HiMiniSquare3Stack3D, HiUserCircle, HiAcademicCap, HiMiniArrowLeftOnRectangle } from "react-icons/hi2";
+import { useAuth } from '../../../../utils/AuthContext';
 function NavBarDesktop() {
+  const { isAuthenticated, userData, tipoUsuario, token } = useAuth();
+  const { authLogout } = useAuth();
+
+
+  const handleLogout = async() => {
+    authLogout();
+    console.log(isAuthenticated);
+    
+  };
 
   return (
     <div className="StickyNavContent">
       <div className='userInfo'>
       <HiUserCircle size={100}  />
-      <span id="userName">Anahí Ximena Sanchez Vasquez</span>
-      <span>matricula o numero de control</span>
+      <span id="userName">{userData.nombre}</span>
+      <span>Administrador</span>
       </div>
       <ul>
         <li>
-          <NavLink activeClassName="active" to="/estudiantes/home">
+          <NavLink activeClassName="active" to="/admin/home">
             <HiHome size={25}  />
             <span>Inicio</span>
             </NavLink>
         </li>
         <li>
-          <NavLink activeClassName="active" to="/estudiantes/calificaciones">
-            <HiDocumentCheck size={25}  />
-            <span>Calificaciones</span>
+          <NavLink activeClassName="active" to="/admin/estudiantes">
+            <HiAcademicCap size={25}  />
+            <span>Estudiantes</span>
           </NavLink>
         </li>
         <li>
-          <NavLink exact activeClassName="active" to="/estudiantes/modulos">
+          <NavLink exact activeClassName="active" to="/admin/maestros">
             <HiBookOpen size={25}  />
-            <span>Módulos</span>
+            <span>Maestros</span>
           </NavLink>
         </li>
         <li>
-          <NavLink activeClassName="active" to="/estudiantes/calendario">
+          <NavLink activeClassName="active" to="/admin/calendario">
             <HiCalendarDays size={25}  />
             <span>Calendario</span>
           </NavLink>
         </li>
         <li>
-          <NavLink activeClassName="active" to="/estudiantes/avance">
-            <HiChartBar size={25}  />
-            <span>Avance</span>
+          <NavLink activeClassName="active" to="/admin/grupos">
+            <HiMiniSquare3Stack3D size={25}  />
+            <span>Grupos</span>
           </NavLink>
         </li>
       </ul>
+      <div className='logoutCont'>
+        <button className='logoutButton' onClick={handleLogout}>
+          <HiMiniArrowLeftOnRectangle size={25}  />
+          <span>Cerrar sesión</span>
+        </button>
+      </div>
     </div>
   );
 }

@@ -47,7 +47,7 @@ function Avance({isMobile}) {
   return (
     <div>
         {isMobile ? <HeaderMobile /> : <HeaderInicio titulo="Avance" />}
-        <div className='avanceCont'>
+        <div className='eAvanceCont'>
             {isMobile && <p className='WelcomeMsg'>Avance</p>}
             <div className='pageTitle'>
                 <span>{usuario.nombre}</span>
@@ -68,12 +68,12 @@ function Avance({isMobile}) {
                 </div>
             </div>
         
-           <div className='avanceInfCont'>
-                <div className='button avanceGraficaCont'style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+           <div className='eAvanceInfCont'>
+                <div className='button eAvanceGraficaCont'style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
                 <div className='buttonHeader'>
                         <HiDocumentCheck/><span>Avance</span>
                     </div>
-                    <div id="porcentajeGrafica">
+                    <div>
                         {Math.round(porMc)}%
                     </div>
                     <Chart
@@ -84,11 +84,11 @@ function Avance({isMobile}) {
                         className='chart' 
                     />
                 </div>
-                <div className='button avanceModulosCursadosCont'>
+                <div className='button eAvanceModulosCursadosCont'>
                     <div className='buttonHeader'>
                         <HiDocumentCheck/><span>Módulos completados</span>
                     </div>
-                    <div className='moduleInfoCont'>
+                    <div className='eModuleInfoCont'>
                         {modulosCursados.map((mcObj) =>(
                             <li key={mcObj.id}>{mcObj.nombre}</li>
                         ))} 
@@ -98,16 +98,18 @@ function Avance({isMobile}) {
                     <div className='buttonHeader'>
                         <HiDocumentCheck/><span>Módulos por completar</span>
                     </div>
-                    <div className='moduleInfoCont'>
+                    <div className='eModuleInfoCont'>
                         {modulosPorCursar.map((mcpObj) =>(
                             <li key={mcpObj.id}>{mcpObj.nombre}</li>
                         ))} 
                     </div>
                 </div>
            </div>
+           {isMobile && <div style={{height:"50px"}}/>}
         </div>
     </div>
   );
 }
 
 export default Avance;
+//rama  avance

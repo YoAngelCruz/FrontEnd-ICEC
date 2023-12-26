@@ -6,17 +6,20 @@
 }
 .AdminContainer{
     min-height: 100%;
+    max-width: 100%;
     background-attachment: fixed;
     font-family:'Product Sans', sans-serif;
     display: grid;
-    grid-template-areas: /* Dispoicion pasr celular*/
-        "AdminContent";
+    grid-template: /* Dispoicion pasr celular*/
+        "AdminContent"/
+        100%;
         
 }
 
 
 .AdminContent{
     grid-area: AdminContent;
+    max-width: 100%;
 }
 .AdminNav{
     display: none;
@@ -26,7 +29,7 @@
     .AdminContainer{
         grid-template:
         "AdminNav  AdminContent"/
-        25%    auto;
+        25%    75%;
     }
     .StickyNavContent {
         display: block;
@@ -50,7 +53,7 @@
     .AdminContainer{
         grid-template:
         "AdminNav  AdminContent"/
-        27%    auto;
+        27%    73%;
     }
 }
 
@@ -58,13 +61,13 @@
     .AdminContainer{
         grid-template:
         "AdminNav  AdminContent"/
-        22%    auto;
+        22%    78%;
     }
 }
 @media (min-width: 1300px){
     .AdminContainer{
         grid-template:
         "AdminNav  AdminContent"/
-        20%    auto;
+        20%    80%;
     }
 }

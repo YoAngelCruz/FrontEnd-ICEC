@@ -1,0 +1,40 @@
+.aGruposCont{
+    text-align: start;
+    padding: 5%;
+  }
+.aGruposCont .editButton{
+    padding: 5px 3.2vw;
+    color:white;
+    background-color: blue;
+}
+.aGruposCont .deleteButton{
+    padding: 5px 3.2vw;
+    color:white;
+    background-color: red;
+}
+.aGruposCont .tableContainer{
+    overflow-x: auto;
+    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.4);
+    padding: 12px;
+    color: black;
+}
+
+@media (min-width: 600px){
+    .tableContainer::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .tableContainer::-webkit-scrollbar-thumb {
+        background: #aaa;
+        border-radius: 4px;
+    }
+    .tableContainer::-webkit-scrollbar-thumb:hover {
+        background: #eee;
+        border-radius: 4px;
+    }
+    .tableContainer::-webkit-scrollbar-track {
+        background: #00000040;
+        border-radius: 4px;
+    }
+}

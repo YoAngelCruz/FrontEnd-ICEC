@@ -1,0 +1,108 @@
+.loginCont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  border-radius: 5px;
+  overflow: hidden;
+  height: 100vh;
+}
+
+.leftPanel {
+  grid-area: leftPanel;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: -15vh;
+  padding: 0 30%;
+}
+
+.rightPanel {
+  grid-area: rightPanel;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 45px 35px;
+  border-radius: 20px;
+  min-width: 60vw;
+}
+
+.rightPanel form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.rightPanel form .form-group {
+  text-align: left;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.loginModularCont {
+  padding: 10% 0;
+  margin: 5vw;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-areas:    
+    "leftPanel"
+    "rightPanel";
+  gap: 0px;
+}
+
+.loginCont form {
+  display: flex;
+  flex-direction: column;
+}
+
+.loginCont .form-group {
+  margin-bottom: 10px;
+}
+
+.loginTitle {
+  color: black;
+  font-size: 25px;
+  font-weight: 600;
+  margin-bottom: 25px;
+}
+
+.loginCont input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.loginCont button {
+  background-color: #073cc3;
+  color: #fff;
+  border: none;
+  border-radius: 15px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 30px;
+}
+
+.loginCont button:hover {
+  background-color: #0b62c0;
+}
+@media (min-width: 600px){
+  .loginModularCont{
+    grid-template-areas:
+    "leftPanel rightPanel";
+    grid-template-columns: repeat(2, 1fr);
+    padding: 1px;
+  }
+
+  .leftPanel {
+    margin-top: 0px;
+    padding: 0 15%;
+  }
+
+  .rightPanel {
+    padding: 65px 35px;
+    min-width: 10vw;
+  }
+}
