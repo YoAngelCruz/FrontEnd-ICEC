@@ -42,8 +42,6 @@ const PrivateRoute = ({ element, allowedTypes }) => {
 };
 
 function App() {
-  const currentUrl = window.location.pathname;
-  console.log(currentUrl);
   
   
   return (

@@ -19,8 +19,7 @@ function Home({isMobile}) {
         try {
           const profesoresData = await apic.get('/profesores/');
           setMaestros(profesoresData);
-          console.log("Respuesta de la API:", profesoresData);
-          console.log("json maestros: ", maestros);
+          console.log("INICIO 1 Respuesta de la API:", profesoresData);
         } catch (error) {
           console.error('Error al obtener los maestros:', error);
         }
@@ -30,8 +29,7 @@ function Home({isMobile}) {
         try {
           const gruposData = await apic.get('/grupos/');
           setGrupos(gruposData);
-          console.log("Respuesta de la API:", gruposData);
-          console.log("json grupos: ", grupos);
+          console.log("INICIO 2 Respuesta de la API:", gruposData);
         } catch (error) {
           console.error('Error al obtener los grupos:', error);
         }
@@ -39,6 +37,9 @@ function Home({isMobile}) {
 
       fetchProfesores();
       fetchGrupos();
+    }, []);
+
+    useEffect(() => {
       // Actualizar la fecha actual cada segundo
       const intervalId = setInterval(() => {
         setCurrentDate(new Date());
@@ -46,7 +47,7 @@ function Home({isMobile}) {
   
       // Limpieza del intervalo cuando el componente se desmonta
       return () => clearInterval(intervalId);
-    }, [maestros, grupos]);
+    }, []);
 
   return (
     <div>

@@ -42,8 +42,25 @@ function Calificacion({isMobile}) {
   }, [idGrupo]);
 
   const obtenerFechaHoy = () => {
-    const fechaHoyFormateada = dayjs().format('DD/MM/YYYY');
+    const fechaHoyFormateada = dayjs().format('MM/DD/YYYY');
     setFechaHoy(fechaHoyFormateada);
+  };
+  const UpdateCalif = async (id, calif) => {
+    try {
+      const califUpdate = await apic.put(`/calificaciones/${id}`, calif);
+      console.log('Calificacion actualizada correctamente:', califUpdate);
+    } catch (error) {
+      console.error('Error al actualizar calificacion:', error);
+    }
+  };
+
+  const postCalif = async (postCalif) => {
+    try {
+      const califPost = await apic.post('/calificaciones', postCalif);
+      console.log('Calificacion creada correctamente:', califPost);
+    } catch (error) {
+      console.error('Error al crear calificacion:', error);
+    }
   };
 
 
@@ -72,13 +89,15 @@ function Calificacion({isMobile}) {
     setIdCalif(id_calificacion);
     if( id_calificacion===null){
       console.log('Calificacion nueva -------------------');
-      setCreateCalif({...createCalif,id_inscripcion: id_inscripcion, calificacion: calificacion, fecha: fechaHoy, aprobado: true});
+      let aprob = calificacion >= 6 ? true : false;
+      setCreateCalif({...createCalif,id_inscripcion: id_inscripcion, calificacion: calificacion, fecha: fechaHoy, aprobado: aprob});
       setCalif(0);
       setIsNew(true);
       setIsUpdate(false);
     }else{
       console.log('Calificacion Actualizada -------------------');
-      setEditCalif({...editCalif, calificacion: calificacion, fecha: fechaHoy, aprobado: true});
+      let aprob = calificacion >= 6 ? true : false;
+      setEditCalif({...editCalif, calificacion: calificacion, fecha: fechaHoy, aprobado: aprob});
       setCalif(calificacion);
       setIsNew(false);
       setIsUpdate(true);
@@ -92,10 +111,12 @@ function Calificacion({isMobile}) {
   };
   const handleChangeEditCalif = (event) => {
     setCalif(event.target.value);
+    let aprob = event.target.value >= 6 ? true : false;
+    console.log('aprobo ', aprob);
     if (isNew){
-      setCreateCalif({ ...createCalif, calificacion: event.target.value });
+      setCreateCalif({ ...createCalif, calificacion: event.target.value, aprobado: aprob });
     } else if (isUpdate){
-      setEditCalif({ ...editCalif, calificacion: event.target.value });
+      setEditCalif({ ...editCalif, calificacion: event.target.value, aprobado: aprob });
     }
     
   };
@@ -104,10 +125,12 @@ function Calificacion({isMobile}) {
     if (isNew){
       console.log('create');
       console.log(createCalif);
+      postCalif(createCalif);
     } else if (isUpdate){
       console.log('update');
       console.log('id calif', idCalif);
       console.log(editCalif);
+      UpdateCalif(idCalif, editCalif);
     }
     handleCloseEditCalif();
   };
