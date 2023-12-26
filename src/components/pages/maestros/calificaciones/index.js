@@ -10,20 +10,20 @@ import apic from '../../../../services/api';
 function Calificaciones({isMobile}) {
     const { userData } = useAuth();
     const [grupos, setGrupos] = useState([]);
-    const cursosActuales=[{"id": "1","nombre": "Nombre del modulo actual"},{"id": "2","nombre": "Más nombres de módulos"},{"id": "3","nombre": "Otro nombre que no me acuerdo"},{"id": "4","nombre": "Pero seguramente si existen jaaj"},{"id": "5","nombre": "Aro nombre que no me acuerdo"},];
     useEffect(() => {
+        const gruposByProfesor = async (id) => {
+            try {
+                const gruposData = await apic.get(`/profesores/${id}/grupos`);
+                setGrupos(gruposData);
+                console.log(`Respuesta de la API para el grupo ${id}:`, gruposData);
+            } catch (error) {
+                console.error('Error al obtener alumnos por grupo:', error);
+            }
+            };
         gruposByProfesor(userData.id);
-      }, []);
+      }, [userData]);
     
-    const gruposByProfesor = async (id) => {
-    try {
-        const gruposData = await apic.get(`/profesores/${id}/grupos`);
-        setGrupos(gruposData);
-        console.log(`Respuesta de la API para el grupo ${id}:`, gruposData);
-    } catch (error) {
-        console.error('Error al obtener alumnos por grupo:', error);
-    }
-    };
+    
   return (
     <div>
         {isMobile ? <HeaderMobile /> : <HeaderInicio titulo="Calificación" />}

@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './headerDesktop.css';
 import logo from '../../assets/img/logo1.png';
-//import Cookies from 'universal-cookie';
 
-//const cookie = new Cookies();
 function HeaderInicio({titulo}) {
   const [headerTransparent, setHeaderTransparent] = useState(true);
-  //const [panelVisible, setPanelVisible] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {

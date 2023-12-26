@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import HeaderInicio from '../../../common/headerDesktop';
 import HeaderMobile from '../../../common/headerMobile';
 import apic from '../../../../services/api';
-import dayjs from 'dayjs';
 import './grupos.css';
 import {HiMagnifyingGlass, HiPencilSquare, HiTrash, HiPencil} from 'react-icons/hi2';
 import {HiPlus, HiArrowRight, HiArrowLeft} from 'react-icons/hi';
@@ -58,35 +57,47 @@ function Grupos({isMobile}) {
 
    //GET
   useEffect(() => {
+
+    const fetchGrupos = async () => {
+      try {
+        const gruposData = await apic.get('/grupos/');
+        setGrupos(gruposData);
+        gruposData.forEach((grupo) => {
+          fetchAlumnosByGrupo(grupo.id_grupo);
+        });
+        console.log("Respuesta de la API:", gruposData);
+        console.log("json grupos: ", grupos);
+      } catch (error) {
+        console.error('Error al obtener los grupos:', error);
+      }
+    };
+  
+    const fetchProfesores = async () => {
+      try {
+        const profesoresData = await apic.get('/profesores/');
+        setMaestros(profesoresData);
+        console.log("Respuesta de la API:", profesoresData);
+        console.log("json maestros: ", maestros);
+      } catch (error) {
+        console.error('Error al obtener maestros:', error);
+      }
+    };
+
+    const fetchAlumnos = async () => {
+      try {
+        const estudiantesData = await apic.get('/alumnos/');
+        setEstudiantes(estudiantesData);
+        console.log("Respuesta de la API:", estudiantesData);
+        console.log("json estuiantes: ", estudiantes);
+      } catch (error) {
+        console.error('Error al obtener los estudiantes:', error);
+      }
+    };
+
     fetchGrupos();
     fetchProfesores();
     fetchAlumnos();
-  }, []);
-
-  const fetchGrupos = async () => {
-    try {
-      const gruposData = await apic.get('/grupos/');
-      setGrupos(gruposData);
-      gruposData.forEach((grupo) => {
-        fetchAlumnosByGrupo(grupo.id_grupo);
-      });
-      console.log("Respuesta de la API:", gruposData);
-      console.log("json grupos: ", grupos);
-    } catch (error) {
-      console.error('Error al obtener los grupos:', error);
-    }
-  };
-
-  const fetchProfesores = async () => {
-    try {
-      const profesoresData = await apic.get('/profesores/');
-      setMaestros(profesoresData);
-      console.log("Respuesta de la API:", profesoresData);
-      console.log("json maestros: ", maestros);
-    } catch (error) {
-      console.error('Error al obtener maestros:', error);
-    }
-  };
+  }, [estudiantes, grupos, maestros]);
 
   const fetchAlumnosByGrupo = async (id) => {
     try {
@@ -98,16 +109,6 @@ function Grupos({isMobile}) {
       console.log(`Respuesta de la API para el grupo ${id}:`, alumGrupoData);
     } catch (error) {
       console.error('Error al obtener alumnos por grupo:', error);
-    }
-  };
-  const fetchAlumnos = async () => {
-    try {
-      const estudiantesData = await apic.get('/alumnos/');
-      setEstudiantes(estudiantesData);
-      console.log("Respuesta de la API:", estudiantesData);
-      console.log("json estuiantes: ", estudiantes);
-    } catch (error) {
-      console.error('Error al obtener los estudiantes:', error);
     }
   };
 

@@ -7,21 +7,21 @@ import { NavLink } from 'react-router-dom';
 function Modulos({isMobile}) {
   const [currentDate, setCurrentDate] = useState(new Date());
   const curAc={"id": "1","nombre": "Procesador de textos", "calificacion": "SC", "periodo":"Ordinario", "maestro": "Chistian A. R.", "semanas": "6", "horario": "Sábados 14:00 - 17:00"}
-  const fechaInicioStr = "2023/10/05"; //esta se recupera del api
-  const fechaInicio = new Date(fechaInicioStr);
+  const fechaInicioStr = "2023/10/05"; //esta se recupera del api 
   const [semanas, setSemanas] = useState();
 
   useEffect(() => {
-      const intervalId = setInterval(() => {
-        setCurrentDate(new Date());
-        const diferenciaEnMilisegundos = currentDate - fechaInicio;
-        const milisegundosPorSemana = 7 * 24 * 60 * 60 * 1000;
-        const semanasTranscurridas = Math.floor(diferenciaEnMilisegundos / milisegundosPorSemana);
-        setSemanas(semanasTranscurridas); // Aquí actualizamos el estado correctamente
-      }, 1000);
-    
-      return () => clearInterval(intervalId);
-    }, []);
+    const fechaInicio = new Date(fechaInicioStr);
+    const intervalId = setInterval(() => {
+      setCurrentDate(new Date());
+      const diferenciaEnMilisegundos = currentDate - fechaInicio;
+      const milisegundosPorSemana = 7 * 24 * 60 * 60 * 1000;
+      const semanasTranscurridas = Math.floor(diferenciaEnMilisegundos / milisegundosPorSemana);
+      setSemanas(semanasTranscurridas); // Aquí actualizamos el estado correctamente
+    }, 1000);
+  
+    return () => clearInterval(intervalId);
+    }, [currentDate, fechaInicioStr]);
   
   return (
     <div>

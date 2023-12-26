@@ -4,15 +4,12 @@ import { NavLink } from 'react-router-dom';
 import HeaderInicio from '../../common/headerDesktop';
 import HeaderMobile from '../../common/headerMobile';
 import './home.css';
-import apic from '../../../services/api'
 
 function Home({isMobile}) {
     const [currentDate, setCurrentDate] = useState(new Date());
-    const [cursosPasados, setCursosPasados] = useState([]);
-    const curP=[{"id": "1","nombre": "Nombre del modulo pasado"},{"id": "2","nombre": "Más nombres de módulos"},{"id": "3","nombre": "Otro nombre que no me acuerdo"},{"id": "4","nombre": "Pero seguramente si existen jaaj"}];
+    const [cursosPasados] = useState([{"id": "1","nombre": "Nombre del modulo pasado"},{"id": "2","nombre": "Más nombres de módulos"},{"id": "3","nombre": "Otro nombre que no me acuerdo"},{"id": "4","nombre": "Pero seguramente si existen jaaj"}]);
     
     useEffect(() => {
-        setCursosPasados(curP);
         // Actualizar la fecha actual cada segundo (puedes ajustar el intervalo según tus necesidades)
         const intervalId = setInterval(() => {
           setCurrentDate(new Date());
@@ -34,7 +31,7 @@ function Home({isMobile}) {
             <span className='AditionalInfo'>{formattedDate}</span>
             <div className='modularCont'>
 
-                <NavLink className={isMobile ? "button bigButton eUsuarioButton" : "button normalButton eUsuarioButton"}>
+                <NavLink className={isMobile ? "button bigButton eUsuarioButton" : "button normalButton eUsuarioButton"} to='/estudiantes/usuario'>
                     <HiUser size={isMobile ? 50 : 55} style={isMobile ? {color: "#073cc3"}: {}}/>
                     <span className="buttonTitle">Usuario</span>
                 </NavLink>

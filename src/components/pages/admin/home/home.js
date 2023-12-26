@@ -14,16 +14,6 @@ function Home({isMobile}) {
     const formattedDate = currentDate.toLocaleDateString('es-ES', options);
 
     useEffect(() => {
-        fetchProfesores();
-        fetchGrupos();
-        // Actualizar la fecha actual cada segundo (puedes ajustar el intervalo según tus necesidades)
-        const intervalId = setInterval(() => {
-          setCurrentDate(new Date());
-        }, 1000);
-    
-        // Limpieza del intervalo cuando el componente se desmonta
-        return () => clearInterval(intervalId);
-      }, []);
 
       const fetchProfesores = async () => {
         try {
@@ -47,6 +37,16 @@ function Home({isMobile}) {
         }
       };
 
+      fetchProfesores();
+      fetchGrupos();
+      // Actualizar la fecha actual cada segundo
+      const intervalId = setInterval(() => {
+        setCurrentDate(new Date());
+      }, 1000);
+  
+      // Limpieza del intervalo cuando el componente se desmonta
+      return () => clearInterval(intervalId);
+    }, [maestros, grupos]);
 
   return (
     <div>

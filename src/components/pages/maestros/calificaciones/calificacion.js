@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import HeaderInicio from '../../../common/headerDesktop';
 import HeaderMobile from '../../../common/headerMobile';
 import './calificaciones.css';
@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import apic from '../../../../services/api';
+import dayjs from 'dayjs';
 
 
 function Calificacion({isMobile}) {
@@ -16,24 +17,35 @@ function Calificacion({isMobile}) {
   const url = window.location.href;
   const partes = url.split("/");
   const idGrupo = partes[partes.length - 1];
-  const [editCalif, setEditCalif] = useState({id: '', nombre: '', clave: '', edad: '', curp: '', domicilio: '', num_tel_a: '', email: '', 
-  turno: '', fecha_inicio: '', contraseña: '', tutor: '', id_inscripcion: '', calificacion: ''});
+  const [createCalif, setCreateCalif] = useState({id_inscripcion:'', calificacion:'', fecha: '', aprobado: ''});
+  const [editCalif, setEditCalif] = useState({calificacion:'', fecha: '', aprobado: ''});
   const [alumGrupos, setAlumGrupos] = useState([]);
+  const [fechaHoy, setFechaHoy] = useState('');
+  const [calif, setCalif] = useState('');
+  const [idCalif, setIdCalif] = useState('');
+  const [isNew, setIsNew] = useState('');
+  const [isUpdate, setIsUpdate] = useState('');
 
   useEffect(() => {
-    fetchAlumnosByGrupo(idGrupo);
-    console.log()
-  }, []);
+    const fetchAlumnosByGrupo = async (id) => {
+      try {
+        const alumGrupoData = await apic.get(`/grupos/${id}/alumnos`);
+        setAlumGrupos(alumGrupoData);
+        console.log(`Respuesta de la API para el grupo ${id}:`, alumGrupoData);
+      } catch (error) {
+        console.error('Error al obtener alumnos por grupo:', error);
+      }
+    };
 
-  const fetchAlumnosByGrupo = async (id) => {
-    try {
-      const alumGrupoData = await apic.get(`/grupos/${id}/alumnos`);
-      setAlumGrupos(alumGrupoData);
-      console.log(`Respuesta de la API para el grupo ${id}:`, alumGrupoData);
-    } catch (error) {
-      console.error('Error al obtener alumnos por grupo:', error);
-    }
+    fetchAlumnosByGrupo(idGrupo);
+    obtenerFechaHoy();
+  }, [idGrupo]);
+
+  const obtenerFechaHoy = () => {
+    const fechaHoyFormateada = dayjs().format('DD/MM/YYYY');
+    setFechaHoy(fechaHoyFormateada);
   };
+
 
   const theme = createTheme({
     components: {
@@ -56,8 +68,22 @@ function Calificacion({isMobile}) {
   
   //Abrir y cerrar dialog editar nombre estudiantes
   const handleClickOpenEditCalif = (alumno) => {
-    const {id, nombre, clave, edad, curp, domicilio, num_tel_a, email, turno, fecha_inicio, contraseña, tutor, id_inscripcion, calificacion } = alumno;
-    setEditCalif({...alumno, calificacion: calificacion});
+    const {id_inscripcion, id_calificacion, calificacion } = alumno;
+    setIdCalif(id_calificacion);
+    if( id_calificacion===null){
+      console.log('Calificacion nueva -------------------');
+      setCreateCalif({...createCalif,id_inscripcion: id_inscripcion, calificacion: calificacion, fecha: fechaHoy, aprobado: true});
+      setCalif(0);
+      setIsNew(true);
+      setIsUpdate(false);
+    }else{
+      console.log('Calificacion Actualizada -------------------');
+      setEditCalif({...editCalif, calificacion: calificacion, fecha: fechaHoy, aprobado: true});
+      setCalif(calificacion);
+      setIsNew(false);
+      setIsUpdate(true);
+    }
+    
     setOpenEditCalif(true);
   };
 
@@ -65,13 +91,25 @@ function Calificacion({isMobile}) {
     setOpenEditCalif(false);
   };
   const handleChangeEditCalif = (event) => {
-    setEditCalif({ ...editCalif, calificacion: event.target.value });
+    setCalif(event.target.value);
+    if (isNew){
+      setCreateCalif({ ...createCalif, calificacion: event.target.value });
+    } else if (isUpdate){
+      setEditCalif({ ...editCalif, calificacion: event.target.value });
+    }
+    
   };
 
   const saveEditCalif = () => {
-    console.log(editCalif);
+    if (isNew){
+      console.log('create');
+      console.log(createCalif);
+    } else if (isUpdate){
+      console.log('update');
+      console.log('id calif', idCalif);
+      console.log(editCalif);
+    }
     handleCloseEditCalif();
-
   };
 
   return (
@@ -113,8 +151,8 @@ function Calificacion({isMobile}) {
                     <div style={{backgroundColor:'white', borderRadius:'8px', padding:'5px 9px'}}>
                         <div style={{margin:'5px'}}>
                         <p style={{marginTop:'15px'}}>&nbsp;Calificación</p>
-                            <input className='inputTextDialog' type='text' value={editCalif.calificacion} onChange={handleChangeEditCalif} name='editCalif'/>
-                            <p style={{fontSize:'12px'}}>&nbsp; {editCalif.calificacion}</p>
+                            <input className='inputTextDialog' type='text' value={calif} onChange={handleChangeEditCalif} name='editCalif'/>
+                            <p style={{fontSize:'12px'}}>&nbsp; {calif}</p>
                             <br/>
                         </div>
                         <Button autoFocus onClick={handleCloseEditCalif}>Cancelar</Button>

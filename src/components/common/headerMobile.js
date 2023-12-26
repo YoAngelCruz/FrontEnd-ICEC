@@ -3,13 +3,10 @@ import { HiMiniArrowLeftOnRectangle, HiMiniBars3 } from "react-icons/hi2";
 import './headerMobile.css';
 import logo from '../../assets/img/logo1.png';
 import { useAuth } from '../../utils/AuthContext';
-//import Cookies from 'universal-cookie';
-
-//const cookie = new Cookies();
 
 function HeaderMobile() {
   const [panelVisible, setPanelVisible] = useState(false);
-  const { isAuthenticated, userData, tipoUsuario, token } = useAuth();
+  const { isAuthenticated } = useAuth();
   const { authLogout } = useAuth();
 
   const panel= {

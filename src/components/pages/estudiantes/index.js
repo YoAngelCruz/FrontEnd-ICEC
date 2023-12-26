@@ -3,6 +3,7 @@ import {Routes, Route, Navigate} from 'react-router-dom';
 import NavBarMobile from './navBar/navBarMobile' 
 import NavBarDesktop from './navBar/navBarDesktop';
 import Home from './home'
+import Usuario from '../../common/usuario';
 import Calificaciones from './calificaciones';
 import Calendario from '../../common/calendario';
 import Modulos from './modulos';
@@ -32,8 +33,9 @@ function Estudiantes() {
                     <Route path="home" element={<Home isMobile={isMobile}/>} />
                     <Route path="calendario" element={<Calendario isMobile={isMobile}/>} />
                     <Route path="calificaciones" element={<Calificaciones isMobile={isMobile}/>} />
-                    <Route path="modulos" element={<Modulos isMobile={isMobile}/>} />
+                    <Route path="modulo" element={<Modulos isMobile={isMobile}/>} />
                     <Route path="avance" element={<Avance isMobile={isMobile}/>} />
+                    <Route path="usuario" element={<Usuario isMobile={isMobile}/>} />
                 </Routes>
         </div>
         <div className='EstudiantesNav'>

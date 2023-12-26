@@ -27,19 +27,19 @@ function Maestros({isMobile}) {
 
   //GET
   useEffect(() => {
+    const fetchProfesores = async () => {
+      try {
+        const profesoresData = await apic.get('/profesores/');
+        setMaestros(profesoresData);
+        console.log("Respuesta de la API:", profesoresData);
+        console.log("json maestros: ", maestros);
+      } catch (error) {
+        console.error('Error al obtener maestros:', error);
+      }
+    };
     fetchProfesores();
-  }, []);
+  }, [maestros]);
 
-  const fetchProfesores = async () => {
-    try {
-      const profesoresData = await apic.get('/profesores/');
-      setMaestros(profesoresData);
-      console.log("Respuesta de la API:", profesoresData);
-      console.log("json maestros: ", maestros);
-    } catch (error) {
-      console.error('Error al obtener maestros:', error);
-    }
-  };
   const DeleteProfesores = async (id) => {
     try {
       const profesoresDelete = await apic.delete(`/profesores/${id}`);

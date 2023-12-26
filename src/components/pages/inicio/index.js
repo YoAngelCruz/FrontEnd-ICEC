@@ -6,6 +6,7 @@ import foto1 from '../../../assets/img/carrusel1.jpg'
 import foto2 from '../../../assets/img/carrusel2.jpg'
 import foto3 from '../../../assets/img/carrusel3.jpg'
 import foto4 from '../../../assets/img/carrusel4.jpg'
+import img1 from '../../../assets/img/img1.jpg'
 function Inicio() {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
     useEffect(() => {
@@ -36,11 +37,21 @@ function Inicio() {
             <div style={imgStyle}><img src={foto3} width={'100%'}  alt="Foto 3" /></div>
             <div style={imgStyle}><img src={foto4} width={'100%'}  alt="Foto 4" /></div>
         </Carousel>
-        <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', flexDirection:'row', alignItems:'space-between', backgroundColor:'white', margin:'20px 10px', borderRadius:'10px', padding:'10px'}}>
-            <div>Contenedor 1</div>
-            <div>Contenedor 2</div>
+        <div className='preInicioCont'>
+            <p className='homeBigTitle'>Bienvenido a ICEC</p>
+            <div className='preModulInicioCont'>
+                <div className='pMICTexto'>
+                    <p>
+                        <p>Especialidad: <b>INFORMÁTICA.</b></p><br/>
+                        <p>Estudios con Reconocimiento de Validez Oficial ante la SEP.</p><br/>
+                        <p>Explora el mundo de la informática con nosotros y lleva tu educación al siguiente nivel. En ICEC, nos enorgullece ofrecer programas académicos de calidad respaldados por la Secretaría de Educación Pública. Descubre oportunidades emocionantes y prepárate para un futuro en constante evolución.</p>
+                        <br/><p>¡Comienza tu viaje hacia el éxito con ICEC!</p>
+                    </p></div>
+                <div className='pMICImg'><img src={img1} width={'100%'}  alt="Imagen 1"/></div>
+            </div>
         </div>
         <div>
+        {isMobile && <p>Borar</p>}
             {[...Array(100)].map((_, index) => (
                 <div key={index}>Hola</div>
             ))}

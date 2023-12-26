@@ -29,22 +29,6 @@ function Estudiantes({isMobile}) {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredEstudiantes, setFilteredEstudiantes] = useState([]);
 
-  //GET
-  useEffect(() => {
-    fetchAlumnos();
-  }, []);
-
-  const fetchAlumnos = async () => {
-    try {
-      const estudiantesData = await apic.get('/alumnos/');
-      setEstudiantes(estudiantesData);
-      console.log("Respuesta de la API:", estudiantesData);
-      console.log("json estuiantes: ", estudiantes);
-    } catch (error) {
-      console.error('Error al obtener los estudiantes:', error);
-    }
-  };
-
   const DeleteAlumnos = async (id) => {
     try {
       const estudiantesDelete = await apic.delete(`/alumnos/${id}`);
@@ -79,6 +63,22 @@ function Estudiantes({isMobile}) {
       console.error('Error al eliminar el estudiante:', error);
     }
   };
+
+    //GET
+    useEffect(() => {
+      const fetchAlumnos = async () => {
+        try {
+          const estudiantesData = await apic.get('/alumnos/');
+          setEstudiantes(estudiantesData);
+          console.log("Respuesta de la API:", estudiantesData);
+          console.log("json estuiantes: ", estudiantes);
+        } catch (error) {
+          console.error('Error al obtener los estudiantes:', error);
+        }
+      };
+
+      fetchAlumnos();
+    }, [estudiantes]);
 
   const [editPass, setEditPass] = useState({contraseña:''});
   const [idEditPass, setIdEditPass] = useState();
@@ -154,7 +154,7 @@ function Estudiantes({isMobile}) {
     handleCloseEditEdad();
   };
 
-  //Abrir y cerrar dialog editar curp estudiantes
+  //Abrir y cerrar dialog editar curp estudiantes 
   const handleClickOpenEditCurp = (estudiante) => {
     const {id, nombre, clave, edad, curp, domicilio, num_tel_a, email, turno, fecha_inicio, tutor } = estudiante;
     setIdEditEstudiante(id);

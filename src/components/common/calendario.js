@@ -7,7 +7,7 @@ function Calendario({isMobile}) {
     const [currentDate, setCurrentDate] = useState(new Date());
     
     useEffect(() => {
-        // Actualizar la fecha actual cada segundo (puedes ajustar el intervalo según tus necesidades)
+        // Actualizar la fecha actual cada segundo
         const intervalId = setInterval(() => {
           setCurrentDate(new Date());
         }, 1000);

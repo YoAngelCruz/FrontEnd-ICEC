@@ -4,7 +4,7 @@ import './navBarDesktop.css';
 import { HiBookOpen, HiHome, HiCalendarDays, HiDocumentCheck, HiUserCircle, HiMiniArrowLeftOnRectangle } from "react-icons/hi2";
 import { useAuth } from '../../../../utils/AuthContext';
 function NavBarDesktop() {
-  const { isAuthenticated, userData, tipoUsuario, token } = useAuth();
+  const { isAuthenticated, userData} = useAuth();
   const { authLogout } = useAuth();
 
 

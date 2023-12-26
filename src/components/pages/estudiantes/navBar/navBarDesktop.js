@@ -4,7 +4,7 @@ import './navBarDesktop.css';
 import { HiBookOpen, HiHome, HiChartBar, HiCalendarDays, HiDocumentCheck, HiUserCircle, HiMiniArrowLeftOnRectangle } from "react-icons/hi2";
 import { useAuth } from '../../../../utils/AuthContext';
 function NavBarDesktop() {
-  const { isAuthenticated, userData, tipoUsuario, token } = useAuth();
+  const { isAuthenticated, userData } = useAuth();
   const { authLogout } = useAuth();
 
 
@@ -35,9 +35,9 @@ function NavBarDesktop() {
           </NavLink>
         </li>
         <li>
-          <NavLink exact activeClassName="active" to="/estudiantes/modulos">
+          <NavLink exact activeClassName="active" to="/estudiantes/modulo">
             <HiBookOpen size={25}  />
-            <span>Módulos</span>
+            <span>Módulo</span>
           </NavLink>
         </li>
         <li>

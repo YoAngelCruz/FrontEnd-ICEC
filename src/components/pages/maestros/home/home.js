@@ -13,19 +13,7 @@ function Home({isMobile}) {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [grupos, setGrupos] = useState([]);
     useEffect(() => {
-        gruposByProfesor(userData.id);
-        // Actualizar la fecha actual cada segundo (puedes ajustar el intervalo según tus necesidades)
-        const intervalId = setInterval(() => {
-          setCurrentDate(new Date());
-        }, 1000);
-    
-        // Limpieza del intervalo cuando el componente se desmonta
-        return () => clearInterval(intervalId);
-      }, []);
-    const options = { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' };
-    const formattedDate = currentDate.toLocaleDateString('es-ES', options);
-    
-    const gruposByProfesor = async (id) => {
+      const gruposByProfesor = async (id) => {
         try {
           const gruposData = await apic.get(`/profesores/${id}/grupos`);
           setGrupos(gruposData);
@@ -34,6 +22,19 @@ function Home({isMobile}) {
           console.error('Error al obtener alumnos por grupo:', error);
         }
       };
+
+      gruposByProfesor(userData.id);
+
+      // Actualizar la fecha actual cada segundo 
+      const intervalId = setInterval(() => {
+        setCurrentDate(new Date());
+      }, 1000);
+  
+      // Limpieza del intervalo cuando el componente se desmonta
+      return () => clearInterval(intervalId);
+      }, [userData]);
+    const options = { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' };
+    const formattedDate = currentDate.toLocaleDateString('es-ES', options);
 
   return (
     <div>
@@ -44,7 +45,7 @@ function Home({isMobile}) {
             <span className='AditionalInfo'>{formattedDate}</span>
             <div className='modularCont'>
 
-                <NavLink className={isMobile ? "button bigButton mUsuarioButton" : "button normalButton mUsuarioButton"}>
+                <NavLink className={isMobile ? "button bigButton mUsuarioButton" : "button normalButton mUsuarioButton"} to='/maestros/usuario'>
                     <HiUser size={isMobile ? 50 : 55} style={isMobile ? {color: "#073cc3"}: {}}/>
                     <span className="buttonTitle">Usuario</span>
                 </NavLink>

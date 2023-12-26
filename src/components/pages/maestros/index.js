@@ -3,6 +3,7 @@ import {Routes, Route, Navigate} from 'react-router-dom';
 import NavBarMobile from './navBar/navBarMobile' 
 import NavBarDesktop from './navBar/navBarDesktop';
 import Home from './home/home';
+import Usuario from '../../common/usuario';
 import Calendario from '../../common/calendario';
 import Grupos from './grupos/grupos';
 import Calificaciones from './calificaciones';
@@ -33,6 +34,7 @@ function Maestros() {
                     <Route path="grupos" element={<Grupos isMobile={isMobile}/>} />
                     <Route path="calificaciones" element={<Calificaciones isMobile={isMobile}/>} />
                     <Route path="calificaciones/:id" element={<Calificacion isMobile={isMobile}/>} />
+                    <Route path="usuario" element={<Usuario isMobile={isMobile}/>} />
                 </Routes>
         </div>
         <div className='MaestrosNav'>
