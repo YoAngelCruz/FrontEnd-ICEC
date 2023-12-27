@@ -49,7 +49,7 @@ function Home({isMobile}) {
             <span className='contSubtitle'>Mi módulo actual</span>
 
             <div className='simpleCont'>
-                <NavLink className="button longButton currentModule" to='/estudiantes/modulos'>
+                <NavLink className="button longButton currentModule" to='/estudiantes/modulo'>
                     <HiBookOpen size={isMobile ? 45 : 55} />
                     <div className='textContLongButton'>
                     <span className="buttonTitle" >Procesador de textos</span>
