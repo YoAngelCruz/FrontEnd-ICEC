@@ -4,20 +4,40 @@ import { NavLink } from 'react-router-dom';
 import HeaderInicio from '../../common/headerDesktop';
 import HeaderMobile from '../../common/headerMobile';
 import './home.css';
+import apic from '../../../services/api';
+import { useAuth } from '../../../utils/AuthContext';
 
 function Home({isMobile}) {
+    const { userData } = useAuth();
     const [currentDate, setCurrentDate] = useState(new Date());
-    const [cursosPasados] = useState([{"id": "1","nombre": "Nombre del modulo pasado"},{"id": "2","nombre": "Más nombres de módulos"},{"id": "3","nombre": "Otro nombre que no me acuerdo"},{"id": "4","nombre": "Pero seguramente si existen jaaj"}]);
+    const [modulosAnteriores, setModulosAnteriores] = useState([]);
+    const [moduloActual, setModuloActual] = useState([]);
     
     useEffect(() => {
-        // Actualizar la fecha actual cada segundo (puedes ajustar el intervalo según tus necesidades)
+        const getModulos = async (id) => {
+            try {
+              const modulosData = await apic.get(`/alumnos/${id}/modulos`);
+              const modulosOrdenados = modulosData.sort((a, b) => new Date(b.fecha_inicio) - new Date(a.fecha_inicio));
+              const modulosAnt = modulosOrdenados.filter((modulo) => modulo !== modulosOrdenados[0]);
+
+              setModuloActual(modulosOrdenados[0]);
+              setModulosAnteriores(modulosAnt);
+
+              console.log(`Respuesta de la API para los modulos ${id}:`, modulosData);
+            } catch (error) {
+              console.error('Error al obtener modulos:', error);
+            }
+        };
+
+        getModulos(userData.id);
+          
         const intervalId = setInterval(() => {
           setCurrentDate(new Date());
         }, 1000);
     
         // Limpieza del intervalo cuando el componente se desmonta
         return () => clearInterval(intervalId);
-      }, []);
+      }, [userData]);
     const options = { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' };
     const formattedDate = currentDate.toLocaleDateString('es-ES', options);
 
@@ -52,7 +72,7 @@ function Home({isMobile}) {
                 <NavLink className="button longButton currentModule" to='/estudiantes/modulo'>
                     <HiBookOpen size={isMobile ? 45 : 55} />
                     <div className='textContLongButton'>
-                    <span className="buttonTitle" >Procesador de textos</span>
+                    <span className="buttonTitle" >{moduloActual.nombre}</span>
                     <span >Clic para ver detalles</span>
                     </div>
                 </NavLink>
@@ -60,10 +80,11 @@ function Home({isMobile}) {
             <span className='contSubtitle'>Mi módulos pasados</span>
             <div className='gridCont'>
                 
-                {cursosPasados.map((cursosObj) => (
-                    <NavLink className='button normalButton'key={cursosObj.id} to='/estudiantes/calificaciones'>
+                {modulosAnteriores.map((moduloObj) => (
+                    <NavLink className='button normalButton'key={moduloObj.id} to='/estudiantes/calificaciones'>
                         <HiAcademicCap size={isMobile ? 35 : 55} />
-                        <span className="buttonTitle">{cursosObj.nombre}</span>
+                        <span className="buttonTitle">{moduloObj.nombre}</span>
+                        <span className="buttonTitle">{moduloObj.descripcion}</span>
                     </NavLink>
                 ))}
                 

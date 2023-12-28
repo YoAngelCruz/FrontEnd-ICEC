@@ -1,15 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import HeaderInicio from '../../common/headerDesktop';
 import HeaderMobile from '../../common/headerMobile';
 import './calificaciones.css';
+import apic from '../../../services/api';
+import { useAuth } from '../../../utils/AuthContext';
 
 function Calificaciones({isMobile}) { 
+    const { userData } = useAuth();
+    const [modulosAnteriores, setModulosAnteriores] = useState([]);
+    useEffect(() => {
+        const getModulos = async (id) => {
+            try {
+              const modulosData = await apic.get(`/alumnos/${id}/modulos/calificaciones`);
+              const modulosOrdenados = modulosData.sort((a, b) => new Date(b.fecha_inicio) - new Date(a.fecha_inicio));
+              const modulosAnt = modulosOrdenados.filter((modulo) => modulo !== modulosOrdenados[0]);
+              setModulosAnteriores(modulosAnt);
 
-    const [cursosPasados] = useState([{"id": "2","nombre": "Nombre del modulo pasado", "calificacion": "10", "periodo":"Ordinario"},
-    {"id": "3","nombre": "Más nombres de módulos", "calificacion": "10", "periodo":"Ordinario"},
-    {"id": "4","nombre": "Otro nombre que no me acuerdo", "calificacion": "9", "periodo":"Extraordinario"},
-    {"id": "5","nombre": "Pero seguramente si existen jaaj", "calificacion": "8", "periodo":"Proyecto"}]);
-    
+              console.log(`Respuesta de la API para los modulos ${id}:`, modulosData);
+            } catch (error) {
+              console.error('Error al obtener modulos:', error);
+            }
+        };
+
+        getModulos(userData.id);
+      }, [userData]);
+
     const periodoStyle = {
         Ordinario: {backgroundColor: '#169e21'},
         Extraordinario : {backgroundColor: '#e7a90e'},
@@ -25,12 +40,12 @@ function Calificaciones({isMobile}) {
             
             <div className='gridCont'>
                 
-                {cursosPasados.map((cursosObj) => (
-                    <div className='button normalButton ePastModule'key={cursosObj.id}>
-                        <span className='califInfo'>{cursosObj.calificacion}</span>
+                {modulosAnteriores.map((moduloObj) => (
+                    <div className='button normalButton ePastModule'key={moduloObj.id}>
+                        <span className='califInfo'>{moduloObj.calificacion}</span>
                         <div className='textContLongButton'>
-                            <span className="buttonTitle" >{cursosObj.nombre}</span>
-                            <span className='periodoInfo'style={periodoStyle[cursosObj.periodo]}>{cursosObj.periodo}</span>
+                            <span className="buttonTitle" >{moduloObj.nombre}</span>
+                            <span className='periodoInfo'style={periodoStyle[moduloObj.periodo]}>{moduloObj.periodo}</span>
                         </div>
                     </div>
                 ))}
