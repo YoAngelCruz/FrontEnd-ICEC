@@ -12,7 +12,6 @@ const PrivateRoute = ({ element, allowedTypes }) => {
   const { isAuthenticated, tipoUsuario } = useAuth();
   /*
   const { authLogout } = useAuth();
-  authLogout();
   useEffect(() => {
     authLogout();
   }, []);*/

@@ -32,13 +32,12 @@ function Maestros({isMobile}) {
         const profesoresData = await apic.get('/profesores/');
         setMaestros(profesoresData);
         console.log("Respuesta de la API:", profesoresData);
-        console.log("json maestros: ", maestros);
       } catch (error) {
         console.error('Error al obtener maestros:', error);
       }
     };
     fetchProfesores();
-  }, [maestros]);
+  }, []);
 
   const DeleteProfesores = async (id) => {
     try {
@@ -391,7 +390,7 @@ function Maestros({isMobile}) {
                       <p align="center">¿Seguro que quiere eliminar al maestro <b>{maestroDelete.nombre}</b>?</p>
                     </div>
                     <Button autoFocus onClick={handleCloseDelete}>Cancelar</Button>
-                    <Button onClick={saveMaestrosDelete} autoFocus>Guardar</Button>
+                    <Button onClick={saveMaestrosDelete} autoFocus>Eliminar</Button>
                 </div>                                    
               </DialogContent>
             </Dialog>

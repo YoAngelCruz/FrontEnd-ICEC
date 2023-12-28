@@ -193,6 +193,38 @@ function Grupos({isMobile}) {
       },
     },
   });
+
+  const themeFecha = createTheme({
+    components: {
+      MuiFormControl: {
+        styleOverrides: {
+          root: {
+            margin: '10px 0px',
+          },
+        },
+      },
+      MuiInputBase: {
+        styleOverrides: {
+          root: {
+            backgroundColor: '#efefef',
+            padding:'0px',
+            fontFamily:'Product Sans',
+          },
+        },
+      },
+      MuiOutlinedInput: {
+        styleOverrides: {
+          notchedOutline: {
+            borderColor: '#828282',
+            borderRadius: '10px',
+          },
+          input: {
+            padding: '11px 17px', // Ajustar el padding según sea necesario
+          },
+        },
+      },
+    },
+  });
   
   // Función para filtrar estudiantes por nombre
   const filterGrupos = () => {
@@ -408,7 +440,6 @@ function Grupos({isMobile}) {
     handleCloseEditList();
   };
   const borrarAlumno = () => {
-    console.log('hola');
     console.log('Lista derecha pasada',pastLeft);
     console.log('Lista derecha pasada',left);
     const quitarElementos = left.filter(item => !pastLeft.some(pastItem => JSON.stringify(pastItem) === JSON.stringify(item)));
@@ -493,7 +524,7 @@ function Grupos({isMobile}) {
           
           <div className='searchCont' style={{display:"flex", width: '100%', padding: '7px', marginBottom: '40px', justifyContent: 'space-between'}}>
             <Paper component="form" sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '40vw', borderRadius:'50px' }}>
-                <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Buscar alumno" inputProps={{ 'aria-label': 'search google maps' }} value={searchTerm} onChange={(e) => {setSearchTerm(e.target.value); filterGrupos(e.target.value);}}/>
+                <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Buscar grupo" inputProps={{ 'aria-label': 'search google maps' }} value={searchTerm} onChange={(e) => {setSearchTerm(e.target.value); filterGrupos(e.target.value);}}/>
                 <IconButton type="button" sx={{ p: '10px', color:'white', backgroundColor:'#073cc3','&:hover': {backgroundColor: '#05236f',}, }} aria-label="search" onClick={filterGrupos}>
                     <HiMagnifyingGlass />
                 </IconButton>
@@ -517,7 +548,7 @@ function Grupos({isMobile}) {
                   
                   {(filteredGrupos.length > 0 ? filteredGrupos : grupos).map((GruposObj, index) => ( 
                       <tr key={GruposObj.id_grupo}>
-                        <td style={{backgroundColor:'white', padding: '5px 10px', width:'auto-fit', whiteSpace: 'nowrap', borderTopLeftRadius: index === 0 ? '15px':'0px', borderBottomLeftRadius: index === maestros.length-1 ? '15px':'0px'}}>
+                        <td style={{backgroundColor:'white', padding: '5px 10px', width:'auto-fit', whiteSpace: 'nowrap', borderTopLeftRadius: index === 0 ? '15px':'0px', borderBottomLeftRadius: index === grupos.length-1 ? '15px':'0px'}}>
                           {GruposObj.descripcion}&emsp;
                           <button className='actionButton' title='Editar nombre' onClick={() => handleClickOpenEditDescrip(GruposObj)}><HiPencilSquare/></button>
                         </td>
@@ -540,7 +571,7 @@ function Grupos({isMobile}) {
                         <td style={{backgroundColor:'white', borderLeft: '1px solid #888', padding: '2px 10px', width:'auto-fit'}} align='center'>
                           <button className='actionButton editButton' onClick={() => handleClickOpenEditList(GruposObj.id_grupo)}><HiPencil/></button>
                         </td>
-                        <td style={{backgroundColor:'white', borderLeft: '1px solid #888', padding: '2px 10px', width:'auto-fit', borderBottomRightRadius: index === maestros.length-1 ? '15px': '0', borderTopRightRadius: index === 0 ? '15px':'0px'}} align='center'>
+                        <td style={{backgroundColor:'white', borderLeft: '1px solid #888', padding: '2px 10px', width:'auto-fit', borderBottomRightRadius: index === grupos.length-1 ? '15px': '0', borderTopRightRadius: index === 0 ? '15px':'0px'}} align='center'>
                           <button className='actionButton deleteButton' onClick={() => handleClickOpenDelete(GruposObj.id_grupo, GruposObj.descripcion)}><HiTrash/></button>
                         </td>
                       </tr>
@@ -703,8 +734,12 @@ function Grupos({isMobile}) {
                         </select>
                         <p style={{marginTop:'15px'}}>&nbsp;Fecha de inicio, fecha de fin</p>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <ThemeProvider theme={themeFecha}>
                           <DatePicker label="Fecha inicio" name='fecha_inicio' value={grupoAdd.fecha_inicio} onChange={(date) => handleDateChange(date, 'fecha_inicio')} />
+                        </ThemeProvider>
+                        <ThemeProvider theme={themeFecha}>
                           <DatePicker label="Fecha fin" name='fecha_fin' value={grupoAdd.fecha_fin} onChange={(date) => handleDateChange(date, 'fecha_fin')} />
+                        </ThemeProvider>
                         </LocalizationProvider>
                         <br/>
                     </div>
