@@ -75,7 +75,7 @@ function Home({isMobile}) {
             <div className='gridCont'>
                 
                 {maestros.map((maestrosObj) => (
-                    <NavLink className='button normalButton'key={maestrosObj.id} to='/admin/maestros'>
+                    <NavLink className='button normalButton' key={maestrosObj.id} to='/admin/maestros'>
                         <HiBookOpen size={isMobile ? 35 : 55} />
                         <span className="buttonTitle">{maestrosObj.nombre}</span>
                     </NavLink>
@@ -87,7 +87,7 @@ function Home({isMobile}) {
             <div className='gridCont'>
                 
                 {grupos.map((gruposObj) => (
-                    <NavLink className='button normalButton'key={gruposObj.id} to='/admin/grupos'>
+                    <NavLink className='button normalButton'key={gruposObj.id_grupo} to='/admin/grupos'>
                         <HiMiniSquare3Stack3D size={isMobile ? 35 : 55} />
                         <span className="buttonTitle">{gruposObj.descripcion}</span>
                     </NavLink>

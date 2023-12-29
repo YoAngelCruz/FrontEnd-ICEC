@@ -9,31 +9,31 @@ function NavBarMobile() {
     <nav className="nav">
       <ul>
         <li>
-          <NavLink activeClassName="active" to="/estudiantes/avance">
+          <NavLink to="/estudiantes/avance">
             <HiChartBar size={28}  />
             <span>Avance</span>
             </NavLink>
         </li>
         <li>
-          <NavLink activeClassName="active" to="/estudiantes/modulo">
+          <NavLink to="/estudiantes/modulo">
             <HiBookOpen size={28} />
             <span>Módulo</span>
           </NavLink>
         </li>
         <li>
-          <NavLink exact activeClassName="active" to="/estudiantes/home">
+          <NavLink to="/estudiantes/home">
             <HiHome size={28}  />
             <span>Inicio</span>
           </NavLink>
         </li>
         <li>
-          <NavLink activeClassName="active" to="/estudiantes/calificaciones">
+          <NavLink to="/estudiantes/calificaciones">
             <HiDocumentCheck size={28}  />
             <span>Calificaciones</span>
           </NavLink>
         </li>
         <li>
-          <NavLink activeClassName="active" to="/estudiantes/calendario">
+          <NavLink to="/estudiantes/calendario">
             <HiCalendarDays size={28}  />
             <span>Calendario</span>
           </NavLink>

@@ -79,7 +79,7 @@ function Home({isMobile}) {
             <div className='gridCont'>
                 
                 {modulosAnteriores.map((moduloObj) => (
-                    <NavLink className='button normalButton'key={moduloObj.id} to='/estudiantes/calificaciones'>
+                    <NavLink className='button normalButton'key={moduloObj.id_grupo} to='/estudiantes/calificaciones'>
                         <HiAcademicCap size={isMobile ? 35 : 55} />
                         <span className="buttonTitle">{moduloObj.nombre}</span>
                         <span className="buttonTitle">{moduloObj.descripcion}</span>

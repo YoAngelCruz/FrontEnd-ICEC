@@ -23,31 +23,31 @@ function NavBarDesktop() {
       </div>
       <ul>
         <li>
-          <NavLink activeClassName="active" to="/admin/home">
+          <NavLink to="/admin/home">
             <HiHome size={25}  />
             <span>Inicio</span>
             </NavLink>
         </li>
         <li>
-          <NavLink activeClassName="active" to="/admin/estudiantes">
+          <NavLink to="/admin/estudiantes">
             <HiAcademicCap size={25}  />
             <span>Estudiantes</span>
           </NavLink>
         </li>
         <li>
-          <NavLink exact activeClassName="active" to="/admin/maestros">
+          <NavLink to="/admin/maestros">
             <HiBookOpen size={25}  />
             <span>Maestros</span>
           </NavLink>
         </li>
         <li>
-          <NavLink activeClassName="active" to="/admin/calendario">
+          <NavLink to="/admin/calendario">
             <HiCalendarDays size={25}  />
             <span>Calendario</span>
           </NavLink>
         </li>
         <li>
-          <NavLink activeClassName="active" to="/admin/grupos">
+          <NavLink to="/admin/grupos">
             <HiMiniSquare3Stack3D size={25}  />
             <span>Grupos</span>
           </NavLink>

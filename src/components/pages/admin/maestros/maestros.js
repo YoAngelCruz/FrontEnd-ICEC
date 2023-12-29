@@ -242,12 +242,14 @@ function Maestros({isMobile}) {
           <span>&emsp; * Se recomienda usar vista para ordenador<br/><br/></span>
           <div className='tableContainer'>
             <table cellSpacing='0px' style={{minWidth:'100%'}}>
+                <thead>
                  <tr style={{fontWeight:'bold'}}>
                   <td align='center' style={{padding:'10px'}}>Nombre</td>
-                  <td align='center' style={{padding:'10px'}}>Telefono</td> <td align='center' style={{padding:'10px'}}>Email</td> 
-                  <td align='center' style={{padding:'10px'}}>Contraseña</td> <td align='center' style={{padding:'10px'}}>Eliminar</td>
+                  <td align='center' style={{padding:'10px'}}>Telefono</td><td align='center' style={{padding:'10px'}}>Email</td> 
+                  <td align='center' style={{padding:'10px'}}>Contraseña</td><td align='center' style={{padding:'10px'}}>Eliminar</td>
                 </tr>
-                
+                </thead>
+                <tbody>
                 {(filteredMaestros.length > 0 ? filteredMaestros : maestros).map((MaestrosObj, index) => ( 
                     <tr key={MaestrosObj.id}>
                       <td style={{backgroundColor:'white', padding: '5px 10px', width:'auto-fit', whiteSpace: 'nowrap', borderTopLeftRadius: index === 0 ? '15px':'0px', borderBottomLeftRadius: index === maestros.length-1 ? '15px':'0px'}}>
@@ -270,6 +272,7 @@ function Maestros({isMobile}) {
                       </td>
                     </tr>
                 ))}
+                </tbody>
             </table>
           </div>
 

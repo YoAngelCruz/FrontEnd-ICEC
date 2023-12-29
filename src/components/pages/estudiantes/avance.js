@@ -130,7 +130,7 @@ function Avance({isMobile}) {
                     </div>
                     <div className='eModuleInfoCont'>
                         {modulosCursados.map((mcObj) =>(
-                            <li key={mcObj.id}>{mcObj.nombre}</li>
+                            <li key={mcObj.id_modulo}>{mcObj.nombre}</li>
                         ))} 
                     </div>
                 </div>
@@ -140,7 +140,7 @@ function Avance({isMobile}) {
                     </div>
                     <div className='eModuleInfoCont'>
                         {modulosPorCursar.map((mcpObj) =>(
-                            <li key={mcpObj.id}>{mcpObj.nombre}</li>
+                            <li key={mcpObj.id_modulo}>{mcpObj.nombre}</li>
                         ))} 
                     </div>
                 </div>

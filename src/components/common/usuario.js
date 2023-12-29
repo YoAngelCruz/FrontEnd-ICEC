@@ -115,12 +115,14 @@ function Usuario({isMobile}) {
             {tipoUsuario === 'administrador' && (
               <div>
               <table>
+              <tbody>
                 <tr><td style={{color:'white', padding:' 10px 15px', fontSize:'17px',fontWeight:'bold'}} align='right'>Email</td>
                 <td className='inputTextDialog' style={{padding: '0 30px'}}>{userData.email}</td></tr>
                 <tr><td style={{color:'white', padding:' 10px 15px', fontSize:'17px',fontWeight:'bold' }} align='right'>Telefono</td>
                 <td className='inputTextDialog' style={{padding: '0 30px'}}>{userData.num_tel_a}</td></tr>
                 <tr><td style={{color:'white', padding:' 10px 15px', fontSize:'17px',fontWeight:'bold' }} align='right'>Contraseña</td>
                 <td><button className='actionButton editButton' onClick={() => handleClickOpenEditPass(userData.id)}><HiPencil size={20}/></button></td></tr>
+              </tbody>
               </table>
 
               {/* ------------ Dialog Editar pass ------------ */}
@@ -147,12 +149,14 @@ function Usuario({isMobile}) {
             {tipoUsuario === 'profesor' && (
               <div>
                 <table>
+                <tbody>
                   <tr><td style={{color:'white', padding:' 10px 15px', fontSize:'17px',fontWeight:'bold'}} align='right'>Email</td>
                   <td className='inputTextDialog' style={{padding: '0 30px'}}>{userData.email}</td></tr>
                   <tr><td style={{color:'white', padding:' 10px 15px', fontSize:'17px',fontWeight:'bold' }} align='right'>Telefono</td>
                   <td className='inputTextDialog' style={{padding: '0 30px'}}>{userData.num_tel_p}</td></tr>
                   <tr><td style={{color:'white', padding:' 10px 15px', fontSize:'17px',fontWeight:'bold' }} align='right'>Contraseña</td>
                   <td><button className='actionButton editButton' onClick={() => handleClickOpenEditPass(userData.id)}><HiPencil size={20}/></button></td></tr>
+                </tbody>
                 </table>
 
                 {/* ------------ Dialog Editar pass ------------ */}
@@ -179,6 +183,7 @@ function Usuario({isMobile}) {
             {tipoUsuario === 'alumno' && (
               <div>
                 <table>
+                <tbody>
                   <tr><td style={{color:'white', padding:' 10px 15px', fontSize:'17px',fontWeight:'bold'}} align='right'>Email</td>
                   <td className='inputTextDialog' style={{padding: '0 30px'}}>{userData.email}</td></tr>
                   <tr><td style={{color:'white', padding:' 10px 15px', fontSize:'17px',fontWeight:'bold'}} align='right'>Edad</td>
@@ -197,7 +202,7 @@ function Usuario({isMobile}) {
                   <td className='inputTextDialog' style={{padding: '0 30px'}}>{userData.tutor}</td></tr>
                   <tr><td style={{color:'white', padding:' 10px 15px', fontSize:'17px',fontWeight:'bold' }} align='right'>Contraseña</td>
                   <td><button className='actionButton editButton' onClick={() => handleClickOpenEditPass(userData.id)}><HiPencil size={20}/></button></td></tr>
-
+                </tbody>
                 </table>
 
                 {/* ------------ Dialog Editar pass ------------ */}

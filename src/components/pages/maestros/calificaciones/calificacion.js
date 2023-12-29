@@ -148,11 +148,13 @@ function Calificacion({isMobile}) {
             <span>&emsp; * Se recomienda usar vista para ordenador<br/><br/></span>
             <div className='tableContainer'>
               <table cellSpacing='0px' style={{minWidth:'100%'}}>
+                <thead>
                   <tr style={{fontWeight:'bold'}}>
                     <td align='center' style={{padding:'10px'}}>Nombre</td><td align='center' style={{padding:'10px'}}>Calificación</td> 
-                    <td align='center' style={{padding:'10px'}}>Periodo</td> <td align='center' style={{padding:'10px'}}>Asingar Calif.</td>
+                    <td align='center' style={{padding:'10px'}}>Periodo</td><td align='center' style={{padding:'10px'}}>Asingar Calif.</td>
                   </tr>
-                  
+                </thead>
+                <tbody>
                   {alumGrupos.map((alumnosObj, index) => ( 
                         <tr key={alumnosObj.id}>
                         <td style={{backgroundColor:'white', padding: '5px 10px', width:'auto-fit', whiteSpace: 'nowrap', borderTopLeftRadius: index === 0 ? '15px':'0px', borderBottomLeftRadius: index === alumGrupos.length-1 ? '15px':'0px'}}>
@@ -166,6 +168,7 @@ function Calificacion({isMobile}) {
                             <HiPencil/></button></td>
                         </tr>
                     ))}
+                </tbody>
               </table>
             </div>
 
@@ -184,7 +187,7 @@ function Calificacion({isMobile}) {
                             <select onChange={handleChangeEditPeriodo} className='inputTextDialog' name='periodo'>
                               <option value="">Selecciona un periodo</option>
                               {periodo.map((periodoObj) => (
-                                <option value={periodoObj.nombre}>{periodoObj.nombre}</option>
+                                <option key={periodoObj.nombre} value={periodoObj.nombre}>{periodoObj.nombre}</option>
                               ))}
                             </select>
                         </div>

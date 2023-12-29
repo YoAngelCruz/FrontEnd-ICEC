@@ -489,7 +489,7 @@ function Grupos({isMobile}) {
       {items.map((value) => {
         const labelId = `transfer-list-all-item-${value}-label`;
           return (
-            <ListItem key={value.id_alumno} role="listitem" button onClick={handleToggle(value)}>
+            <ListItem key={value.id_alumno} role="listitem" onClick={handleToggle(value)}>
               <ListItemIcon>
                 <Checkbox checked={checked.indexOf(value) !== -1} tabIndex={-1} disableRipple inputProps={{"aria-labelledby": labelId}}/>
               </ListItemIcon>
@@ -525,13 +525,15 @@ function Grupos({isMobile}) {
           <span>&emsp; * Se recomienda usar vista para ordenador<br/><br/></span>
             <div className='tableContainer'>
               <table cellSpacing='0px' style={{minWidth:'100%'}}>
+                  <thead>
                   <tr style={{fontWeight:'bold'}}>
                     <td align='center' style={{padding:'10px'}}>Descripcion</td>
-                    <td align='center' style={{padding:'10px'}}>Profesor</td> <td align='center' style={{padding:'10px'}}>Modulo</td> 
-                    <td align='center' style={{padding:'10px'}}>Fecha inicio</td> <td align='center' style={{padding:'10px'}}>Fecha Final</td> 
-                    <td align='center' style={{padding:'10px'}}>Alumnos</td> <td align='center' style={{padding:'10px'}}>Eliminar</td>
+                    <td align='center' style={{padding:'10px'}}>Profesor</td><td align='center' style={{padding:'10px'}}>Modulo</td> 
+                    <td align='center' style={{padding:'10px'}}>Fecha inicio</td><td align='center' style={{padding:'10px'}}>Fecha Final</td> 
+                    <td align='center' style={{padding:'10px'}}>Alumnos</td><td align='center' style={{padding:'10px'}}>Eliminar</td>
                   </tr>
-                  
+                  </thead>
+                  <tbody>
                   {(filteredGrupos.length > 0 ? filteredGrupos : grupos).map((GruposObj, index) => ( 
                       <tr key={GruposObj.id_grupo}>
                         <td style={{backgroundColor:'white', padding: '5px 10px', width:'auto-fit', whiteSpace: 'nowrap', borderTopLeftRadius: index === 0 ? '15px':'0px', borderBottomLeftRadius: index === grupos.length-1 ? '15px':'0px'}}>
@@ -562,6 +564,7 @@ function Grupos({isMobile}) {
                         </td>
                       </tr>
                   ))}
+                  </tbody>
               </table>
             </div>
           {/* ------------ Dialog Editar lista ------------ */}
@@ -623,7 +626,7 @@ function Grupos({isMobile}) {
                         <p style={{marginTop:'15px'}}>&nbsp;Nombre</p>
                         <select onChange={handleChangeEditMaestro} className='inputTextDialog'>
                           {maestros.map((maestrosObj) => (
-                            <option value={maestrosObj.id}>{maestrosObj.nombre}</option>
+                            <option key={maestrosObj.id} value={maestrosObj.id}>{maestrosObj.nombre}</option>
                           ))}
                         </select>
                         <p style={{fontSize:'12px'}}>&nbsp; {editGrupo.id_profesor}</p>
@@ -646,7 +649,7 @@ function Grupos({isMobile}) {
                         <p style={{marginTop:'15px'}}>&nbsp;Modulo</p>
                         <select onChange={handleChangeEditModulo} className='inputTextDialog'>
                           {modulos.map((modulosObj) => (
-                            <option value={modulosObj.id_modulo}>{modulosObj.nombre}</option>
+                            <option key={modulosObj.id_modulo} value={modulosObj.id_modulo}>{modulosObj.nombre}</option>
                           ))}
                         </select>
                         <p style={{fontSize:'12px'}}>&nbsp; {editGrupo.id_modulo}</p>
@@ -709,13 +712,13 @@ function Grupos({isMobile}) {
                         <p style={{marginTop:'15px'}}>&nbsp;Modulo</p>
                         <select onChange={handleInputChange} className='inputTextDialog' name='id_modulo'>
                           {modulos.map((modulosObj) => (
-                            <option value={modulosObj.id_modulo}>{modulosObj.nombre}</option>
+                            <option key={modulosObj.id_modulo} value={modulosObj.id_modulo}>{modulosObj.nombre}</option>
                           ))}
                         </select>
                         <p style={{marginTop:'15px'}}>&nbsp;Maestro</p>
                         <select onChange={handleInputChange} className='inputTextDialog' name='id_profesor'>
                           {maestros.map((maestrosObj) => (
-                            <option value={maestrosObj.id}>{maestrosObj.nombre}</option>
+                            <option key={maestrosObj.id} value={maestrosObj.id}>{maestrosObj.nombre}</option>
                           ))}
                         </select>
                         <p style={{marginTop:'15px'}}>&nbsp;Fecha de inicio, fecha de fin</p>

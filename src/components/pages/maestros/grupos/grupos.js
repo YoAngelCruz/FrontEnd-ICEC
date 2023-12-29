@@ -129,7 +129,7 @@ function Grupos({ isMobile }) {
                             </AccordionSummary>
                             <AccordionDetails>
                                 {gruposActuales.map((gruposObj) => (
-                                    <div className='groupGrupos'>
+                                    <div className='groupGrupos' key={gruposObj.id_grupo}>
                                         <ThemeProvider theme={accordionSecStyles}>
                                             <Accordion>
                                                 <AccordionSummary expandIcon={<HiOutlineChevronDown style={{ color: 'black' }} />} id={gruposObj.id_grupo}>
@@ -159,7 +159,7 @@ function Grupos({ isMobile }) {
                             </AccordionSummary>
                             <AccordionDetails>
                                 {gruposPasados.map((gruposObj) => (
-                                    <div className='groupGrupos'>
+                                    <div className='groupGrupos' key={gruposObj.id_grupo}>
                                         <ThemeProvider theme={accordionSecStyles}>
                                             <Accordion>
                                                 <AccordionSummary expandIcon={<HiOutlineChevronDown style={{ color: 'black' }} />} id={gruposObj.id_grupo}>

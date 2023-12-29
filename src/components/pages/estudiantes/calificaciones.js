@@ -39,7 +39,7 @@ function Calificaciones({isMobile}) {
             <div className='gridCont'>
                 
                 {modulosAnteriores.map((moduloObj) => (
-                    <div className='button normalButton ePastModule'key={moduloObj.id}>
+                    <div className='button normalButton ePastModule'key={moduloObj.id_grupo}>
                         <span className='califInfo'>{moduloObj.calificacion}</span>
                         <div className='textContLongButton'>
                             <span className="buttonTitle" >{moduloObj.nombre}</span>
