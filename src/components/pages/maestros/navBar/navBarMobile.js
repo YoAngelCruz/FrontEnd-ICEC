@@ -6,7 +6,7 @@ import { HiBookOpen, HiHome, HiCalendarDays, HiDocumentCheck } from "react-icons
 function NavBarMobile() {
   
   return (
-    <nav class="nav">
+    <nav className="nav">
       <ul>
         <li>
           <NavLink activeClassName="active" to="/maestros/grupos">

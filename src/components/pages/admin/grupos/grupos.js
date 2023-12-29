@@ -111,6 +111,7 @@ function Grupos({isMobile}) {
     try {
       const grupoUpdate = await apic.put(`/grupos/${id}`, grupo);
       alert(grupoUpdate.message);
+      window.location.reload();
     } catch (error) {
       alert(error.response.data.error);
     }
@@ -120,6 +121,7 @@ function Grupos({isMobile}) {
     try {
       const inscripciones = await apic.post('/inscripciones/many', json);
       alert(inscripciones.message);
+      window.location.reload();
     } catch (error) {
       alert(error.response.data.error);
     }
@@ -129,6 +131,7 @@ function Grupos({isMobile}) {
     try {
       const deleteInscrip = await apic.delete(`/inscripciones/${id}`);
       alert(deleteInscrip.message);
+      window.location.reload();
     } catch (error) {
       alert(error.response.data.error);
     }
@@ -138,6 +141,7 @@ function Grupos({isMobile}) {
     try {
       const createGrupo = await apic.post('/grupos',grupo);
       alert(createGrupo.message);
+      window.location.reload();
     } catch (error) {
       alert(error.response.data.error);
     }
@@ -147,6 +151,7 @@ function Grupos({isMobile}) {
     try {
       const deletegrupo = await apic.delete(`/grupos/${id}`);
       alert(deletegrupo.message);
+      window.location.reload();
     } catch (error) {
       alert(error.response.data.error);
     }

@@ -47,14 +47,13 @@ function Inicio() {
             <p className='homeBigTitle'>Bienvenido a ICEC</p>
             <div className='preModulInicioCont'>
                 <div className='pMICTexto'>
-                    <p>
-                        <p>Especialidad: <b>INFORMÁTICA.</b></p><br/>
-                        <p>Estudios con Reconocimiento de Validez Oficial ante la SEP.</p><br/>
-                        <p>Explora el mundo de la informática con nosotros y lleva tu educación al siguiente nivel. En ICEC, 
-                            nos enorgullece ofrecer programas académicos de calidad respaldados por la Secretaría de Educación 
-                            Pública. Descubre oportunidades emocionantes y prepárate para un futuro en constante evolución.</p>
-                        <br/><p>¡Comienza tu viaje hacia el éxito con ICEC!</p>
-                    </p></div>
+                    <p>Especialidad: <b>INFORMÁTICA.</b></p><br/>
+                    <p>Estudios con Reconocimiento de Validez Oficial ante la SEP.</p><br/>
+                    <p>Explora el mundo de la informática con nosotros y lleva tu educación al siguiente nivel. En ICEC, 
+                        nos enorgullece ofrecer programas académicos de calidad respaldados por la Secretaría de Educación 
+                        Pública. Descubre oportunidades emocionantes y prepárate para un futuro en constante evolución.</p>
+                    <br/><p>¡Comienza tu viaje hacia el éxito con ICEC!</p>
+                </div>
                 <div className='pMICImg'><img src={img1} width={'100%'}  alt="Imagen 1"/></div>
             </div>
         </div>
@@ -64,36 +63,36 @@ function Inicio() {
         </div>
         <div style={{backgroundColor:'#f5f5f5'}}>
             <div className='cardCont'>
-                <div class="flip">
+                <div className="flip">
                     <div className="front">
                         <img src={img3} width={'100%'}  alt="Imagen 3"/>
                         <h1 className='cardText'>Compromiso</h1>
                     </div>
-                    <div class="back" style={{ height: '100%',backgroundColor:'#dd1111' }}>
+                    <div className="back" style={{ height: '100%',backgroundColor:'#dd1111' }}>
                         {!isMobile && <h2>Compromiso<br/><br/></h2>}
                         <p>Dedicados a la excelencia en cada aspecto de la educación. Nuestro compromiso impulsa la pasión por 
                             la informática se une a la constante búsqueda de conocimiento y crecimiento.</p>
                     </div>
                 </div>
 
-                <div class="flip">
+                <div className="flip">
                     <div className="front">
                         <img src={img4} width={'100%'}  alt="Imagen 4"/>
                         <h1 className='cardText'>Disciplina</h1>
                     </div>
-                    <div class="back" style={{ height: '100%', backgroundColor:'#1d6395'}}>
+                    <div className="back" style={{ height: '100%', backgroundColor:'#1d6395'}}>
                         {!isMobile && <h2>Disciplina<br/><br/></h2>}
                         <p>Guiamos a nuestros estudiantes hacia el éxito a través de la autodisciplina, fomentando la 
                             responsabilidad personal y el cumplimiento riguroso de metas académicas.</p>
                     </div>
                 </div>
 
-                <div class="flip">
+                <div className="flip">
                     <div className="front">
                         <img src={img5} width={'100%'}  alt="Imagen 5"/>
                         <h1 className='cardText'>Entrega</h1>
                     </div>
-                    <div class="back" style={{ height: '100%',backgroundColor:'#dd1111' }}>
+                    <div className="back" style={{ height: '100%',backgroundColor:'#dd1111' }}>
                     {!isMobile && <h2>Entrega<br/><br/></h2>}
                     <p>Nos comprometemos a brindar una educación de calidad superior, entregándonos por completo al 
                         desarrollo académico y profesional de nuestros estudiantes.</p>

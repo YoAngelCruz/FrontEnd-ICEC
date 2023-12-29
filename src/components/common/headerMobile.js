@@ -32,7 +32,7 @@ function HeaderMobile() {
   };
 
   return (
-    <nav class="header">
+    <nav className="header">
         <img src={logo} alt="logo" className='logo'/>
         <HiMiniBars3 size={40} className="icon" onClick={handleIconClick} />
 

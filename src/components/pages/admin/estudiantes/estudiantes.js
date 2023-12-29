@@ -33,6 +33,7 @@ function Estudiantes({isMobile}) {
     try {
       const estudiantesDelete = await apic.delete(`/alumnos/${id}`);
       alert(estudiantesDelete.message);
+      window.location.reload();
     } catch (error) {
       alert(error.response.data.error);
     }
@@ -42,6 +43,7 @@ function Estudiantes({isMobile}) {
     try {
       const estudiantesAdd = await apic.post('/alumnos/', estudiantes);
       alert(estudiantesAdd.message);
+      window.location.reload();
     } catch (error) {
       alert(error.response.data.error);
     }
@@ -51,6 +53,7 @@ function Estudiantes({isMobile}) {
     try {
       const estudiantesUpdate = await apic.put(`/alumnos/${id}`, estudiantes);
       alert(estudiantesUpdate.message);
+      window.location.reload();
     } catch (error) {
       alert(error.response.data.error);
     }
@@ -59,6 +62,7 @@ function Estudiantes({isMobile}) {
     try {
       const estudiantesUpdate = await apic.put(`/alumnos/pass/${id}`, contraseña);
       alert(estudiantesUpdate.message);
+      window.location.reload();
     } catch (error) {
       alert(error.response.data.error);
     }

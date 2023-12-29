@@ -49,6 +49,7 @@ function Calificacion({isMobile}) {
     try {
       const califUpdate = await apic.put(`/calificaciones/${id}`, calif);
       alert(califUpdate.message);
+      window.location.reload();
     } catch (error) {
       alert(error.response.data.error);
     }
@@ -58,6 +59,7 @@ function Calificacion({isMobile}) {
     try {
       const califPost = await apic.post('/calificaciones', postCalif);
       alert(califPost.message);
+      window.location.reload();
     } catch (error) {
       alert(error.response.data.error);
     }

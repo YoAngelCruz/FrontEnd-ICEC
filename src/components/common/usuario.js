@@ -17,26 +17,29 @@ function Usuario({isMobile}) {
   const UpdatePassAlumnos = async (id, contraseña) => {
     try {
       const estudiantesUpdate = await apic.put(`/alumnos/pass/${id}`, contraseña);
-      console.log('Estudiante actualizado correctamente:', estudiantesUpdate);
+      alert(estudiantesUpdate.message);
+      window.location.reload();
     } catch (error) {
-      console.error('Error al eliminar el estudiante:', error);
+      alert(error.response.data.error);
     }
   };
 
   const UpdatePassProfesores = async (id, profesores) => {
     try {
       const profesoresUpdate = await apic.put(`/profesores/pass/${id}`, profesores);
-      console.log('Profesor actualizado correctamente:', profesoresUpdate);
+      alert(profesoresUpdate.message);
+      window.location.reload();
     } catch (error) {
-      console.error('Error al eliminar el profesor:', error);
+      alert(error.response.data.error);
     }
   };
   const UpdatePassAdmin = async (id, admin) => {
     try {
       const adminUpdate = await apic.put(`/administradores/pass/${id}`, admin);
-      console.log('Profesor actualizado correctamente:', adminUpdate);
+      alert(adminUpdate.message);
+      window.location.reload();
     } catch (error) {
-      console.error('Error al eliminar el profesor:', error);
+      alert(error.response.data.error);
     }
   };
 

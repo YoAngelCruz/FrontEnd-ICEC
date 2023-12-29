@@ -42,6 +42,7 @@ function Maestros({isMobile}) {
     try {
       const profesoresDelete = await apic.delete(`/profesores/${id}`);
       alert(profesoresDelete.message);
+      window.location.reload();
     } catch (error) {
       alert(error.response.data.error);
     }
@@ -51,6 +52,7 @@ function Maestros({isMobile}) {
     try {
       const profesoresAdd = await apic.post('/profesores/', profesores);
       alert(profesoresAdd.message);
+      window.location.reload();
     } catch (error) {
       alert(error.response.data.error);
     }
@@ -60,6 +62,7 @@ function Maestros({isMobile}) {
     try {
       const profesoresUpdate = await apic.put(`/profesores/${id}`, profesores);
       alert(profesoresUpdate.message);
+      window.location.reload();
     } catch (error) {
       alert(error.response.data.error);
     }
@@ -68,6 +71,7 @@ function Maestros({isMobile}) {
     try {
       const profesoresUpdate = await apic.put(`/profesores/pass/${id}`, profesores);
       alert(profesoresUpdate.message);
+      window.location.reload();
     } catch (error) {
       alert(error.response.data.error);
     }

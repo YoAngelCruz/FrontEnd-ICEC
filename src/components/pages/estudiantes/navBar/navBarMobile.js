@@ -6,7 +6,7 @@ import { HiBookOpen, HiHome, HiChartBar, HiCalendarDays, HiDocumentCheck } from 
 function NavBarMobile() {
   
   return (
-    <nav class="nav">
+    <nav className="nav">
       <ul>
         <li>
           <NavLink activeClassName="active" to="/estudiantes/avance">
