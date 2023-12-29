@@ -24,6 +24,7 @@ import Divider from "@mui/material/Divider";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import TextField from '@mui/material/TextField';
 
 function not(a, b) {
   return a.filter((value) => b.indexOf(value) === -1);
@@ -269,8 +270,11 @@ function Grupos({isMobile}) {
     const handleCloseEditFechaInicio = () => {
       setOpenEditFechaInicio(false);
     };
-    const handleChangeEditFechaInicio = (event) => {
-      setEditGrupo({ ...editGrupo, fecha_inicio: event.target.value });
+    const handleChangeEditFechaInicio = (date) => {
+      setEditGrupo((prevEditGrupo) => ({
+        ...prevEditGrupo,
+        fecha_inicio: date.$d,
+      }));
     };
   
     const saveEditFechaInicio = () => {
@@ -289,8 +293,11 @@ function Grupos({isMobile}) {
     const handleCloseEditFechaFin = () => {
       setOpenEditFechaFin(false);
     };
-    const handleChangeEditFechaFin = (event) => {
-      setEditGrupo({ ...editGrupo, fecha_fin: event.target.value });
+    const handleChangeEditFechaFin = (date) => {
+      setEditGrupo((prevEditGrupo) => ({
+        ...prevEditGrupo,
+        fecha_fin: date.$d,
+      }));
     };
   
     const saveEditFechaFin = () => {
@@ -670,8 +677,14 @@ function Grupos({isMobile}) {
                 <div style={{backgroundColor:'white', borderRadius:'8px', padding:'5px 9px'}}>
                     <div style={{margin:'5px'}}>
                     <p style={{marginTop:'15px'}}>&nbsp;Fecha</p>
-                        <input className='inputTextDialog' type='text' value={editGrupo.fecha_inicio} onChange={handleChangeEditFechaInicio} name='editFechaInicio'/>
-                        <p style={{fontSize:'12px'}}>&nbsp; {editGrupo.fecha_inicio}</p>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <ThemeProvider theme={themeFecha}>
+                          <DatePicker label="Fecha inicio" name="fecha_inicio" value={grupoAdd.fecha_inicio} 
+                            onChange={(date) => handleChangeEditFechaInicio(date)} 
+                            renderInput={(props) => <TextField {...props} />}
+                            format="DD/MM/YYYY"/>
+                          </ThemeProvider>
+                        </LocalizationProvider>
                         <br/>
                     </div>
                     <Button autoFocus onClick={handleCloseEditFechaInicio}>Cancelar</Button>
@@ -689,8 +702,14 @@ function Grupos({isMobile}) {
                 <div style={{backgroundColor:'white', borderRadius:'8px', padding:'5px 9px'}}>
                     <div style={{margin:'5px'}}>
                     <p style={{marginTop:'15px'}}>&nbsp;Fecha</p>
-                        <input className='inputTextDialog' type='text' value={editGrupo.fecha_fin} onChange={handleChangeEditFechaFin} name='editFechaFin'/>
-                        <p style={{fontSize:'12px'}}>&nbsp; {editGrupo.fecha_fin}</p>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <ThemeProvider theme={themeFecha}>
+                          <DatePicker label="Fecha fin" name="fecha_fin" value={grupoAdd.fecha_fin} 
+                            onChange={(date) => handleChangeEditFechaFin(date)} 
+                            renderInput={(props) => <TextField {...props} />}
+                            format="DD/MM/YYYY"/>
+                          </ThemeProvider>
+                        </LocalizationProvider>
                         <br/>
                     </div>
                     <Button autoFocus onClick={handleCloseEditFechaFin}>Cancelar</Button>

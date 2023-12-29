@@ -12,6 +12,11 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import apic from '../../../../services/api';
 import './estudiantes.css';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import TextField from '@mui/material/TextField';
+
 
 function Estudiantes({ isMobile }) {
   const [openEditNombre, setOpenEditNombre] = useState(false);
@@ -22,13 +27,14 @@ function Estudiantes({ isMobile }) {
   const [openEditEmail, setOpenEditEmail] = useState(false);
   const [openEditTurno, setOpenEditTurno] = useState(false);
   const [openEditTutor, setOpenEditTutor] = useState(false);
+  const [openEditFechaInicio, setOpenEditFechaInicio] = useState(false);
   const [openEditPass, setOpenEditPass] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [openAdd, setOpenAdd] = useState(false);
   const [estudiantes, setEstudiantes] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredEstudiantes, setFilteredEstudiantes] = useState([]);
-
+  
   const DeleteAlumnos = async (id) => {
     try {
       const estudiantesDelete = await apic.delete(`/alumnos/${id}`);
@@ -107,6 +113,39 @@ function Estudiantes({ isMobile }) {
       },
     },
   });
+
+  const themeFecha = createTheme({
+    components: {
+      MuiFormControl: {
+        styleOverrides: {
+          root: {
+            margin: '10px 0px',
+          },
+        },
+      },
+      MuiInputBase: {
+        styleOverrides: {
+          root: {
+            backgroundColor: '#efefef',
+            padding:'0px',
+            fontFamily:'Product Sans',
+          },
+        },
+      },
+      MuiOutlinedInput: {
+        styleOverrides: {
+          notchedOutline: {
+            borderColor: '#828282',
+            borderRadius: '10px',
+          },
+          input: {
+            padding: '11px 17px', // Ajustar el padding según sea necesario
+          },
+        },
+      },
+    },
+  });
+  
 
   // Función para filtrar estudiantes por nombre
   const filterEstudiantes = () => {
@@ -242,6 +281,28 @@ function Estudiantes({ isMobile }) {
     handleCloseEditTurno();
   };
 
+  //Abrir y cerrar dialog editar fecha inicio estudiantes
+  const handleClickOpenEditFechaInicio = (estudiante) => {
+    const { id, nombre, clave, edad, curp, domicilio, num_tel_a, email, turno, fecha_inicio, tutor } = estudiante;
+    setIdEditEstudiante(id);
+    setEditEstudiante({ nombre, clave, edad, curp, domicilio, num_tel_a, email, turno, fecha_inicio, tutor });
+    setOpenEditFechaInicio(true);
+  };
+  const handleCloseEditFechaInicio = () => {
+    setOpenEditFechaInicio(false);
+  };
+
+  const handleChangeEditFechaInicio = (date) => {
+    setEditEstudiante((prevEditEstudiante) => ({
+      ...prevEditEstudiante,
+      fecha_inicio: date.$d,
+    }));
+  };
+  const saveEditFechaInicio = () => {
+    UpdateAlumnos(idEditEstudiante, editEstudiante);
+    handleCloseEditFechaInicio();
+  };
+
   //Abrir y cerrar dialog editar tutor estudiantes
   const handleClickOpenEditTutor = (estudiante) => {
     const { id, nombre, clave, edad, curp, domicilio, num_tel_a, email, turno, fecha_inicio, tutor } = estudiante;
@@ -288,6 +349,12 @@ function Estudiantes({ isMobile }) {
     setEstudianteAdd((prevEstudianteAdd) => ({
       ...prevEstudianteAdd,
       [name]: value,
+    }));
+  };
+  const handleDateChange = (date, name) => {
+    setEstudianteAdd((prevEstudianteAdd) => ({
+      ...prevEstudianteAdd,
+      [name]: date.$d,
     }));
   };
   const saveEstudianteAdd = () => {
@@ -337,8 +404,8 @@ function Estudiantes({ isMobile }) {
               <tr style={{ fontWeight: 'bold' }}>
                 <td align='center' style={{ padding: ' 10px' }}>clave</td><td align='center' style={{ padding: '10px' }}>Nombre</td><td align='center' style={{ padding: '10px' }}>Edad</td>
                 <td align='center' style={{ padding: '10px' }}>CURP</td><td align='center' style={{ padding: '10px' }}>domicilio</td><td align='center' style={{ padding: '10px' }}>Telefono</td>
-                <td align='center' style={{ padding: '10px' }}>Email</td><td align='center' style={{ padding: '10px' }}>Turno</td><td align='center' style={{ padding: '10px' }}>Tutor</td>
-                <td align='center' style={{ padding: '10px' }}>Contraseña</td><td align='center' style={{ padding: '10px' }}>Eliminar</td>
+                <td align='center' style={{ padding: '10px' }}>Email</td><td align='center' style={{ padding: '10px' }}>Turno</td><td align='center' style={{ padding: '10px' }}>Fecha Inicio</td>
+                <td align='center' style={{ padding: '10px' }}>Tutor</td><td align='center' style={{ padding: '10px' }}>Contraseña</td><td align='center' style={{ padding: '10px' }}>Eliminar</td>
               </tr>
             </thead>
             <tbody>
@@ -374,6 +441,10 @@ function Estudiantes({ isMobile }) {
                   <td style={{ backgroundColor: 'white', borderLeft: '1px solid #888', padding: '5px 10px', width: 'auto-fit', whiteSpace: 'nowrap' }}>
                     {EstudiantesObj.turno}&emsp;
                     <button className='actionButton' title='Editar turno' onClick={() => handleClickOpenEditTurno(EstudiantesObj)}><HiPencilSquare /></button>
+                  </td>
+                  <td style={{ backgroundColor: 'white', borderLeft: '1px solid #888', padding: '5px 10px', width: 'auto-fit', whiteSpace: 'nowrap' }}>
+                    {EstudiantesObj.fecha_inicio}&emsp;
+                    <button className='actionButton' title='Editar tutor' onClick={() => handleClickOpenEditFechaInicio(EstudiantesObj)}><HiPencilSquare /></button>
                   </td>
                   <td style={{ backgroundColor: 'white', borderLeft: '1px solid #888', padding: '5px 10px', width: 'auto-fit', whiteSpace: 'nowrap' }}>
                     {EstudiantesObj.tutor}&emsp;
@@ -523,6 +594,30 @@ function Estudiantes({ isMobile }) {
             </DialogContent>
           </Dialog>
         </ThemeProvider>
+        {/* ------------ Dialog Editar Fecha Inicio ------------ */}
+        <ThemeProvider theme={theme}>
+          <Dialog open={openEditFechaInicio} onClose={handleCloseEditFechaInicio}>
+            <DialogContent>
+              <p style={{ color: 'white', fontWeight: 'bold', letterSpacing: '0.03em', marginBottom: '7px' }}>Editar fecha de inicio de estudiante</p>
+              <div style={{ backgroundColor: 'white', bordtelefonoerRadius: '8px', padding: '5px 9px' }}>
+                <div style={{ margin: '5px' }}>
+                  <p style={{ marginTop: '15px' }}>&nbsp;Fecha</p>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <ThemeProvider theme={themeFecha}>
+                    <DatePicker label="Fecha inicio" name="fecha_inicio" value={estudianteAdd.fecha_inicio} 
+                      onChange={(date) => handleChangeEditFechaInicio(date)} 
+                      renderInput={(props) => <TextField {...props} />}
+                      format="DD/MM/YYYY"/>
+                    </ThemeProvider>
+                  </LocalizationProvider>
+                  <br />
+                </div>
+                <Button autoFocus onClick={handleCloseEditFechaInicio}>Cancelar</Button>
+                <Button onClick={saveEditFechaInicio} autoFocus>Guardar</Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </ThemeProvider>
 
         {/* ------------ Dialog Editar Tutor ------------ */}
         <ThemeProvider theme={theme}>
@@ -587,7 +682,14 @@ function Estudiantes({ isMobile }) {
                   <p style={{ marginTop: '15px' }}>&nbsp;Turno</p>
                   <input className='inputTextDialog' type='text' name='turno' value={estudianteAdd.turno} onChange={handleInputChange} /><br />
                   <p style={{ marginTop: '15px' }}>&nbsp;Fecha inicio</p>
-                  <input className='inputTextDialog' type='text' name='fecha_inicio' value={estudianteAdd.fecha_inicio} onChange={handleInputChange} /><br />
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <ThemeProvider theme={themeFecha}>
+                    <DatePicker label="Fecha inicio" name="fecha_inicio" value={estudianteAdd.fecha_inicio} 
+                      onChange={(date) => handleDateChange(date, 'fecha_inicio')} 
+                      renderInput={(props) => <TextField {...props} />}
+                      format="DD/MM/YYYY"/>
+                    </ThemeProvider>
+                  </LocalizationProvider>
                   <p style={{ marginTop: '15px' }}>&nbsp;Contraseña</p>
                   <input className='inputTextDialog' type='password' name='contraseña' value={estudianteAdd.contraseña} onChange={handleInputChange} /><br />
                   <p style={{ marginTop: '15px' }}>&nbsp;Tutor</p>
