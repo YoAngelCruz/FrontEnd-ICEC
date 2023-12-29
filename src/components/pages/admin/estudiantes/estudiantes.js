@@ -32,35 +32,35 @@ function Estudiantes({isMobile}) {
   const DeleteAlumnos = async (id) => {
     try {
       const estudiantesDelete = await apic.delete(`/alumnos/${id}`);
-      console.log('Estudiante eliminado correctamente:', estudiantesDelete);
+      alert(estudiantesDelete.message);
     } catch (error) {
-      console.error('Error al eliminar el estudiante:', error);
+      alert(error.response.data.error);
     }
   };
 
   const AddAlumnos = async (estudiantes) => {
     try {
       const estudiantesAdd = await apic.post('/alumnos/', estudiantes);
-      console.log("Estudiante agregado correctamente:", estudiantesAdd);
+      alert(estudiantesAdd.message);
     } catch (error) {
-      console.error('Error al agregar el estudiante', error);
+      alert(error.response.data.error);
     }
   };
 
   const UpdateAlumnos = async (id, estudiantes) => {
     try {
       const estudiantesUpdate = await apic.put(`/alumnos/${id}`, estudiantes);
-      console.log('Estudiante actualizado correctamente:', estudiantesUpdate);
+      alert(estudiantesUpdate.message);
     } catch (error) {
-      console.error('Error al actualizar  el estudiante:', error);
+      alert(error.response.data.error);
     }
   };
   const UpdatePassAlumnos = async (id, contraseña) => {
     try {
       const estudiantesUpdate = await apic.put(`/alumnos/pass/${id}`, contraseña);
-      console.log('Estudiante actualizado correctamente:', estudiantesUpdate);
+      alert(estudiantesUpdate.message);
     } catch (error) {
-      console.error('Error al eliminar el estudiante:', error);
+      alert(error.response.data.error);
     }
   };
 
@@ -70,15 +70,13 @@ function Estudiantes({isMobile}) {
         try {
           const estudiantesData = await apic.get('/alumnos/');
           setEstudiantes(estudiantesData);
-          console.log("Respuesta de la API:", estudiantesData);
-          console.log("json estuiantes: ", estudiantes);
         } catch (error) {
-          console.error('Error al obtener los estudiantes:', error);
+          console.error(error.response.data.error);
         }
       };
 
       fetchAlumnos();
-    }, [estudiantes]);
+    }, []);
 
   const [editPass, setEditPass] = useState({contraseña:''});
   const [idEditPass, setIdEditPass] = useState();
@@ -128,8 +126,6 @@ function Estudiantes({isMobile}) {
     setEditEstudiante({ ...editEstudiante, nombre: event.target.value });
   };
   const saveEditNombre = () => {
-    console.log(idEditEstudiante);
-    console.log(editEstudiante);
     UpdateAlumnos(idEditEstudiante,editEstudiante);
     handleCloseEditNombre();
   };
@@ -148,8 +144,6 @@ function Estudiantes({isMobile}) {
     setEditEstudiante({ ...editEstudiante, edad: event.target.value });
   };
   const saveEditEdad = () => {
-    console.log(idEditEstudiante);
-    console.log(editEstudiante);
     UpdateAlumnos(idEditEstudiante,editEstudiante);
     handleCloseEditEdad();
   };
@@ -168,8 +162,6 @@ function Estudiantes({isMobile}) {
     setEditEstudiante({ ...editEstudiante, curp: event.target.value });
   };
   const saveEditCurp = () => {
-    console.log(idEditEstudiante);
-    console.log(editEstudiante);
     UpdateAlumnos(idEditEstudiante,editEstudiante);
     handleCloseEditCurp();
   };
@@ -188,8 +180,6 @@ function Estudiantes({isMobile}) {
     setEditEstudiante({ ...editEstudiante, domicilio: event.target.value });
   };
   const saveEditDomicilio = () => {
-    console.log(idEditEstudiante);
-    console.log(editEstudiante);
     UpdateAlumnos(idEditEstudiante,editEstudiante);
     handleCloseEditDomicilio();
   };
@@ -208,8 +198,6 @@ function Estudiantes({isMobile}) {
     setEditEstudiante({ ...editEstudiante, num_tel_a: event.target.value });
   };
   const saveEditTel = () => {
-    console.log(idEditEstudiante);
-    console.log(editEstudiante);
     UpdateAlumnos(idEditEstudiante,editEstudiante);
     handleCloseEditTel();
   };
@@ -228,8 +216,6 @@ function Estudiantes({isMobile}) {
     setEditEstudiante({ ...editEstudiante, email: event.target.value });
   };
   const saveEditEmail = () => {
-    console.log(idEditEstudiante);
-    console.log(editEstudiante);
     UpdateAlumnos(idEditEstudiante,editEstudiante);
     handleCloseEditEmail();
   };
@@ -248,8 +234,6 @@ function Estudiantes({isMobile}) {
     setEditEstudiante({ ...editEstudiante, turno: event.target.value });
   };
   const saveEditTurno = () => {
-    console.log(idEditEstudiante);
-    console.log(editEstudiante);
     UpdateAlumnos(idEditEstudiante,editEstudiante);
     handleCloseEditTurno();
   };
@@ -268,8 +252,6 @@ function Estudiantes({isMobile}) {
     setEditEstudiante({ ...editEstudiante, tutor: event.target.value });
   };
   const saveEditTutor = () => {
-    console.log(idEditEstudiante);
-    console.log(editEstudiante);
     UpdateAlumnos(idEditEstudiante,editEstudiante);
     handleCloseEditTutor();
   };
@@ -286,8 +268,6 @@ function Estudiantes({isMobile}) {
     setEditPass({ ...editPass, contraseña: event.target.value });
   };
   const saveEditPass = () => {
-    console.log(idEditPass);
-    console.log(editPass);
     UpdatePassAlumnos(idEditPass,editPass);
     handleCloseEditPass();
   };
@@ -307,7 +287,6 @@ function Estudiantes({isMobile}) {
     }));
   };
   const saveEstudianteAdd = () =>{
-    console.log(estudianteAdd);
     AddAlumnos(estudianteAdd); 
     handleCloseAdd();
   };
@@ -323,7 +302,6 @@ function Estudiantes({isMobile}) {
   };
 
   const saveEstudianteDelete = () =>{
-    console.log(estudianteDelete);
     DeleteAlumnos(estudianteDelete.id);
     handleCloseDelete();
   };

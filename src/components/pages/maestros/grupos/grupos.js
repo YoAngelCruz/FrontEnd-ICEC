@@ -26,9 +26,8 @@ function Grupos({ isMobile }) {
                     })
                 );
                 setGrupos(gruposConAlumnos);
-                console.log(`Respuesta de la API para el profesor ${id}:`, gruposConAlumnos);
             } catch (error) {
-                console.error('Error al obtener grupos por profesor:', error);
+                console.error(error.response.data.error);
             }
         };
 
@@ -43,7 +42,7 @@ function Grupos({ isMobile }) {
                 }));
                 return limitedData;
             } catch (error) {
-                console.error('Error al obtener alumnos por grupo:', error);
+                console.error(error.response.data.error);
                 return [];
             }
         };

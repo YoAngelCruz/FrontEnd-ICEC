@@ -22,10 +22,8 @@ function Home({isMobile}) {
 
               setModuloActual(modulosOrdenados[0]);
               setModulosAnteriores(modulosAnt);
-
-              console.log(`Respuesta de la API para los modulos ${id}:`, modulosData);
             } catch (error) {
-              console.error('Error al obtener modulos:', error);
+                console.error(error.response.data.error);
             }
         };
 

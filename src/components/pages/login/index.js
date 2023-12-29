@@ -9,7 +9,7 @@ const loginAPI = new AuthService('https://icec-auth-yoangelcruz.cloud.okteto.net
 
 function Login(isMobile) {
   const navigate = useNavigate();
-  const { authLogin, tipoUsuario } = useAuth();
+  const { authLogin, tipoUsuario, isAuthenticated } = useAuth();
 
   const [formData, setFormData] = useState({
     email: '',
@@ -18,25 +18,26 @@ function Login(isMobile) {
   
   useEffect(() => {
     const verification = () => {
-      switch (tipoUsuario) {
-        case 'alumno':
-          navigate('/estudiantes/home');
-          break;
-        case 'profesor':
-          navigate('/maestros/home');
-          break;
-        case 'administrador':
-          navigate('/admin/home');
-          break;
-        default:
-          // Manejo para otros casos si es necesario
-          break;
+      if(isAuthenticated){
+        switch (tipoUsuario) {
+          case 'alumno':
+            navigate('/estudiantes/home');
+            break;
+          case 'profesor':
+            navigate('/maestros/home');
+            break;
+          case 'administrador':
+            navigate('/admin/home');
+            break;
+          default:
+            break;
+        }
       }
     };
 
     // Verifica el tipo de usuario cuando el componente se monta
     verification();
-  }, [tipoUsuario, navigate]); 
+  }, [tipoUsuario, navigate, isAuthenticated]); 
 
   const handleChange = (e) => {
     setFormData({
@@ -47,12 +48,9 @@ function Login(isMobile) {
 
   //API ---
   const handleLogin = async() => {
-    console.log(formData); 
     try{
       const response = await loginAPI.login(formData);
       const { userData, tipoUsuario, token } = response;
-      // Llama a la función de inicio de sesión del contexto de autenticación
-      console.log('-----------------',tipoUsuario);
       const expiresIn =2 * 3600;
       authLogin(userData, tipoUsuario, token, expiresIn);
 
@@ -70,14 +68,12 @@ function Login(isMobile) {
           navigate('/admin/home');
           break;
         default:
-          // Manejo para otros casos si es necesario
           break;
       }
     }catch (error) {
-        alert(error);
+      alert(error.response.data.error);
       }
   };
-
 
   return (
     <div className="loginCont">

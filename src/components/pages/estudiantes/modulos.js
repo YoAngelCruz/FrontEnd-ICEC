@@ -25,11 +25,9 @@ function Modulos({ isMobile }) {
         setFechaF(new Date(modulosOrdenados[0].fecha_fin));
         setFechaFin(new Date(modulosOrdenados[0].fecha_fin).toLocaleDateString('es-ES'));
         setFechaInicio(new Date(modulosOrdenados[0].fecha_inicio).toLocaleDateString('es-ES'));
-
-        console.log(`Respuesta de la API para los modulos ${id}:`, modulosOrdenados[0]);
         getNombreProfesor(modulosOrdenados[0].id_grupo);
       } catch (error) {
-        console.error('Error al obtener modulos:', error);
+        console.error(error.response.data.error);
       }
     };
 
@@ -41,10 +39,8 @@ function Modulos({ isMobile }) {
         const profesorData = await apic.get(`/profesores/${idProfesor}`);
         const nombreProfesor = profesorData.nombre;
         setNombreProfesor(nombreProfesor);
-        
-        console.log('Nombre del profesor:', nombreProfesor);
       } catch (error) {
-        console.error('Error al obtener el nombre del profesor:', error);
+        console.error(error.response.data.error);
       }
     };
 

@@ -15,9 +15,8 @@ function Calificaciones({isMobile}) {
             try {
                 const gruposData = await apic.get(`/profesores/${id}/grupos`);
                 setGrupos(gruposData);
-                console.log(`Respuesta de la API para el grupo ${id}:`, gruposData);
             } catch (error) {
-                console.error('Error al obtener alumnos por grupo:', error);
+                console.error(error.response.data.error);
             }
             };
         gruposByProfesor(userData.id);

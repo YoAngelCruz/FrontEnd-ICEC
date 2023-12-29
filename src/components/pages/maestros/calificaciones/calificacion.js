@@ -32,9 +32,8 @@ function Calificacion({isMobile}) {
       try {
         const alumGrupoData = await apic.get(`/grupos/${id}/alumnos`);
         setAlumGrupos(alumGrupoData);
-        console.log(`Respuesta de la API para el grupo ${id}:`, alumGrupoData);
       } catch (error) {
-        console.error('Error al obtener alumnos por grupo:', error);
+        console.error(error.response.data.error);
       }
     };
 
@@ -49,18 +48,18 @@ function Calificacion({isMobile}) {
   const UpdateCalif = async (id, calif) => {
     try {
       const califUpdate = await apic.put(`/calificaciones/${id}`, calif);
-      console.log('Calificacion actualizada correctamente:', califUpdate);
+      alert(califUpdate.message);
     } catch (error) {
-      console.error('Error al actualizar calificacion:', error);
+      alert(error.response.data.error);
     }
   };
 
   const postCalif = async (postCalif) => {
     try {
       const califPost = await apic.post('/calificaciones', postCalif);
-      console.log('Calificacion creada correctamente:', califPost);
+      alert(califPost.message);
     } catch (error) {
-      console.error('Error al crear calificacion:', error);
+      alert(error.response.data.error);
     }
   };
 
@@ -89,14 +88,12 @@ function Calificacion({isMobile}) {
     const {id_inscripcion, id_calificacion, calificacion } = alumno;
     setIdCalif(id_calificacion);
     if( id_calificacion===null){
-      console.log('Calificacion nueva -------------------');
       let aprob = calificacion >= 6 ? true : false;
       setCreateCalif({...createCalif,id_inscripcion: id_inscripcion, calificacion: calificacion, fecha: fechaHoy, aprobado: aprob});
       setCalif(0);
       setIsNew(true);
       setIsUpdate(false);
     }else{
-      console.log('Calificacion Actualizada -------------------');
       let aprob = calificacion >= 6 ? true : false;
       setEditCalif({...editCalif, calificacion: calificacion, fecha: fechaHoy, aprobado: aprob});
       setCalif(calificacion);
@@ -113,7 +110,6 @@ function Calificacion({isMobile}) {
   const handleChangeEditCalif = (event) => {
     setCalif(event.target.value);
     let aprob = event.target.value>= 6 ? true : false;
-    console.log('aprobo ', aprob);
     if (isNew){  
       setCreateCalif({ ...createCalif, calificacion: event.target.value, aprobado: aprob });
     } else if (isUpdate){
@@ -130,13 +126,8 @@ function Calificacion({isMobile}) {
 
   const saveEditCalif = () => {
     if (isNew){
-      console.log('create');
-      console.log(createCalif);
       postCalif(createCalif);
     } else if (isUpdate){
-      console.log('update');
-      console.log('id calif', idCalif);
-      console.log(editCalif);
       UpdateCalif(idCalif, editCalif);
     }
     handleCloseEditCalif();

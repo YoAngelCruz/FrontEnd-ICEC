@@ -82,7 +82,7 @@
 @media (min-width: 1050px){
     .eAvanceInfCont{
         grid-template-columns: repeat(3, 1fr);
-        grid-template-areas: /* Dispoicion pasr celular*/
+        grid-template-areas:
             "eAvanceGraficaCont eAvanceModulosCursadosCont avanceModulosPorCursarCont" ;
         gap:15px;
     }

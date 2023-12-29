@@ -11,11 +11,11 @@ function Avance({isMobile}) {
     const [modulos, setModulos] = useState([]);
     const [modulosCursados, setModulosCursados] = useState([]);
     const [modulosPorCursar, setModulosPorCursar] = useState([]);
-    const [mcCount, setMcCount] = useState([]);
-    const [mpcCount, setMpcCount] = useState([]);
-    const [promedio, setPromedio] = useState([]);
-    const [porMc, setPorMc] = useState([]);
-    const [porMpc, setPorMpc] = useState([]);
+    const [mcCount, setMcCount] = useState('');
+    const [mpcCount, setMpcCount] = useState('');
+    const [promedio, setPromedio] = useState(0);
+    const [porMc, setPorMc] = useState(0);
+    const [porMpc, setPorMpc] = useState(0);
 
     useEffect(() => {
         const getModulosCursados = async (id) => {
@@ -33,10 +33,8 @@ function Avance({isMobile}) {
             setPromedio(promedio);
             setPorMc((modulosOrdenados.length/modulos.length)*100);
             setPorMpc((modulosNoCursados.length/modulos.length)*100);
-
-            console.log(`Respuesta de la API para los modulos ${id}:`, modulosOrdenados[0]);
           } catch (error) {
-            console.error('Error al obtener modulos:', error);
+            console.error(error.response.data.error);
           }
         };
 
@@ -44,10 +42,8 @@ function Avance({isMobile}) {
             try {
               const modulosData = await apic.get(`/modulos`);
               setModulos(modulosData);
-              
-              console.log(`Todos los modulos:`, modulosData);
             } catch (error) {
-              console.error('Error al obtener modulos:', error);
+              console.error(error.response.data.error);
             }
           };
     
@@ -82,10 +78,10 @@ function Avance({isMobile}) {
         pieSliceBorderColor: "transparent",
         pieHole: 0.6,
         chartArea: {
-            left: 0, // Espacio en blanco a la izquierda
-            top: 0,  // Espacio en blanco en la parte superior
-            width: "100%",  // Ancho del área del gráfico
-            height: "100%", // Alto del área del gráfico
+            left: 0,
+            top: 0,
+            width: "100%",
+            height: "100%",
           },
       };
   return (

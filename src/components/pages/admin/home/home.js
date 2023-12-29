@@ -19,9 +19,8 @@ function Home({isMobile}) {
         try {
           const profesoresData = await apic.get('/profesores/');
           setMaestros(profesoresData);
-          console.log("INICIO 1 Respuesta de la API:", profesoresData);
         } catch (error) {
-          console.error('Error al obtener los maestros:', error);
+          console.error(error.response.data.error);
         }
       };
 
@@ -29,9 +28,8 @@ function Home({isMobile}) {
         try {
           const gruposData = await apic.get('/grupos/');
           setGrupos(gruposData);
-          console.log("INICIO 2 Respuesta de la API:", gruposData);
         } catch (error) {
-          console.error('Error al obtener los grupos:', error);
+          console.error(error.response.data.error);
         }
       };
 

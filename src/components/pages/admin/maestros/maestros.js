@@ -31,9 +31,8 @@ function Maestros({isMobile}) {
       try {
         const profesoresData = await apic.get('/profesores/');
         setMaestros(profesoresData);
-        console.log("Respuesta de la API:", profesoresData);
       } catch (error) {
-        console.error('Error al obtener maestros:', error);
+        console.error(error.response.data.error);
       }
     };
     fetchProfesores();
@@ -42,35 +41,35 @@ function Maestros({isMobile}) {
   const DeleteProfesores = async (id) => {
     try {
       const profesoresDelete = await apic.delete(`/profesores/${id}`);
-      console.log('Maestro eliminado correctamente:', profesoresDelete);
+      alert(profesoresDelete.message);
     } catch (error) {
-      console.error('Error al eliminar el estudiante:', error);
+      alert(error.response.data.error);
     }
   };
 
   const AddProfesores = async (profesores) => {
     try {
       const profesoresAdd = await apic.post('/profesores/', profesores);
-      console.log("Maestro agregado correctamente:", profesoresAdd);
+      alert(profesoresAdd.message);
     } catch (error) {
-      console.error('Error al agregar el estudiante', error);
+      alert(error.response.data.error);
     }
   };
 
   const UpdateProfesores = async (id, profesores) => {
     try {
       const profesoresUpdate = await apic.put(`/profesores/${id}`, profesores);
-      console.log('Profesor actualizado correctamente:', profesoresUpdate);
+      alert(profesoresUpdate.message);
     } catch (error) {
-      console.error('Error al actualizar  el profesor:', error);
+      alert(error.response.data.error);
     }
   };
   const UpdatePassProfesores = async (id, profesores) => {
     try {
       const profesoresUpdate = await apic.put(`/profesores/pass/${id}`, profesores);
-      console.log('Profesor actualizado correctamente:', profesoresUpdate);
+      alert(profesoresUpdate.message);
     } catch (error) {
-      console.error('Error al eliminar el profesor:', error);
+      alert(error.response.data.error);
     }
   };
 
@@ -124,8 +123,6 @@ function Maestros({isMobile}) {
   };
 
   const saveEditNombre = () => {
-    console.log(idEditMaestro);
-    console.log(editMaestro);
     UpdateProfesores(idEditMaestro,editMaestro);
     handleCloseEditNombre();
 
@@ -145,8 +142,6 @@ function Maestros({isMobile}) {
     setEditMaestro({ ...editMaestro, num_tel_p: event.target.value });
   };
   const saveEditTel = () => {
-    console.log(idEditMaestro);
-    console.log(editMaestro);
     UpdateProfesores(idEditMaestro,editMaestro);
     handleCloseEditTel();
   };
@@ -165,8 +160,6 @@ function Maestros({isMobile}) {
     setEditMaestro({ ...editMaestro, email: event.target.value });
   };
   const saveEditEmail = () => {
-    console.log(idEditMaestro);
-    console.log(editMaestro);
     UpdateProfesores(idEditMaestro,editMaestro);
     handleCloseEditEmail();
   };
@@ -183,8 +176,6 @@ function Maestros({isMobile}) {
     setEditPass({ ...editPass, contraseña: event.target.value });
   };
   const saveEditPass = () => {
-    console.log(idEditPass);
-    console.log(editPass);
     UpdatePassProfesores(idEditPass,editPass);
     handleCloseEditPass();
   };
@@ -205,7 +196,6 @@ function Maestros({isMobile}) {
       }));
     };
     const saveMaestrosAdd = () =>{
-      console.log(maestrosAdd);
       AddProfesores(maestrosAdd); 
       handleCloseAdd();
     };
@@ -221,7 +211,6 @@ function Maestros({isMobile}) {
     };
   
     const saveMaestrosDelete = () =>{
-      console.log(maestroDelete);
       DeleteProfesores(maestroDelete.id);
       handleCloseDelete();
     };

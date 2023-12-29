@@ -63,11 +63,12 @@ function Grupos({isMobile}) {
         const gruposData = await apic.get('/grupos/');
         setGrupos(gruposData);
         gruposData.forEach((grupo) => {
-          fetchAlumnosByGrupo(grupo.id_grupo);
+          if (grupo && grupo.id_grupo) {
+            fetchAlumnosByGrupo(grupo.id_grupo);
+          }
         });
-        console.log("Respuesta de la API:", gruposData);
       } catch (error) {
-        console.error('Error al obtener los grupos:', error);
+        console.error(error.response.data.error);
       }
     };
   
@@ -75,9 +76,8 @@ function Grupos({isMobile}) {
       try {
         const profesoresData = await apic.get('/profesores/');
         setMaestros(profesoresData);
-        console.log("Respuesta de la API:", profesoresData);
       } catch (error) {
-        console.error('Error al obtener maestros:', error);
+        console.error(error.response.data.error);
       }
     };
 
@@ -85,9 +85,8 @@ function Grupos({isMobile}) {
       try {
         const estudiantesData = await apic.get('/alumnos/');
         setEstudiantes(estudiantesData);
-        console.log("Respuesta de la API:", estudiantesData);
       } catch (error) {
-        console.error('Error al obtener los estudiantes:', error);
+        console.error(error.response.data.error);
       }
     };
 
@@ -103,54 +102,53 @@ function Grupos({isMobile}) {
         ...prevAlumGrupos,
         [id]: alumGrupoData,
       }));
-      console.log(`Respuesta de la API para el grupo ${id}:`, alumGrupoData);
     } catch (error) {
-      console.error('Error al obtener alumnos por grupo:', error);
+      console.error(error.response.data.error);
     }
   };
 
   const UpdateGrupo = async (id, grupo) => {
     try {
       const grupoUpdate = await apic.put(`/grupos/${id}`, grupo);
-      console.log('Grupo actualizado correctamente:', grupoUpdate);
+      alert(grupoUpdate.message);
     } catch (error) {
-      console.error('Error al actualizar el grupo:', error);
+      alert(error.response.data.error);
     }
   };
 
   const inscripciones = async (json) => {
     try {
       const inscripciones = await apic.post('/inscripciones/many', json);
-      console.log('Alumnos agregados correctamente:', inscripciones);
+      alert(inscripciones.message);
     } catch (error) {
-      console.error('Error al actualizar el grupo:', error);
+      alert(error.response.data.error);
     }
   };
 
   const deleteInscrip = async (id) => {
     try {
       const deleteInscrip = await apic.delete(`/inscripciones/${id}`);
-      console.log('Alumno eliminado de grupo correctamente:', deleteInscrip);
+      alert(deleteInscrip.message);
     } catch (error) {
-      console.error('Error al actualizar el grupo:', error);
+      alert(error.response.data.error);
     }
   };
 
   const createGrupo = async (grupo) => {
     try {
       const createGrupo = await apic.post('/grupos',grupo);
-      console.log('Grupo creado correctamente:', createGrupo);
+      alert(createGrupo.message);
     } catch (error) {
-      console.error('Error al actualizar el grupo:', error);
+      alert(error.response.data.error);
     }
   };
 
   const deleteGrupo = async (id) => {
     try {
       const deletegrupo = await apic.delete(`/grupos/${id}`);
-      console.log('Grupo eliminado correctamente:', deletegrupo);
+      alert(deletegrupo.message);
     } catch (error) {
-      console.error('Error al actualizar el grupo:', error);
+      alert(error.response.data.error);
     }
   };
 
@@ -250,8 +248,6 @@ function Grupos({isMobile}) {
   };
 
   const saveEditDescrip = () => {
-    console.log(idEditGrupo);
-    console.log(editGrupo);
     UpdateGrupo(idEditGrupo,editGrupo);
     handleCloseEditDescrip();
 
@@ -273,8 +269,6 @@ function Grupos({isMobile}) {
     };
   
     const saveEditFechaInicio = () => {
-      console.log(idEditGrupo);
-      console.log(editGrupo);
       UpdateGrupo(idEditGrupo,editGrupo);
       handleCloseEditFechaInicio();
     };
@@ -295,8 +289,6 @@ function Grupos({isMobile}) {
     };
   
     const saveEditFechaFin = () => {
-      console.log(idEditGrupo);
-      console.log(editGrupo);
       UpdateGrupo(idEditGrupo,editGrupo);
       handleCloseEditFechaFin();
     };
@@ -317,7 +309,6 @@ function Grupos({isMobile}) {
   };
 
   const saveEditModulo = () =>{
-    console.log(editGrupo);
     UpdateGrupo(idEditGrupo,editGrupo);
     handleCloseEditModulo();
   };
@@ -338,7 +329,6 @@ function Grupos({isMobile}) {
   };
 
   const saveEditMaestro = () =>{
-    console.log(editGrupo);
     UpdateGrupo(idEditGrupo,editGrupo);
     handleCloseEditMaestro();
   };
@@ -369,7 +359,6 @@ function Grupos({isMobile}) {
   };
 
   const saveGrupoAdd = () =>{
-    console.log(grupoAdd);
     createGrupo(grupoAdd);
     handleCloseAdd();
   };
@@ -385,7 +374,6 @@ function Grupos({isMobile}) {
   };
 
   const saveGrupoDelete = () =>{
-    console.log(grupoDelete);
     deleteGrupo(grupoDelete.id);
     handleCloseDelete();
   };
@@ -393,20 +381,19 @@ function Grupos({isMobile}) {
   //Abrir y cerrar dialog editar lista
   const handleClickOpenEditList = async (id) => {
     setIdEditGrupo(id);
-    console.log(alumGrupos[id]);
     // Verificar si ya se han cargado los alumnos para este grupo
     if (alumGrupos[id]) {
       setLeft([]);
       setLeft([]);
+      setPastLeft([]);
       const alumnosDelGrupo = alumGrupos[id].map((alumno) => alumno);
       
       // Obtener todos los alumnos y filtrar los que ya están en el grupo
       const todosLosAlumnos = estudiantes.map((alumno) => alumno); //({ id_alumno: alumno.id, nombre: alumno.nombre })
-      const alumnosEnRight = right;
 
       // Filtrar los alumnos que ya están en el grupo
       const alumnosEnLeft = todosLosAlumnos.filter(
-        (alumno) => !alumnosDelGrupo.some((alumnoDelGrupo) => alumnoDelGrupo.id === alumno.id) && !alumnosEnRight.some((alumnoRight) => alumnoRight.id === alumno.id)
+        (alumno) => !alumnosDelGrupo.some((alumnoDelGrupo) => alumnoDelGrupo.id === alumno.id) && !alumnosDelGrupo.some((alumnoRight) => alumnoRight.id === alumno.id)
       );
       
       setLeft(alumnosEnLeft);
@@ -426,8 +413,6 @@ function Grupos({isMobile}) {
   };
 
   const saveEditList = () =>{
-    console.log('Lista derecha pasada',pastRight);
-    console.log('Lista derecha pasada',right);
     const nuevosElementos = right.filter(item => !pastRight.some(pastItem => JSON.stringify(pastItem) === JSON.stringify(item)));
     const alumnosadd = nuevosElementos.map(item => ({ id_alumno: item.id }));
     const addAlumnos=
@@ -435,16 +420,12 @@ function Grupos({isMobile}) {
         id_grupo: idEditGrupo,
         listaAlumnos: alumnosadd,
       };
-    console.log('addAlumnos',addAlumnos);
     inscripciones(addAlumnos);
     handleCloseEditList();
   };
   const borrarAlumno = () => {
-    console.log('Lista derecha pasada',pastLeft);
-    console.log('Lista derecha pasada',left);
     const quitarElementos = left.filter(item => !pastLeft.some(pastItem => JSON.stringify(pastItem) === JSON.stringify(item)));
     const alumnosdelete = quitarElementos[0] ? quitarElementos[0].id_inscripcion : null;
-    console.log('id inscripcion que se va a borrar ', alumnosdelete);
     deleteInscrip(alumnosdelete);
     handleCloseEditList();
   };
