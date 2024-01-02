@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useEffect } from 'react';
+import React/*, { useEffect }*/ from 'react';
 import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 import { AuthProvider, useAuth, isTokenExpired } from './utils/AuthContext';
 import Estudiantes from './components/pages/estudiantes';
@@ -12,7 +12,6 @@ const PrivateRoute = ({ element, allowedTypes }) => {
   const { isAuthenticated, tipoUsuario } = useAuth();
   /*
   const { authLogout } = useAuth();
-  authLogout();
   useEffect(() => {
     authLogout();
   }, []);*/
@@ -42,8 +41,6 @@ const PrivateRoute = ({ element, allowedTypes }) => {
 };
 
 function App() {
-  const currentUrl = window.location.pathname;
-  console.log(currentUrl);
   
   
   return (

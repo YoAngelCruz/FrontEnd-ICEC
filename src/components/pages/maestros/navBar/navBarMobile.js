@@ -6,28 +6,28 @@ import { HiBookOpen, HiHome, HiCalendarDays, HiDocumentCheck } from "react-icons
 function NavBarMobile() {
   
   return (
-    <nav class="nav">
+    <nav className="nav">
       <ul>
         <li>
-          <NavLink activeClassName="active" to="/maestros/grupos">
+          <NavLink to="/maestros/grupos">
             <HiBookOpen size={28} />
             <span>Grupos</span>
           </NavLink>
         </li>
         <li>
-          <NavLink exact activeClassName="active" to="/maestros/home">
+          <NavLink to="/maestros/home">
             <HiHome size={28}  />
             <span>Inicio</span>
           </NavLink>
         </li>
         <li>
-          <NavLink activeClassName="active" to="/maestros/calificaciones">
+          <NavLink to="/maestros/calificaciones">
             <HiDocumentCheck size={28}  />
             <span>Calificaciones</span>
           </NavLink>
         </li>
         <li>
-          <NavLink activeClassName="active" to="/maestros/calendario">
+          <NavLink to="/maestros/calendario">
             <HiCalendarDays size={28}  />
             <span>Calendario</span>
           </NavLink>

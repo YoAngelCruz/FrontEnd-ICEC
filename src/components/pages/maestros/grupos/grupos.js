@@ -5,52 +5,116 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import { HiOutlineChevronDown} from "react-icons/hi";
+import { HiOutlineChevronDown } from "react-icons/hi";
+import { useAuth } from '../../../../utils/AuthContext';
+import apic from '../../../../services/api';
 import './grupos.css';
 
+function Grupos({ isMobile }) {
+    const { userData } = useAuth();
+    const [grupos, setGrupos] = useState([]);
 
-function Grupos({isMobile}) {
+    // Llamar a la función para obtener grupos y alumnos al cargar el componente
+    useEffect(() => {
+        const gruposByProfesor = async (id) => {
+            try {
+                const gruposData = await apic.get(`/profesores/${id}/grupos`);
+                const gruposConAlumnos = await Promise.all(
+                    gruposData.map(async (grupo) => {
+                        const alumnos = await fetchAlumnosByGrupo(grupo.id_grupo);
+                        return { ...grupo, alumnos };
+                    })
+                );
+                setGrupos(gruposConAlumnos);
+            } catch (error) {
+                console.error(error.response.data.error);
+            }
+        };
 
-    const gruposActuales=[{"id":'1','nombre':'G001', 'maestro':'Christian Amaro Reyes', 'estudiantes':[{'id':'1', 'nombre':'Arriola Peztña Heriberto'},{'id':'2', 'nombre':'Anahí Ximena Sanchez Vasquez'}, {'id':'3', 'nombre':'Avila Muñoz Jaime Ivan'}, {'id':'4', 'nombre':'Heribert'}]},
-                          {"id":'2','nombre':'G002', 'maestro':'Jose Manuel Reyes', 'estudiantes':[{'id':'1', 'nombre':'Anahí Ximena Sanchez Vasquez'},{'id':'2', 'nombre':'Arriola Peztña Heriberto'}, {'id':'3', 'nombre':'Avila Muñoz Jaime Ivan'}]},
-                          {"id":'3','nombre':'G003', 'maestro':'Ana Bolena ', 'estudiantes':[{'id':'1', 'nombre':'Arriola Peztña Heriberto'},{'id':'2', 'nombre':'Anahí Ximena Sanchez Vasquez'}, {'id':'3', 'nombre':'Avila Muñoz Jaime Ivan'}]}]
-    
-    const gruposPasados=[{"id":'1','nombre':'G001', 'maestro':'Christian Amaro Reyes', 'estudiantes':[{'id':'1', 'nombre':'Arriola Peztña Heriberto'},{'id':'2', 'nombre':'Anahí Ximena Sanchez Vasquez'}, {'id':'3', 'nombre':'Avila Muñoz Jaime Ivan'}, {'id':'4', 'nombre':'Heribert'}]},
-                         {"id":'2','nombre':'G002', 'maestro':'Jose Manuel Reyes', 'estudiantes':[{'id':'1', 'nombre':'Anahí Ximena Sanchez Vasquez'},{'id':'2', 'nombre':'Arriola Peztña Heriberto'}, {'id':'3', 'nombre':'Avila Muñoz Jaime Ivan'}]},
-                         {"id":'3','nombre':'G003', 'maestro':'Ana Bolena ', 'estudiantes':[{'id':'1', 'nombre':'Arriola Peztña Heriberto'},{'id':'2', 'nombre':'Anahí Ximena Sanchez Vasquez'}, {'id':'3', 'nombre':'Avila Muñoz Jaime Ivan'}]}]
-    
+        const fetchAlumnosByGrupo = async (idGrupo) => {
+            try {
+                const alumGrupoData = await apic.get(`/grupos/${idGrupo}/alumnos`);
+                // Mapear los datos y seleccionar solo las propiedades necesarias
+                const limitedData = alumGrupoData.map((alumno) => ({
+                    id: alumno.id,
+                    clave: alumno.clave,
+                    nombre: alumno.nombre,
+                }));
+                return limitedData;
+            } catch (error) {
+                console.error(error.response.data.error);
+                return [];
+            }
+        };
+
+        gruposByProfesor(userData.id);
+    }, [userData]);
+
+    const gruposActuales = grupos.filter((grupo) => {
+        const fechaFin = new Date(grupo.fecha_fin);
+        const hoy = new Date();
+
+        return fechaFin >= hoy; // Filtrar los grupos cuya fecha_fin es mayor o igual a hoy
+    });
+
+    const gruposPasados = grupos.filter((grupo) => {
+        const fechaFin = new Date(grupo.fecha_fin);
+        const hoy = new Date();
+
+        return fechaFin < hoy; // Filtrar los grupos cuya fecha_fin es menor a hoy
+    });
 
     const accordionPriStyles = createTheme({
         components: {
-            MuiAccordion:{styleOverrides: {root: {
-                backgroundColor: 'transparent',
-                boxShadow:'none',
-            },},},
-            MuiAccordionSummary: {styleOverrides: {root: {
-                color:'white',
-                fontSize: isMobile ? '23px' : '25px',
-                borderBottom: 'solid 2px white',
-            },},},
+            MuiAccordion: {
+                styleOverrides: {
+                    root: {
+                        backgroundColor: 'transparent',
+                        boxShadow: 'none',
+                    },
+                },
+            },
+            MuiAccordionSummary: {
+                styleOverrides: {
+                    root: {
+                        color: 'white',
+                        fontSize: isMobile ? '23px' : '25px',
+                        borderBottom: 'solid 2px white',
+                    },
+                },
+            },
         },
     });
     const accordionSecStyles = createTheme({
         components: {
-            MuiAccordion:{styleOverrides: {root: {
-                backgroundColor: 'rgba(255, 255, 255, 0.5)',
-                boxShadow:'none',
-            },},},
-            MuiAccordionSummary: {styleOverrides: {root: {
-                fontWeight:'bold',
-            },},},
-            MuiAccordionDetails: {styleOverrides: {root: {
-                backgroundColor: 'white',
-                borderRadius:'10px',
-                margin:' -10px 10px 10px 10px',
-                padding:'10px 25px',
-            },},},
+            MuiAccordion: {
+                styleOverrides: {
+                    root: {
+                        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                        boxShadow: 'none',
+                    },
+                },
+            },
+            MuiAccordionSummary: {
+                styleOverrides: {
+                    root: {
+                        fontWeight: 'bold',
+                    },
+                },
+            },
+            MuiAccordionDetails: {
+                styleOverrides: {
+                    root: {
+                        backgroundColor: 'white',
+                        borderRadius: '10px',
+                        margin: ' -10px 10px 10px 10px',
+                        padding: '10px 25px',
+                    },
+                },
+            },
         },
     });
-    
+
     return (
         <div>
             {isMobile ? <HeaderMobile /> : <HeaderInicio titulo="Grupos" />}
@@ -60,21 +124,21 @@ function Grupos({isMobile}) {
                 <div className='gruposAccordion'>
                     <ThemeProvider theme={accordionPriStyles}>
                         <Accordion>
-                            <AccordionSummary expandIcon={<HiOutlineChevronDown  style={{color:'white'}}/>} id="actuales">
+                            <AccordionSummary expandIcon={<HiOutlineChevronDown style={{ color: 'white' }} />} id="actuales">
                                 Grupos actuales
                             </AccordionSummary>
                             <AccordionDetails>
-                                {gruposActuales.map((gruposObj) => ( 
-                                    <div className='groupGrupos'>
+                                {gruposActuales.map((gruposObj) => (
+                                    <div className='groupGrupos' key={gruposObj.id_grupo}>
                                         <ThemeProvider theme={accordionSecStyles}>
                                             <Accordion>
-                                                <AccordionSummary expandIcon={<HiOutlineChevronDown style={{color:'black'}}/>} id={gruposObj.id}>
-                                                    Grupo {gruposObj.id}
+                                                <AccordionSummary expandIcon={<HiOutlineChevronDown style={{ color: 'black' }} />} id={gruposObj.id_grupo}>
+                                                    {gruposObj.descripcion}
                                                 </AccordionSummary>
                                                 <AccordionDetails>
                                                     <ul>
-                                                        {gruposObj.estudiantes.map((estudiante) => (
-                                                        <li key={estudiante.id}>{estudiante.nombre}</li>
+                                                        {gruposObj.alumnos.map((alumno) => (
+                                                            <li key={alumno.id}>{alumno.clave}&emsp;&emsp;{alumno.nombre}</li>
                                                         ))}
                                                     </ul>
                                                 </AccordionDetails>
@@ -86,25 +150,25 @@ function Grupos({isMobile}) {
                         </Accordion>
                     </ThemeProvider>
                 </div>
-                
+
                 <div className='gruposAccordion'>
                     <ThemeProvider theme={accordionPriStyles}>
                         <Accordion>
-                            <AccordionSummary expandIcon={<HiOutlineChevronDown  style={{color:'white'}}/>} id="pasados">
+                            <AccordionSummary expandIcon={<HiOutlineChevronDown style={{ color: 'white' }} />} id="pasados">
                                 Grupos pasados
                             </AccordionSummary>
                             <AccordionDetails>
-                                {gruposPasados.map((gruposObj) => ( 
-                                    <div className='groupGrupos'>
+                                {gruposPasados.map((gruposObj) => (
+                                    <div className='groupGrupos' key={gruposObj.id_grupo}>
                                         <ThemeProvider theme={accordionSecStyles}>
                                             <Accordion>
-                                                <AccordionSummary expandIcon={<HiOutlineChevronDown style={{color:'black'}}/>} id={gruposObj.id}>
-                                                    {gruposObj.nombre}
+                                                <AccordionSummary expandIcon={<HiOutlineChevronDown style={{ color: 'black' }} />} id={gruposObj.id_grupo}>
+                                                    {gruposObj.descripcion}
                                                 </AccordionSummary>
                                                 <AccordionDetails>
                                                     <ul>
-                                                        {gruposObj.estudiantes.map((estudiante) => (
-                                                        <li key={estudiante.id}>{estudiante.nombre}</li>
+                                                        {gruposObj.alumnos.map((alumno) => (
+                                                            <li key={alumno.id}>{alumno.clave}&emsp;&emsp;{alumno.nombre}</li>
                                                         ))}
                                                     </ul>
                                                 </AccordionDetails>

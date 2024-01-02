@@ -14,25 +14,13 @@ function Home({isMobile}) {
     const formattedDate = currentDate.toLocaleDateString('es-ES', options);
 
     useEffect(() => {
-        fetchProfesores();
-        fetchGrupos();
-        // Actualizar la fecha actual cada segundo (puedes ajustar el intervalo según tus necesidades)
-        const intervalId = setInterval(() => {
-          setCurrentDate(new Date());
-        }, 1000);
-    
-        // Limpieza del intervalo cuando el componente se desmonta
-        return () => clearInterval(intervalId);
-      }, []);
 
       const fetchProfesores = async () => {
         try {
           const profesoresData = await apic.get('/profesores/');
           setMaestros(profesoresData);
-          console.log("Respuesta de la API:", profesoresData);
-          console.log("json maestros: ", maestros);
         } catch (error) {
-          console.error('Error al obtener los maestros:', error);
+          console.error(error.response.data.error);
         }
       };
 
@@ -40,13 +28,24 @@ function Home({isMobile}) {
         try {
           const gruposData = await apic.get('/grupos/');
           setGrupos(gruposData);
-          console.log("Respuesta de la API:", gruposData);
-          console.log("json grupos: ", grupos);
         } catch (error) {
-          console.error('Error al obtener los grupos:', error);
+          console.error(error.response.data.error);
         }
       };
 
+      fetchProfesores();
+      fetchGrupos();
+    }, []);
+
+    useEffect(() => {
+      // Actualizar la fecha actual cada segundo
+      const intervalId = setInterval(() => {
+        setCurrentDate(new Date());
+      }, 1000);
+  
+      // Limpieza del intervalo cuando el componente se desmonta
+      return () => clearInterval(intervalId);
+    }, []);
 
   return (
     <div>
@@ -76,7 +75,7 @@ function Home({isMobile}) {
             <div className='gridCont'>
                 
                 {maestros.map((maestrosObj) => (
-                    <NavLink className='button normalButton'key={maestrosObj.id} to='/admin/maestros'>
+                    <NavLink className='button normalButton' key={maestrosObj.id} to='/admin/maestros'>
                         <HiBookOpen size={isMobile ? 35 : 55} />
                         <span className="buttonTitle">{maestrosObj.nombre}</span>
                     </NavLink>
@@ -88,7 +87,7 @@ function Home({isMobile}) {
             <div className='gridCont'>
                 
                 {grupos.map((gruposObj) => (
-                    <NavLink className='button normalButton'key={gruposObj.id} to='/admin/grupos'>
+                    <NavLink className='button normalButton'key={gruposObj.id_grupo} to='/admin/grupos'>
                         <HiMiniSquare3Stack3D size={isMobile ? 35 : 55} />
                         <span className="buttonTitle">{gruposObj.descripcion}</span>
                     </NavLink>

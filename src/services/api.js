@@ -5,10 +5,10 @@ class Api {
     this.baseUrl = baseUrl;
   }
 
-  async get(path, params) { //path la parte restante del url |  params los parametros que se pasaran 
-    const url = `${this.baseUrl}${path}`;
-    const response = await axios.get(url, { params });
-    return response.data;
+  async get(path) {
+      const url = `${this.baseUrl}${path}`;
+      const response = await axios.get(url);
+      return response.data;
   }
 
   async post(path, data) {

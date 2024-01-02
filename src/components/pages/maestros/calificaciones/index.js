@@ -10,20 +10,33 @@ import apic from '../../../../services/api';
 function Calificaciones({isMobile}) {
     const { userData } = useAuth();
     const [grupos, setGrupos] = useState([]);
-    const cursosActuales=[{"id": "1","nombre": "Nombre del modulo actual"},{"id": "2","nombre": "Más nombres de módulos"},{"id": "3","nombre": "Otro nombre que no me acuerdo"},{"id": "4","nombre": "Pero seguramente si existen jaaj"},{"id": "5","nombre": "Aro nombre que no me acuerdo"},];
     useEffect(() => {
+        const gruposByProfesor = async (id) => {
+            try {
+                const gruposData = await apic.get(`/profesores/${id}/grupos`);
+                setGrupos(gruposData);
+            } catch (error) {
+                console.error(error.response.data.error);
+            }
+            };
         gruposByProfesor(userData.id);
-      }, []);
+      }, [userData]);
+
+      const gruposActuales = grupos.filter((grupo) => {
+        const fechaFin = new Date(grupo.fecha_fin);
+        const hoy = new Date();
+      
+        return fechaFin >= hoy; // Filtrar los grupos cuya fecha_fin es mayor o igual a hoy
+      });
+      
+      const gruposPasados = grupos.filter((grupo) => {
+        const fechaFin = new Date(grupo.fecha_fin);
+        const hoy = new Date();
+      
+        return fechaFin < hoy; // Filtrar los grupos cuya fecha_fin es menor a hoy
+      });
     
-    const gruposByProfesor = async (id) => {
-    try {
-        const gruposData = await apic.get(`/profesores/${id}/grupos`);
-        setGrupos(gruposData);
-        console.log(`Respuesta de la API para el grupo ${id}:`, gruposData);
-    } catch (error) {
-        console.error('Error al obtener alumnos por grupo:', error);
-    }
-    };
+    
   return (
     <div>
         {isMobile ? <HeaderMobile /> : <HeaderInicio titulo="Calificación" />}
@@ -31,10 +44,22 @@ function Calificaciones({isMobile}) {
         <div className='mCalificacionesCont'>
             {isMobile && <p className='WelcomeMsg'>Calificación</p>}
 
-            <span className='contSubtitle'>Todos mis grupos</span>
+            <span className='contSubtitle'>Mis grupos actuales</span>
             <div className='gridCont'>
                 
-                {grupos.map((cursosObj) => (
+                {gruposActuales.map((cursosObj) => (
+                    <NavLink className='button normalButton'key={cursosObj.id_grupo} to={`/maestros/calificaciones/${cursosObj.id_grupo}`}>
+                        <HiBookOpen size={isMobile ? 35 : 55} />
+                        <span className="buttonTitle">{cursosObj.descripcion}</span>
+                    </NavLink>
+                ))}
+                
+            </div>
+
+            <span className='contSubtitle'>Mis grupos pasados</span>
+            <div className='gridCont'>
+                
+                {gruposPasados.map((cursosObj) => (
                     <NavLink className='button normalButton'key={cursosObj.id_grupo} to={`/maestros/calificaciones/${cursosObj.id_grupo}`}>
                         <HiBookOpen size={isMobile ? 35 : 55} />
                         <span className="buttonTitle">{cursosObj.descripcion}</span>

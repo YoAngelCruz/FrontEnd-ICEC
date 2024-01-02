@@ -27,51 +27,53 @@ function Maestros({isMobile}) {
 
   //GET
   useEffect(() => {
+    const fetchProfesores = async () => {
+      try {
+        const profesoresData = await apic.get('/profesores/');
+        setMaestros(profesoresData);
+      } catch (error) {
+        console.error(error.response.data.error);
+      }
+    };
     fetchProfesores();
   }, []);
 
-  const fetchProfesores = async () => {
-    try {
-      const profesoresData = await apic.get('/profesores/');
-      setMaestros(profesoresData);
-      console.log("Respuesta de la API:", profesoresData);
-      console.log("json maestros: ", maestros);
-    } catch (error) {
-      console.error('Error al obtener maestros:', error);
-    }
-  };
   const DeleteProfesores = async (id) => {
     try {
       const profesoresDelete = await apic.delete(`/profesores/${id}`);
-      console.log('Maestro eliminado correctamente:', profesoresDelete);
+      alert(profesoresDelete.message);
+      window.location.reload();
     } catch (error) {
-      console.error('Error al eliminar el estudiante:', error);
+      alert(error.response.data.error);
     }
   };
 
   const AddProfesores = async (profesores) => {
     try {
       const profesoresAdd = await apic.post('/profesores/', profesores);
-      console.log("Maestro agregado correctamente:", profesoresAdd);
+      alert(profesoresAdd.message);
+      window.location.reload();
     } catch (error) {
-      console.error('Error al agregar el estudiante', error);
+      alert(error.response.data.error);
     }
   };
 
   const UpdateProfesores = async (id, profesores) => {
     try {
       const profesoresUpdate = await apic.put(`/profesores/${id}`, profesores);
-      console.log('Profesor actualizado correctamente:', profesoresUpdate);
+      alert(profesoresUpdate.message);
+      window.location.reload();
     } catch (error) {
-      console.error('Error al actualizar  el profesor:', error);
+      alert(error.response.data.error);
     }
   };
   const UpdatePassProfesores = async (id, profesores) => {
     try {
       const profesoresUpdate = await apic.put(`/profesores/pass/${id}`, profesores);
-      console.log('Profesor actualizado correctamente:', profesoresUpdate);
+      alert(profesoresUpdate.message);
+      window.location.reload();
     } catch (error) {
-      console.error('Error al eliminar el profesor:', error);
+      alert(error.response.data.error);
     }
   };
 
@@ -125,8 +127,6 @@ function Maestros({isMobile}) {
   };
 
   const saveEditNombre = () => {
-    console.log(idEditMaestro);
-    console.log(editMaestro);
     UpdateProfesores(idEditMaestro,editMaestro);
     handleCloseEditNombre();
 
@@ -146,8 +146,6 @@ function Maestros({isMobile}) {
     setEditMaestro({ ...editMaestro, num_tel_p: event.target.value });
   };
   const saveEditTel = () => {
-    console.log(idEditMaestro);
-    console.log(editMaestro);
     UpdateProfesores(idEditMaestro,editMaestro);
     handleCloseEditTel();
   };
@@ -166,8 +164,6 @@ function Maestros({isMobile}) {
     setEditMaestro({ ...editMaestro, email: event.target.value });
   };
   const saveEditEmail = () => {
-    console.log(idEditMaestro);
-    console.log(editMaestro);
     UpdateProfesores(idEditMaestro,editMaestro);
     handleCloseEditEmail();
   };
@@ -184,8 +180,6 @@ function Maestros({isMobile}) {
     setEditPass({ ...editPass, contraseña: event.target.value });
   };
   const saveEditPass = () => {
-    console.log(idEditPass);
-    console.log(editPass);
     UpdatePassProfesores(idEditPass,editPass);
     handleCloseEditPass();
   };
@@ -206,7 +200,6 @@ function Maestros({isMobile}) {
       }));
     };
     const saveMaestrosAdd = () =>{
-      console.log(maestrosAdd);
       AddProfesores(maestrosAdd); 
       handleCloseAdd();
     };
@@ -222,7 +215,6 @@ function Maestros({isMobile}) {
     };
   
     const saveMaestrosDelete = () =>{
-      console.log(maestroDelete);
       DeleteProfesores(maestroDelete.id);
       handleCloseDelete();
     };
@@ -250,12 +242,14 @@ function Maestros({isMobile}) {
           <span>&emsp; * Se recomienda usar vista para ordenador<br/><br/></span>
           <div className='tableContainer'>
             <table cellSpacing='0px' style={{minWidth:'100%'}}>
+                <thead>
                  <tr style={{fontWeight:'bold'}}>
                   <td align='center' style={{padding:'10px'}}>Nombre</td>
-                  <td align='center' style={{padding:'10px'}}>Telefono</td> <td align='center' style={{padding:'10px'}}>Email</td> 
-                  <td align='center' style={{padding:'10px'}}>Contraseña</td> <td align='center' style={{padding:'10px'}}>Eliminar</td>
+                  <td align='center' style={{padding:'10px'}}>Telefono</td><td align='center' style={{padding:'10px'}}>Email</td> 
+                  <td align='center' style={{padding:'10px'}}>Contraseña</td><td align='center' style={{padding:'10px'}}>Eliminar</td>
                 </tr>
-                
+                </thead>
+                <tbody>
                 {(filteredMaestros.length > 0 ? filteredMaestros : maestros).map((MaestrosObj, index) => ( 
                     <tr key={MaestrosObj.id}>
                       <td style={{backgroundColor:'white', padding: '5px 10px', width:'auto-fit', whiteSpace: 'nowrap', borderTopLeftRadius: index === 0 ? '15px':'0px', borderBottomLeftRadius: index === maestros.length-1 ? '15px':'0px'}}>
@@ -278,6 +272,7 @@ function Maestros({isMobile}) {
                       </td>
                     </tr>
                 ))}
+                </tbody>
             </table>
           </div>
 
@@ -391,7 +386,7 @@ function Maestros({isMobile}) {
                       <p align="center">¿Seguro que quiere eliminar al maestro <b>{maestroDelete.nombre}</b>?</p>
                     </div>
                     <Button autoFocus onClick={handleCloseDelete}>Cancelar</Button>
-                    <Button onClick={saveMaestrosDelete} autoFocus>Guardar</Button>
+                    <Button onClick={saveMaestrosDelete} autoFocus>Eliminar</Button>
                 </div>                                    
               </DialogContent>
             </Dialog>

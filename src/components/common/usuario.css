@@ -1,0 +1,12 @@
+.usuarioCont{
+    text-align: start;
+    padding: 5%;
+  } 
+.usuarioCont .AditionalInfo{
+    margin: 0px 0px;
+}
+.usuarioCont .editButton{
+  padding: 5px 10vw;
+  color:white;
+  background-color: blue;
+}

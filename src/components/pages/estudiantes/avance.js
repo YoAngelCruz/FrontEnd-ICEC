@@ -4,15 +4,55 @@ import HeaderInicio from '../../common/headerDesktop';
 import HeaderMobile from '../../common/headerMobile';
 import './avance.css';
 import {HiAcademicCap, HiCalendar, HiClock, HiDocumentCheck} from 'react-icons/hi2';
+import apic from '../../../services/api';
+import { useAuth } from '../../../utils/AuthContext';
 function Avance({isMobile}) {
-    const usuario={"id": "1","nombre": "Anahí Ximena Sanchez Vasquez"}
-    const modulosCursados=[{"id": "1","nombre": "Nombre del modulo pasado", "calificacion": "10"},{"id": "2","nombre": "Más nombres de módulos", "calificacion": "10"},{"id": "3","nombre": "Otro nombre que no me acuerdo", "calificacion": "9"},{"id": "4","nombre": "Pero seguramente si existen jaaj", "calificacion": "10"}];
-    const modulosPorCursar=[{"id": "1","nombre": "Nombre del modulo pasado"},{"id": "2","nombre": "Más nombres de módulos"}];
-    const mcCount = modulosCursados.length;
-    const mpcCount = modulosPorCursar.length;
-    const promedio = modulosCursados.reduce((total, modulo) => total + parseInt(modulo.calificacion), 0) / modulosCursados.length;
-    const porMc = (mcCount / 6) * 100;
-    const porMpc = (mpcCount / 6) * 100;
+    const { userData } = useAuth();
+    const [modulos, setModulos] = useState([]);
+    const [modulosCursados, setModulosCursados] = useState([]);
+    const [modulosPorCursar, setModulosPorCursar] = useState([]);
+    const [mcCount, setMcCount] = useState('');
+    const [mpcCount, setMpcCount] = useState('');
+    const [promedio, setPromedio] = useState(0);
+    const [porMc, setPorMc] = useState(0);
+    const [porMpc, setPorMpc] = useState(0);
+
+    useEffect(() => {
+        const getModulosCursados = async (id) => {
+          try {
+            const modulosData = await apic.get(`/alumnos/${id}/modulos/calificaciones`);
+            const modulosOrdenados = modulosData.sort((a, b) => new Date(b.id_modulo) - new Date(a.id_modulo));
+            const modulosNoCursados = modulos.filter(modulo => {
+                return !modulosOrdenados.some(moduloCursado => moduloCursado.id_modulo === modulo.id_modulo);
+            });
+            const promedio = (modulosOrdenados.reduce((total, modulo) => total + (modulo.calificacion || 0), 0) / modulosOrdenados.length).toFixed(2);
+            setModulosCursados(modulosOrdenados);
+            setModulosPorCursar(modulosNoCursados);
+            setMcCount(modulosOrdenados.length);
+            setMpcCount(modulosNoCursados.length);
+            setPromedio(promedio);
+            setPorMc((modulosOrdenados.length/modulos.length)*100);
+            setPorMpc((modulosNoCursados.length/modulos.length)*100);
+          } catch (error) {
+            console.error(error.response.data.error);
+          }
+        };
+
+        const getModulos = async () => {
+            try {
+              const modulosData = await apic.get(`/modulos`);
+              setModulos(modulosData);
+            } catch (error) {
+              console.error(error.response.data.error);
+            }
+          };
+    
+        getModulosCursados(userData.id);
+        if (!modulos.length) {
+            getModulos();
+        }
+      }, [userData, modulos]);
+
     const data = [
         ["Pac Man", "Percentage"],
         ["", porMc],
@@ -38,10 +78,10 @@ function Avance({isMobile}) {
         pieSliceBorderColor: "transparent",
         pieHole: 0.6,
         chartArea: {
-            left: 0, // Espacio en blanco a la izquierda
-            top: 0,  // Espacio en blanco en la parte superior
-            width: "100%",  // Ancho del área del gráfico
-            height: "100%", // Alto del área del gráfico
+            left: 0,
+            top: 0,
+            width: "100%",
+            height: "100%",
           },
       };
   return (
@@ -50,7 +90,7 @@ function Avance({isMobile}) {
         <div className='eAvanceCont'>
             {isMobile && <p className='WelcomeMsg'>Avance</p>}
             <div className='pageTitle'>
-                <span>{usuario.nombre}</span>
+                <span>{userData.nombre}</span>
             </div>
             
             <div className='latInfoCont'>
@@ -90,7 +130,7 @@ function Avance({isMobile}) {
                     </div>
                     <div className='eModuleInfoCont'>
                         {modulosCursados.map((mcObj) =>(
-                            <li key={mcObj.id}>{mcObj.nombre}</li>
+                            <li key={mcObj.id_modulo}>{mcObj.nombre}</li>
                         ))} 
                     </div>
                 </div>
@@ -100,7 +140,7 @@ function Avance({isMobile}) {
                     </div>
                     <div className='eModuleInfoCont'>
                         {modulosPorCursar.map((mcpObj) =>(
-                            <li key={mcpObj.id}>{mcpObj.nombre}</li>
+                            <li key={mcpObj.id_modulo}>{mcpObj.nombre}</li>
                         ))} 
                     </div>
                 </div>

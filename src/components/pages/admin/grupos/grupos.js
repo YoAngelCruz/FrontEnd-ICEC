@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import HeaderInicio from '../../../common/headerDesktop';
 import HeaderMobile from '../../../common/headerMobile';
 import apic from '../../../../services/api';
-import dayjs from 'dayjs';
 import './grupos.css';
 import {HiMagnifyingGlass, HiPencilSquare, HiTrash, HiPencil} from 'react-icons/hi2';
 import {HiPlus, HiArrowRight, HiArrowLeft} from 'react-icons/hi';
@@ -25,6 +24,7 @@ import Divider from "@mui/material/Divider";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import TextField from '@mui/material/TextField';
 
 function not(a, b) {
   return a.filter((value) => b.indexOf(value) === -1);
@@ -58,35 +58,43 @@ function Grupos({isMobile}) {
 
    //GET
   useEffect(() => {
+
+    const fetchGrupos = async () => {
+      try {
+        const gruposData = await apic.get('/grupos/');
+        setGrupos(gruposData);
+        gruposData.forEach((grupo) => {
+          if (grupo && grupo.id_grupo) {
+            fetchAlumnosByGrupo(grupo.id_grupo);
+          }
+        });
+      } catch (error) {
+        console.error(error.response.data.error);
+      }
+    };
+  
+    const fetchProfesores = async () => {
+      try {
+        const profesoresData = await apic.get('/profesores/');
+        setMaestros(profesoresData);
+      } catch (error) {
+        console.error(error.response.data.error);
+      }
+    };
+
+    const fetchAlumnos = async () => {
+      try {
+        const estudiantesData = await apic.get('/alumnos/');
+        setEstudiantes(estudiantesData);
+      } catch (error) {
+        console.error(error.response.data.error);
+      }
+    };
+
     fetchGrupos();
     fetchProfesores();
     fetchAlumnos();
   }, []);
-
-  const fetchGrupos = async () => {
-    try {
-      const gruposData = await apic.get('/grupos/');
-      setGrupos(gruposData);
-      gruposData.forEach((grupo) => {
-        fetchAlumnosByGrupo(grupo.id_grupo);
-      });
-      console.log("Respuesta de la API:", gruposData);
-      console.log("json grupos: ", grupos);
-    } catch (error) {
-      console.error('Error al obtener los grupos:', error);
-    }
-  };
-
-  const fetchProfesores = async () => {
-    try {
-      const profesoresData = await apic.get('/profesores/');
-      setMaestros(profesoresData);
-      console.log("Respuesta de la API:", profesoresData);
-      console.log("json maestros: ", maestros);
-    } catch (error) {
-      console.error('Error al obtener maestros:', error);
-    }
-  };
 
   const fetchAlumnosByGrupo = async (id) => {
     try {
@@ -95,64 +103,58 @@ function Grupos({isMobile}) {
         ...prevAlumGrupos,
         [id]: alumGrupoData,
       }));
-      console.log(`Respuesta de la API para el grupo ${id}:`, alumGrupoData);
     } catch (error) {
-      console.error('Error al obtener alumnos por grupo:', error);
-    }
-  };
-  const fetchAlumnos = async () => {
-    try {
-      const estudiantesData = await apic.get('/alumnos/');
-      setEstudiantes(estudiantesData);
-      console.log("Respuesta de la API:", estudiantesData);
-      console.log("json estuiantes: ", estudiantes);
-    } catch (error) {
-      console.error('Error al obtener los estudiantes:', error);
+      console.error(error.response.data.error);
     }
   };
 
   const UpdateGrupo = async (id, grupo) => {
     try {
       const grupoUpdate = await apic.put(`/grupos/${id}`, grupo);
-      console.log('Grupo actualizado correctamente:', grupoUpdate);
+      alert(grupoUpdate.message);
+      window.location.reload();
     } catch (error) {
-      console.error('Error al actualizar el grupo:', error);
+      alert(error.response.data.error);
     }
   };
 
   const inscripciones = async (json) => {
     try {
       const inscripciones = await apic.post('/inscripciones/many', json);
-      console.log('Alumnos agregados correctamente:', inscripciones);
+      alert(inscripciones.message);
+      window.location.reload();
     } catch (error) {
-      console.error('Error al actualizar el grupo:', error);
+      alert(error.response.data.error);
     }
   };
 
   const deleteInscrip = async (id) => {
     try {
       const deleteInscrip = await apic.delete(`/inscripciones/${id}`);
-      console.log('Alumno eliminado de grupo correctamente:', deleteInscrip);
+      alert(deleteInscrip.message);
+      window.location.reload();
     } catch (error) {
-      console.error('Error al actualizar el grupo:', error);
+      alert(error.response.data.error);
     }
   };
 
   const createGrupo = async (grupo) => {
     try {
       const createGrupo = await apic.post('/grupos',grupo);
-      console.log('Grupo creado correctamente:', createGrupo);
+      alert(createGrupo.message);
+      window.location.reload();
     } catch (error) {
-      console.error('Error al actualizar el grupo:', error);
+      alert(error.response.data.error);
     }
   };
 
   const deleteGrupo = async (id) => {
     try {
       const deletegrupo = await apic.delete(`/grupos/${id}`);
-      console.log('Grupo eliminado correctamente:', deletegrupo);
+      alert(deletegrupo.message);
+      window.location.reload();
     } catch (error) {
-      console.error('Error al actualizar el grupo:', error);
+      alert(error.response.data.error);
     }
   };
 
@@ -195,6 +197,38 @@ function Grupos({isMobile}) {
       },
     },
   });
+
+  const themeFecha = createTheme({
+    components: {
+      MuiFormControl: {
+        styleOverrides: {
+          root: {
+            margin: '10px 0px',
+          },
+        },
+      },
+      MuiInputBase: {
+        styleOverrides: {
+          root: {
+            backgroundColor: '#efefef',
+            padding:'0px',
+            fontFamily:'Product Sans',
+          },
+        },
+      },
+      MuiOutlinedInput: {
+        styleOverrides: {
+          notchedOutline: {
+            borderColor: '#828282',
+            borderRadius: '10px',
+          },
+          input: {
+            padding: '11px 17px', // Ajustar el padding según sea necesario
+          },
+        },
+      },
+    },
+  });
   
   // Función para filtrar estudiantes por nombre
   const filterGrupos = () => {
@@ -220,8 +254,6 @@ function Grupos({isMobile}) {
   };
 
   const saveEditDescrip = () => {
-    console.log(idEditGrupo);
-    console.log(editGrupo);
     UpdateGrupo(idEditGrupo,editGrupo);
     handleCloseEditDescrip();
 
@@ -238,13 +270,14 @@ function Grupos({isMobile}) {
     const handleCloseEditFechaInicio = () => {
       setOpenEditFechaInicio(false);
     };
-    const handleChangeEditFechaInicio = (event) => {
-      setEditGrupo({ ...editGrupo, fecha_inicio: event.target.value });
+    const handleChangeEditFechaInicio = (date) => {
+      setEditGrupo((prevEditGrupo) => ({
+        ...prevEditGrupo,
+        fecha_inicio: date.$d,
+      }));
     };
   
     const saveEditFechaInicio = () => {
-      console.log(idEditGrupo);
-      console.log(editGrupo);
       UpdateGrupo(idEditGrupo,editGrupo);
       handleCloseEditFechaInicio();
     };
@@ -260,13 +293,14 @@ function Grupos({isMobile}) {
     const handleCloseEditFechaFin = () => {
       setOpenEditFechaFin(false);
     };
-    const handleChangeEditFechaFin = (event) => {
-      setEditGrupo({ ...editGrupo, fecha_fin: event.target.value });
+    const handleChangeEditFechaFin = (date) => {
+      setEditGrupo((prevEditGrupo) => ({
+        ...prevEditGrupo,
+        fecha_fin: date.$d,
+      }));
     };
   
     const saveEditFechaFin = () => {
-      console.log(idEditGrupo);
-      console.log(editGrupo);
       UpdateGrupo(idEditGrupo,editGrupo);
       handleCloseEditFechaFin();
     };
@@ -287,7 +321,6 @@ function Grupos({isMobile}) {
   };
 
   const saveEditModulo = () =>{
-    console.log(editGrupo);
     UpdateGrupo(idEditGrupo,editGrupo);
     handleCloseEditModulo();
   };
@@ -308,7 +341,6 @@ function Grupos({isMobile}) {
   };
 
   const saveEditMaestro = () =>{
-    console.log(editGrupo);
     UpdateGrupo(idEditGrupo,editGrupo);
     handleCloseEditMaestro();
   };
@@ -339,7 +371,6 @@ function Grupos({isMobile}) {
   };
 
   const saveGrupoAdd = () =>{
-    console.log(grupoAdd);
     createGrupo(grupoAdd);
     handleCloseAdd();
   };
@@ -355,7 +386,6 @@ function Grupos({isMobile}) {
   };
 
   const saveGrupoDelete = () =>{
-    console.log(grupoDelete);
     deleteGrupo(grupoDelete.id);
     handleCloseDelete();
   };
@@ -363,20 +393,19 @@ function Grupos({isMobile}) {
   //Abrir y cerrar dialog editar lista
   const handleClickOpenEditList = async (id) => {
     setIdEditGrupo(id);
-    console.log(alumGrupos[id]);
     // Verificar si ya se han cargado los alumnos para este grupo
     if (alumGrupos[id]) {
       setLeft([]);
       setLeft([]);
+      setPastLeft([]);
       const alumnosDelGrupo = alumGrupos[id].map((alumno) => alumno);
       
       // Obtener todos los alumnos y filtrar los que ya están en el grupo
       const todosLosAlumnos = estudiantes.map((alumno) => alumno); //({ id_alumno: alumno.id, nombre: alumno.nombre })
-      const alumnosEnRight = right;
 
       // Filtrar los alumnos que ya están en el grupo
       const alumnosEnLeft = todosLosAlumnos.filter(
-        (alumno) => !alumnosDelGrupo.some((alumnoDelGrupo) => alumnoDelGrupo.id === alumno.id) && !alumnosEnRight.some((alumnoRight) => alumnoRight.id === alumno.id)
+        (alumno) => !alumnosDelGrupo.some((alumnoDelGrupo) => alumnoDelGrupo.id === alumno.id) && !alumnosDelGrupo.some((alumnoRight) => alumnoRight.id === alumno.id)
       );
       
       setLeft(alumnosEnLeft);
@@ -396,8 +425,6 @@ function Grupos({isMobile}) {
   };
 
   const saveEditList = () =>{
-    console.log('Lista derecha pasada',pastRight);
-    console.log('Lista derecha pasada',right);
     const nuevosElementos = right.filter(item => !pastRight.some(pastItem => JSON.stringify(pastItem) === JSON.stringify(item)));
     const alumnosadd = nuevosElementos.map(item => ({ id_alumno: item.id }));
     const addAlumnos=
@@ -405,17 +432,12 @@ function Grupos({isMobile}) {
         id_grupo: idEditGrupo,
         listaAlumnos: alumnosadd,
       };
-    console.log('addAlumnos',addAlumnos);
     inscripciones(addAlumnos);
     handleCloseEditList();
   };
   const borrarAlumno = () => {
-    console.log('hola');
-    console.log('Lista derecha pasada',pastLeft);
-    console.log('Lista derecha pasada',left);
     const quitarElementos = left.filter(item => !pastLeft.some(pastItem => JSON.stringify(pastItem) === JSON.stringify(item)));
     const alumnosdelete = quitarElementos[0] ? quitarElementos[0].id_inscripcion : null;
-    console.log('id inscripcion que se va a borrar ', alumnosdelete);
     deleteInscrip(alumnosdelete);
     handleCloseEditList();
   };
@@ -474,7 +496,7 @@ function Grupos({isMobile}) {
       {items.map((value) => {
         const labelId = `transfer-list-all-item-${value}-label`;
           return (
-            <ListItem key={value.id_alumno} role="listitem" button onClick={handleToggle(value)}>
+            <ListItem key={value.id_alumno} role="listitem" onClick={handleToggle(value)}>
               <ListItemIcon>
                 <Checkbox checked={checked.indexOf(value) !== -1} tabIndex={-1} disableRipple inputProps={{"aria-labelledby": labelId}}/>
               </ListItemIcon>
@@ -495,7 +517,7 @@ function Grupos({isMobile}) {
           
           <div className='searchCont' style={{display:"flex", width: '100%', padding: '7px', marginBottom: '40px', justifyContent: 'space-between'}}>
             <Paper component="form" sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '40vw', borderRadius:'50px' }}>
-                <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Buscar alumno" inputProps={{ 'aria-label': 'search google maps' }} value={searchTerm} onChange={(e) => {setSearchTerm(e.target.value); filterGrupos(e.target.value);}}/>
+                <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Buscar grupo" inputProps={{ 'aria-label': 'search google maps' }} value={searchTerm} onChange={(e) => {setSearchTerm(e.target.value); filterGrupos(e.target.value);}}/>
                 <IconButton type="button" sx={{ p: '10px', color:'white', backgroundColor:'#073cc3','&:hover': {backgroundColor: '#05236f',}, }} aria-label="search" onClick={filterGrupos}>
                     <HiMagnifyingGlass />
                 </IconButton>
@@ -510,16 +532,18 @@ function Grupos({isMobile}) {
           <span>&emsp; * Se recomienda usar vista para ordenador<br/><br/></span>
             <div className='tableContainer'>
               <table cellSpacing='0px' style={{minWidth:'100%'}}>
+                  <thead>
                   <tr style={{fontWeight:'bold'}}>
                     <td align='center' style={{padding:'10px'}}>Descripcion</td>
-                    <td align='center' style={{padding:'10px'}}>Profesor</td> <td align='center' style={{padding:'10px'}}>Modulo</td> 
-                    <td align='center' style={{padding:'10px'}}>Fecha inicio</td> <td align='center' style={{padding:'10px'}}>Fecha Final</td> 
-                    <td align='center' style={{padding:'10px'}}>Alumnos</td> <td align='center' style={{padding:'10px'}}>Eliminar</td>
+                    <td align='center' style={{padding:'10px'}}>Profesor</td><td align='center' style={{padding:'10px'}}>Modulo</td> 
+                    <td align='center' style={{padding:'10px'}}>Fecha inicio</td><td align='center' style={{padding:'10px'}}>Fecha Final</td> 
+                    <td align='center' style={{padding:'10px'}}>Alumnos</td><td align='center' style={{padding:'10px'}}>Eliminar</td>
                   </tr>
-                  
+                  </thead>
+                  <tbody>
                   {(filteredGrupos.length > 0 ? filteredGrupos : grupos).map((GruposObj, index) => ( 
                       <tr key={GruposObj.id_grupo}>
-                        <td style={{backgroundColor:'white', padding: '5px 10px', width:'auto-fit', whiteSpace: 'nowrap', borderTopLeftRadius: index === 0 ? '15px':'0px', borderBottomLeftRadius: index === maestros.length-1 ? '15px':'0px'}}>
+                        <td style={{backgroundColor:'white', padding: '5px 10px', width:'auto-fit', whiteSpace: 'nowrap', borderTopLeftRadius: index === 0 ? '15px':'0px', borderBottomLeftRadius: index === grupos.length-1 ? '15px':'0px'}}>
                           {GruposObj.descripcion}&emsp;
                           <button className='actionButton' title='Editar nombre' onClick={() => handleClickOpenEditDescrip(GruposObj)}><HiPencilSquare/></button>
                         </td>
@@ -542,11 +566,12 @@ function Grupos({isMobile}) {
                         <td style={{backgroundColor:'white', borderLeft: '1px solid #888', padding: '2px 10px', width:'auto-fit'}} align='center'>
                           <button className='actionButton editButton' onClick={() => handleClickOpenEditList(GruposObj.id_grupo)}><HiPencil/></button>
                         </td>
-                        <td style={{backgroundColor:'white', borderLeft: '1px solid #888', padding: '2px 10px', width:'auto-fit', borderBottomRightRadius: index === maestros.length-1 ? '15px': '0', borderTopRightRadius: index === 0 ? '15px':'0px'}} align='center'>
+                        <td style={{backgroundColor:'white', borderLeft: '1px solid #888', padding: '2px 10px', width:'auto-fit', borderBottomRightRadius: index === grupos.length-1 ? '15px': '0', borderTopRightRadius: index === 0 ? '15px':'0px'}} align='center'>
                           <button className='actionButton deleteButton' onClick={() => handleClickOpenDelete(GruposObj.id_grupo, GruposObj.descripcion)}><HiTrash/></button>
                         </td>
                       </tr>
                   ))}
+                  </tbody>
               </table>
             </div>
           {/* ------------ Dialog Editar lista ------------ */}
@@ -608,7 +633,7 @@ function Grupos({isMobile}) {
                         <p style={{marginTop:'15px'}}>&nbsp;Nombre</p>
                         <select onChange={handleChangeEditMaestro} className='inputTextDialog'>
                           {maestros.map((maestrosObj) => (
-                            <option value={maestrosObj.id}>{maestrosObj.nombre}</option>
+                            <option key={maestrosObj.id} value={maestrosObj.id}>{maestrosObj.nombre}</option>
                           ))}
                         </select>
                         <p style={{fontSize:'12px'}}>&nbsp; {editGrupo.id_profesor}</p>
@@ -631,7 +656,7 @@ function Grupos({isMobile}) {
                         <p style={{marginTop:'15px'}}>&nbsp;Modulo</p>
                         <select onChange={handleChangeEditModulo} className='inputTextDialog'>
                           {modulos.map((modulosObj) => (
-                            <option value={modulosObj.id_modulo}>{modulosObj.nombre}</option>
+                            <option key={modulosObj.id_modulo} value={modulosObj.id_modulo}>{modulosObj.nombre}</option>
                           ))}
                         </select>
                         <p style={{fontSize:'12px'}}>&nbsp; {editGrupo.id_modulo}</p>
@@ -652,8 +677,14 @@ function Grupos({isMobile}) {
                 <div style={{backgroundColor:'white', borderRadius:'8px', padding:'5px 9px'}}>
                     <div style={{margin:'5px'}}>
                     <p style={{marginTop:'15px'}}>&nbsp;Fecha</p>
-                        <input className='inputTextDialog' type='text' value={editGrupo.fecha_inicio} onChange={handleChangeEditFechaInicio} name='editFechaInicio'/>
-                        <p style={{fontSize:'12px'}}>&nbsp; {editGrupo.fecha_inicio}</p>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <ThemeProvider theme={themeFecha}>
+                          <DatePicker label="Fecha inicio" name="fecha_inicio" value={grupoAdd.fecha_inicio} 
+                            onChange={(date) => handleChangeEditFechaInicio(date)} 
+                            renderInput={(props) => <TextField {...props} />}
+                            format="DD/MM/YYYY"/>
+                          </ThemeProvider>
+                        </LocalizationProvider>
                         <br/>
                     </div>
                     <Button autoFocus onClick={handleCloseEditFechaInicio}>Cancelar</Button>
@@ -671,8 +702,14 @@ function Grupos({isMobile}) {
                 <div style={{backgroundColor:'white', borderRadius:'8px', padding:'5px 9px'}}>
                     <div style={{margin:'5px'}}>
                     <p style={{marginTop:'15px'}}>&nbsp;Fecha</p>
-                        <input className='inputTextDialog' type='text' value={editGrupo.fecha_fin} onChange={handleChangeEditFechaFin} name='editFechaFin'/>
-                        <p style={{fontSize:'12px'}}>&nbsp; {editGrupo.fecha_fin}</p>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <ThemeProvider theme={themeFecha}>
+                          <DatePicker label="Fecha fin" name="fecha_fin" value={grupoAdd.fecha_fin} 
+                            onChange={(date) => handleChangeEditFechaFin(date)} 
+                            renderInput={(props) => <TextField {...props} />}
+                            format="DD/MM/YYYY"/>
+                          </ThemeProvider>
+                        </LocalizationProvider>
                         <br/>
                     </div>
                     <Button autoFocus onClick={handleCloseEditFechaFin}>Cancelar</Button>
@@ -694,19 +731,23 @@ function Grupos({isMobile}) {
                         <p style={{marginTop:'15px'}}>&nbsp;Modulo</p>
                         <select onChange={handleInputChange} className='inputTextDialog' name='id_modulo'>
                           {modulos.map((modulosObj) => (
-                            <option value={modulosObj.id_modulo}>{modulosObj.nombre}</option>
+                            <option key={modulosObj.id_modulo} value={modulosObj.id_modulo}>{modulosObj.nombre}</option>
                           ))}
                         </select>
                         <p style={{marginTop:'15px'}}>&nbsp;Maestro</p>
                         <select onChange={handleInputChange} className='inputTextDialog' name='id_profesor'>
                           {maestros.map((maestrosObj) => (
-                            <option value={maestrosObj.id}>{maestrosObj.nombre}</option>
+                            <option key={maestrosObj.id} value={maestrosObj.id}>{maestrosObj.nombre}</option>
                           ))}
                         </select>
                         <p style={{marginTop:'15px'}}>&nbsp;Fecha de inicio, fecha de fin</p>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <ThemeProvider theme={themeFecha}>
                           <DatePicker label="Fecha inicio" name='fecha_inicio' value={grupoAdd.fecha_inicio} onChange={(date) => handleDateChange(date, 'fecha_inicio')} />
+                        </ThemeProvider>
+                        <ThemeProvider theme={themeFecha}>
                           <DatePicker label="Fecha fin" name='fecha_fin' value={grupoAdd.fecha_fin} onChange={(date) => handleDateChange(date, 'fecha_fin')} />
+                        </ThemeProvider>
                         </LocalizationProvider>
                         <br/>
                     </div>

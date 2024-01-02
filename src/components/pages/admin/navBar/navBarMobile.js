@@ -6,34 +6,34 @@ import { HiBookOpen, HiHome, HiCalendarDays, HiMiniSquare3Stack3D, HiAcademicCap
 function NavBarMobile() {
   
   return (
-    <nav class="nav">
+    <nav className="nav">
       <ul>
         <li>
-          <NavLink activeClassName="active" to="/admin/estudiantes">
+          <NavLink to="/admin/estudiantes">
             <HiAcademicCap size={28}  />
             <span>Estudiantes</span>
           </NavLink>
         </li>
         <li>
-          <NavLink exact activeClassName="active" to="/admin/maestros">
+          <NavLink to="/admin/maestros">
             <HiBookOpen size={28}  />
             <span>Maestros</span>
           </NavLink>
         </li>
         <li>
-          <NavLink activeClassName="active" to="/admin/home">
+          <NavLink to="/admin/home">
             <HiHome size={28}  />
             <span>Inicio</span>
             </NavLink>
         </li>
         <li>
-          <NavLink activeClassName="active" to="/admin/calendario">
+          <NavLink to="/admin/calendario">
             <HiCalendarDays size={28}  />
             <span>Calendario</span>
           </NavLink>
         </li>
         <li>
-          <NavLink activeClassName="active" to="/admin/grupos">
+          <NavLink to="/admin/grupos">
             <HiMiniSquare3Stack3D size={28}  />
             <span>Grupos</span>
           </NavLink>

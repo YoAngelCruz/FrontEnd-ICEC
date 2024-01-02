@@ -6,17 +6,20 @@
 }
 .MaestrosContainer{
     min-height: 100%;
+    max-width: 100%;
     background-attachment: fixed;
     font-family:'Product Sans', sans-serif;
     display: grid;
-    grid-template-areas: /* Dispoicion pasr celular*/
-        "MaestrosContent";
+    grid-template: /* Dispoicion pasr celular*/
+        "MaestrosContent"/
+        100%;
         
 }
 
 
 .MaestrosContent{
     grid-area: MaestrosContent;
+    max-width: 100%;
 }
 .MaestrosNav{
     display: none;
@@ -26,7 +29,7 @@
     .MaestrosContainer{
         grid-template:
         "MaestrosNav  MaestrosContent"/
-        25%    auto;
+        25%    75%;
     }
     .StickyNavContent {
         display: block;
@@ -50,7 +53,7 @@
     .MaestrosContainer{
         grid-template:
         "MaestrosNav  MaestrosContent"/
-        27%    auto;
+        27%    73%;
     }
 }
 
@@ -58,13 +61,13 @@
     .MaestrosContainer{
         grid-template:
         "MaestrosNav  MaestrosContent"/
-        22%    auto;
+        22%    78%;
     }
 }
 @media (min-width: 1300px){
     .MaestrosContainer{
         grid-template:
         "MaestrosNav  MaestrosContent"/
-        20%    auto;
+        20%    80%;
     }
 }
