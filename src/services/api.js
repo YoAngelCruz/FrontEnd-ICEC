@@ -30,5 +30,5 @@ class Api {
   }
 }
 
-const apic = new Api('https://icecapi-yoangelcruz-yoangelcruz.cloud.okteto.net/api');//192.168.1.79
+const apic = new Api('https://icec-crud-yoangelcruz.cloud.okteto.net//api');
 export default apic;
