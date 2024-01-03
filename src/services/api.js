@@ -30,5 +30,5 @@ class Api {
   }
 }
 
-const apic = new Api('https://icec-crud-yoangelcruz.cloud.okteto.net//api');
+const apic = new Api('https://icec-crud-yoangelcruz.cloud.okteto.net/api');
 export default apic;

@@ -79,9 +79,9 @@ function Login(isMobile) {
   return (
     <div className="loginCont">
       <div className='loginModularCont'>
-      <NavLink className="backPanel" key='back' to='/' style={{ display:'flex', textDecoration:'none', color:'white', width:'fit-content', left:'0%'}} >
-                <HiOutlineChevronLeft/><span className="buttonTitle">Regresar</span>
-            </NavLink><br/>
+        <NavLink className="backPanel" key='back' to='/' style={{ display:'flex', textDecoration:'none', color:'white', width:'fit-content', left:'0%'}} >
+            <HiOutlineChevronLeft/><span className="buttonTitle">Regresar</span>
+        </NavLink><br/>
         <div className="leftPanel">
           <img src={logo} alt="logo" width={'100%'} />
         </div>

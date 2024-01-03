@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import HeaderInicio from './headerDesktop'
 import HeaderMobile from './headerMobile';
-import {HiUserCircle,HiPencil } from "react-icons/hi2";
+import {HiUserCircle,HiPencil,HiOutlineChevronLeft } from "react-icons/hi2";
 import { useAuth } from '../../utils/AuthContext';
 import './usuario.css';
 import apic from '../../services/api';
@@ -103,6 +104,22 @@ function Usuario({isMobile}) {
         {isMobile ? <HeaderMobile /> : <HeaderInicio titulo="Usuario" />}
         <div className='usuarioCont'>
             {isMobile && <p className='WelcomeMsg'>Usuario</p>}
+            {tipoUsuario === 'profesor' && (
+              <NavLink key='back' to='/maestros/home' style={{ display:'flex', textDecoration:'none', color:'white', width:'fit-content', left:'0%'}} >
+                <HiOutlineChevronLeft/><span className="buttonTitle">Regresar</span>
+              </NavLink>
+            )}
+            {tipoUsuario === 'administrador' && (
+              <NavLink key='back' to='/admin/home' style={{ display:'flex', textDecoration:'none', color:'white', width:'fit-content', left:'0%'}} >
+                <HiOutlineChevronLeft/><span className="buttonTitle">Regresar</span>
+              </NavLink>
+            )}
+            {tipoUsuario === 'alumno' && (
+              <NavLink key='back' to='/estudiantes/home' style={{ display:'flex', textDecoration:'none', color:'white', width:'fit-content', left:'0%'}} >
+                <HiOutlineChevronLeft/><span className="buttonTitle">Regresar</span>
+              </NavLink>
+            )}
+            <br/>
             <HiUserCircle size={'10vw'} color='white' />
             <div className='pageTitle'>
               <span>{userData.nombre} </span> <span className='AditionalInfo'>{tipoUsuario}</span>
