@@ -1,9 +1,9 @@
 name: release CI, CD
 on: 
   push:
-    branches: [release]
+    branches: [ "release"]
   pull_request:
-    branches: [release]
+    branches: [ "release"]
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -13,13 +13,19 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16.x
-      - name: npm install
-        run: npm install
-#      - name: Test
-#        run: |
-#          npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+      - name: CI
+        run: npm ci
+   #   - name: Test
+    #    run: |
+     #     npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+      - name: make .env 
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_NG_APP_KEY : "2"
+          file_name: .env
+          fail_on_empty: false
           
-      - name: build react, output in build
+      - name: build angular, output in dist/openai
         run: |
           npm run build
       
@@ -36,8 +42,8 @@ jobs:
           docker cp build/.  serving_base:/usr/local/apache2/htdocs
           
       - name: Build the custom Docker image
-        run: docker commit --change "ENV MODEL_NAME ${{secrets.MODEL_NAME}}" serving_base ${{secrets.DOCKER_USER}}/${{secrets.MODEL_NAME}}:${{github.sha}}
-      
+        run: docker commit --change "ENV MODEL_NAME_TEST ${{secrets.MODEL_NAME_TEST}}" serving_base ${{secrets.DOCKER_USER}}/${{secrets.MODEL_NAME_TEST}}:${{github.sha}}
+
       - name: show docker images
         run: docker images
 
@@ -49,13 +55,13 @@ jobs:
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
           
       - name: Docker Push
-        run: docker push ${{secrets.DOCKER_USER}}/${{secrets.MODEL_NAME}}:${{github.sha}}
+        run: docker push ${{secrets.DOCKER_USER}}/${{secrets.MODEL_NAME_TEST}}:${{github.sha}}
       
       - name: update docker user in k8 
         run: sed -i 's/{docker_user}/${{secrets.DOCKER_USER}}/g' manifests/k8s.yaml
 
       - name: update model name in k8 
-        run: sed -i 's/{model_name}/${{secrets.MODEL_NAME}}/g' manifests/k8s.yaml
+        run: sed -i 's/{model_name_test}/${{secrets.MODEL_NAME_TEST}}/g' manifests/k8s.yaml
         
       - name: update model nodo in k8 
         run: sed -i 's/{nodo}/${{secrets.NODO}}/g' manifests/k8s.yaml
@@ -79,4 +85,4 @@ jobs:
         with:
           namespace: ${{secrets.OKTETO_NAMESPACE }}
           manifest: manifests/k8s.yaml
-          tag: ${{ secrets.DOCKER_USERNAME }}/${{secrets.MODEL_NAME}}:${{github.sha}}
+          tag: ${{ secrets.DOCKER_USERNAME }}/${{secrets.MODEL_NAME_TEST}}:${{github.sha}}
