@@ -125,6 +125,21 @@ function Inicio() {
                 </div>
                 <div style={{height:"100px"}}></div>
             </div>
+            <div style={{bottom:'0%', backgroundColor:'#202040', padding:'50px', color:'white', alignContent:'center', justifyContent:'center', display:'flex'}}>
+                <table cellspacing='20px' width='90%'>
+                    <thead>
+                        <tr><td>Contactanos</td><td>Facebook</td><td>Encuentranos</td><td>Horarios</td></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>+52 1 272 100 9633</td>
+                        <td><a href='https://www.facebook.com/profile.php?id=100057432521887' target="_blank" rel="noopener noreferrer" style={{color:'white'}}>ICEC Orizaba</a></td>
+                        <td>Sur 2 esquina Poniente 5 #176, Centro,<br/> 94300 Orizaba, Ver.</td>
+                        <td>De Lunes a Viernes: <br/> 08:00 - 13:00 y 16:00 - 19:00<br/>
+                            Sabados: 08:00 - 20:00<br/>
+                            Domingo: 08:00 - 16:00</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
       </div>
   );

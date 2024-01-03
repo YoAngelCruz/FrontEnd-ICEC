@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import './login.css';
 import AuthService from '../../../services/AuthServices';
 import { useAuth } from '../../../utils/AuthContext';
 import logo from '../../../assets/img/logo1.png'
+import {HiOutlineChevronLeft} from 'react-icons/hi2';
 
 const loginAPI = new AuthService('https://icec-auth-yoangelcruz.cloud.okteto.net/api');
 
@@ -78,6 +79,9 @@ function Login(isMobile) {
   return (
     <div className="loginCont">
       <div className='loginModularCont'>
+        <NavLink className="backPanel" key='back' to='/' style={{ display:'flex', textDecoration:'none', color:'white', width:'fit-content', left:'0%'}} >
+            <HiOutlineChevronLeft/><span className="buttonTitle">Regresar</span>
+        </NavLink><br/>
         <div className="leftPanel">
           <img src={logo} alt="logo" width={'100%'} />
         </div>

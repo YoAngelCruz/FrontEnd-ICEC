@@ -8,6 +8,11 @@
   height: 100vh;
 }
 
+.backPanel {
+  grid-area: backPanel;
+  margin-top: -19vh;
+}
+
 .leftPanel {
   grid-area: leftPanel;
   display: flex;
@@ -44,7 +49,8 @@
   margin: 5vw;
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  grid-template-areas:    
+  grid-template-areas:  
+    "backPanel"  
     "leftPanel"
     "rightPanel";
   gap: 0px;
@@ -91,6 +97,7 @@
 @media (min-width: 600px){
   .loginModularCont{
     grid-template-areas:
+    "backPanel backPanel"
     "leftPanel rightPanel";
     grid-template-columns: repeat(2, 1fr);
     padding: 1px;
@@ -99,6 +106,10 @@
   .leftPanel {
     margin-top: 0px;
     padding: 0 15%;
+  }
+  .backPanel {
+    margin-top: 0px;
+    margin-bottom: 15px;
   }
 
   .rightPanel {
